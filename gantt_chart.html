@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grassroots Carbon - Rancher Onboarding Process Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .controls {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .toggle-btn {
+            padding: 10px 20px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .toggle-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .metric-card.success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .metric-card.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .chart-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        .gantt-chart {
+            min-width: 1200px;
+        }
+        
+        .timeline-header {
+            display: flex;
+            margin-bottom: 10px;
+            padding-left: 300px;
+        }
+        
+        .day-marker {
+            flex: 1;
+            text-align: center;
+            font-size: 11px;
+            color: #95a5a6;
+            padding: 5px;
+            border-left: 1px solid #ecf0f1;
+        }
+        
+        .task-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: center;
+            position: relative;
+        }
+        
+        .task-info {
+            width: 300px;
+            padding-right: 20px;
+        }
+        
+        .task-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+        
+        .task-meta {
+            font-size: 11px;
+            color: #95a5a6;
+        }
+        
+        .timeline {
+            flex: 1;
+            position: relative;
+            height: 40px;
+            display: flex;
+        }
+        
+        .timeline-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+        }
+        
+        .day-bg {
+            flex: 1;
+            border-left: 1px solid #ecf0f1;
+        }
+        
+        .day-bg:nth-child(7n) {
+            background: #f8f9fa;
+        }
+        
+        .task-bar {
+            position: absolute;
+            height: 28px;
+            top: 6px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .task-bar:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .task-bar.third-party {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            color: #2c3e50;
+        }
+        
+        .dependency-arrow {
+            position: absolute;
+            stroke: #95a5a6;
+            stroke-width: 2;
+            fill: none;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        
+        .insights {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+        
+        .insights h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .insights ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+        
+        .insights li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rancher Onboarding Process Analysis</h1>
+        <div class="subtitle">Grassroots Carbon - Product Operations Exercise</div>
+        
+        <div class="controls">
+            <button class="toggle-btn active" onclick="showCurrent()">Current State (Sequential)</button>
+            <button class="toggle-btn" onclick="showOptimized()">Proposed State (Revised)</button>
+        </div>
+        
+        <div class="metrics" id="metrics">
+            <!-- Dynamically populated -->
+        </div>
+        
+        <div class="chart-container">
+            <div class="gantt-chart" id="gantt">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                <span>Internal GRC Process</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);"></div>
+                <span>Third-Party Coordination</span>
+            </div>
+        </div>
+        
+        <div class="insights" id="insights">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+    
+    <script>
+        const currentState = {
+            title: "Current State (Sequential Process)",
+            totalDays: 103, // Maximum durations, fully sequential
+            tasks: [
+                {
+                    id: 1,
+                    name: "Contract Signed",
+                    owner: "Sales",
+                    start: 0,
+                    duration: 0,
+                    dependencies: [],
+                    type: "milestone"
+                },
+                {
+                    id: 2,
+                    name: "Ranch Mapped in PastureMap",
+                    owner: "Map Specialist",
+                    start: 0,
+                    duration: 10, // max of 5-10
+                    dependencies: [1],
+                    type: "internal"
+                },
+                {
+                    id: 3,
+                    name: "Soil Sampling Scheduled",
+                    owner: "Rancher Coordinator",
+                    start: 10,
+                    duration: 20, // max of 10-20
+                    dependencies: [2],
+                    type: "internal"
+                },
+                {
+                    id: 4,
+                    name: "Soil Sampling Completed",
+                    owner: "EarthOptics (3rd party)",
+                    start: 30,
+                    duration: 14, // max of 7-14
+                    dependencies: [3],
+                    type: "third-party"
+                },
+                {
+                    id: 5,
+                    name: "GMP Consultation",
+                    owner: "Grazing Engineer (Understanding Ag)",
+                    start: 44,
+                    duration: 30, // max of 15-30
+                    dependencies: [4],
+                    type: "third-party"
+                },
+                {
+                    id: 6,
+                    name: "GMP Delivered to Rancher",
+                    owner: "Grazing Engineer",
+                    start: 74,
+                    duration: 14, // max of 7-14
+                    dependencies: [5],
+                    type: "third-party"
+                },
+                {
+                    id: 7,
+                    name: "Rancher Trained on PastureMap",
+                    owner: "PastureMap Specialist",
+                    start: 88,
+                    duration: 10, // max of 5-10
+                    dependencies: [6],
+                    type: "internal"
+                },
+                {
+                    id: 8,
+                    name: "Project Start Date Established",
+                    owner: "MRV Team",
+                    start: 98,
+                    duration: 5, // max of 3-5
+                    dependencies: [7],
+                    type: "internal"
+                }
+            ]
+        };
+        
+        const optimizedState = {
+            title: "Proposed State (Parallelized + Automated)",
+            totalDays: 53, // Calculated: longest path ends Day 53
+            tasks: [
+                {
+                    id: 1,
+                    name: "Contract Signed",
+                    owner: "Sales → Rancher Coordinator",
+                    start: 0,
+                    duration: 0,
+                    dependencies: [],
+                    type: "milestone"
+                },
+                {
+                    id: 2,
+                    name: "Ranch Mapped in PastureMap",
+                    owner: "Map Specialist",
+                    start: 0,
+                    duration: 4,
+                    dependencies: [1],
+                    type: "internal"
+                },
+                {
+                    id: 3,
+                    name: "Soil Sampling",
+                    owner: "Rancher Coordinator → EarthOptics",
+                    start: 0,
+                    duration: 20,
+                    dependencies: [1],
+                    type: "internal",
+                    note: "Pre-scheduled during sales cycle"
+                },
+                {
+                    id: 4,
+                    name: "Soil Sampling Completed",
+                    owner: "EarthOptics",
+                    start: 20,
+                    duration: 14,
+                    dependencies: [3],
+                    type: "third-party"
+                },
+                {
+                    id: 5,
+                    name: "GMP Consultation",
+                    owner: "Understanding Ag",
+                    start: 4,
+                    duration: 30,
+                    dependencies: [2],
+                    type: "third-party",
+                    note: "Starts after mapping; runs parallel to soil sampling"
+                },
+                {
+                    id: 6,
+                    name: "GMP Delivered to Rancher",
+                    owner: "Grazing Engineer",
+                    start: 34,
+                    duration: 14,
+                    dependencies: [5],
+                    type: "third-party"
+                },
+                {
+                    id: 7,
+                    name: "Rancher Trained on PastureMap",
+                    owner: "PastureMap Specialist",
+                    start: 42,
+                    duration: 10,
+                    dependencies: [2],
+                    type: "internal",
+                    note: "Can overlap with GMP delivery"
+                },
+                {
+                    id: 8,
+                    name: "Project Start Date Established",
+                    owner: "MRV Team",
+                    start: 48,
+                    duration: 5,
+                    dependencies: [4, 6],
+                    type: "internal",
+                    note: "Requires soil complete + GMP delivered"
+                }
+            ]
+        };
+        
+        let currentView = 'current';
+        
+        function renderGantt(state) {
+            const maxDays = Math.max(...state.tasks.map(t => t.start + t.duration));
+            const daysToShow = Math.ceil(maxDays / 7) * 7 + 7; // Round to weeks
+            
+            let html = '<div class="timeline-header">';
+            for (let i = 0; i <= daysToShow; i += 7) {
+                html += `<div class="day-marker">Week ${i/7 + 1}<br/>(Day ${i})</div>`;
+            }
+            html += '</div>';
+            
+            state.tasks.forEach(task => {
+                const widthPercent = (task.duration / daysToShow) * 100;
+                const leftPercent = (task.start / daysToShow) * 100;
+                const isThirdParty = task.type === 'third-party';
+                
+                let barClass = 'task-bar';
+                if (isThirdParty) barClass += ' third-party';
+                
+                html += `
+                    <div class="task-row">
+                        <div class="task-info">
+                            <div class="task-name">${task.name}</div>
+                            <div class="task-meta">${task.owner} • ${task.duration} days</div>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-bg">
+                                ${Array(Math.ceil(daysToShow)).fill('<div class="day-bg"></div>').join('')}
+                            </div>
+                            ${task.duration > 0 ? `
+                                <div class="${barClass}" 
+                                     style="left: ${leftPercent}%; width: ${widthPercent}%;"
+                                     title="${task.name}: ${task.duration} days">
+                                    ${task.duration > 0 ? task.duration + 'd' : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('gantt').innerHTML = html;
+        }
+        
+        function renderMetrics(state) {
+            const savings = currentState.totalDays - state.totalDays;
+            const savingsPercent = ((savings / currentState.totalDays) * 100).toFixed(0);
+            
+            // Calculate ranches per coordinator per year (EXACT with decimals)
+            // Assumption: Each coordinator manages 10 concurrent ranches
+            const daysInYear = 365;
+            const currentCohorts = daysInYear / currentState.totalDays;
+            const proposedCohorts = daysInYear / state.totalDays;
+            const currentRanchesPerCoordinator = currentCohorts * 10;
+            const proposedRanchesPerCoordinator = proposedCohorts * 10;
+            
+            const capacityDisplay = currentView === 'optimized' ? 
+                `${proposedRanchesPerCoordinator.toFixed(1)} ranches/coord/year` : 
+                `${currentRanchesPerCoordinator.toFixed(1)} ranches/coord/year`;
+            
+            const html = `
+                <div class="metric-card">
+                    <div class="metric-label">Timeline</div>
+                    <div class="metric-value" style="font-size: 24px;">${state.totalDays} days</div>
+                </div>
+                <div class="metric-card ${currentView === 'optimized' ? 'success' : ''}">
+                    <div class="metric-label">Time Savings</div>
+                    <div class="metric-value">${currentView === 'optimized' ? '-' + savingsPercent + '%' : '—'}</div>
+                </div>
+                <div class="metric-card ${currentView === 'optimized' ? 'success' : 'warning'}">
+                    <div class="metric-label">Annual Capacity</div>
+                    <div class="metric-value" style="font-size: 16px;">${capacityDisplay}</div>
+                </div>
+            `;
+            
+            document.getElementById('metrics').innerHTML = html;
+        }
+        
+        function renderInsights() {
+            if (currentView === 'current') {
+                document.getElementById('insights').innerHTML = `
+                    <h3>🔍 Current State Bottlenecks (103 Days):</h3>
+                    <ul>
+                        <li><strong>Bottleneck #1 - Sequential Dependencies:</strong> GMP consultation (30 days) waits for soil sampling to complete (34 days) but doesn't need soil results. These could run in parallel.</li>
+                        <li><strong>Bottleneck #2 - Manual Ranch Mapping:</strong> 10 days of manual GIS work when faster methods may be available.</li>
+                        <li><strong>Bottleneck #3 - No Single Owner:</strong> Ranchers interact with 6+ different people. Handoffs between teams create delays.</li>
+                        <li><strong>Bottleneck #4 - Reactive Scheduling:</strong> Third-party coordination happens after contract signing. Seasonal constraints are predictable but not planned for.</li>
+                        <li><strong>Capacity Constraint:</strong> At 103 days per cohort, each Rancher Coordinator can manage 3.544 cohorts/year × 10 ranches = 35.4 ranches annually.</li>
+                    </ul>
+                `;
+            } else {
+                document.getElementById('insights').innerHTML = `
+                    <h3>✅ Proposed Optimizations (53 Days - 49% Reduction):</h3>
+                    <ul>
+                        <li><strong>Optimized Mapping (4 days):</strong> Streamlined mapping process reduces time from 10 to 4 days through improved tools or workflows.</li>
+                        <li><strong>Full Parallelization:</strong> Soil sampling (Day 0-34) and GMP consultation (Day 4-34) run concurrently. GMP doesn't wait for soil results.</li>
+                        <li><strong>Proactive Scheduling:</strong> Soil sampling pre-scheduled during sales based on rancher's seasonal calendar. Reduces coordination delays.</li>
+                        <li><strong>Strategic Training Timing:</strong> PastureMap training (Day 42-52) scheduled to overlap with final GMP delivery, maximizing efficiency.</li>
+                        <li><strong>Single Rancher Coordinator:</strong> One point of contact owns entire journey from contract to Project Start Date.</li>
+                        <li><strong>Capacity Impact:</strong> At 53 days per cohort, each Rancher Coordinator can manage 6.887 cohorts/year × 10 ranches = 68.9 ranches annually. This nearly doubles capacity from 35.4 to 68.9 ranches per coordinator (94% increase) without adding headcount.</li>
+                    </ul>
+                `;
+            }
+        }
+        
+        function showCurrent() {
+            currentView = 'current';
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderGantt(currentState);
+            renderMetrics(currentState);
+            renderInsights();
+        }
+        
+        function showOptimized() {
+            currentView = 'optimized';
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderGantt(optimizedState);
+            renderMetrics(optimizedState);
+            renderInsights();
+        }
+        
+        // Initial render
+        renderGantt(currentState);
+        renderMetrics(currentState);
+        renderInsights();
+    </script>
+</body>
+</html>

@@ -75,3 +75,10 @@
 - Updated bottlenecks in current state view: removed "Reactive Scheduling" and "Capacity Constraint"
 - Added new Bottleneck #4: "Rancher training delayed until all other processes are complete"
 
+### Proposed State - Assumption Cards
+- Requested cards below Proposed State to explain assumptions and raise questions
+- Card 1 - Mapping Process: Questions staff capacity vs technical restrictions, suggests satellite imagery automation and pre-contract shapefile collection
+- Card 2 - Parallelized Processes: Questions if GMP relies on soil results as go/no-go signal, suggests Sales collect scheduling availability for proactive planning
+- Card 3 - Rancher Training Opportunities: Proposes staged training approach (Phase 1: sample data anytime, Phase 2: live data post-GMP for better retention)
+- Card 4 - Dedicated Rancher Coordinator: Single point of contact for all parties, acts as PM owning deliverables/handoffs, suggests PM tools (ClickUp/Monday.com) for automation
+

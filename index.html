@@ -257,6 +257,50 @@
             margin-bottom: 8px;
             font-size: 13px;
         }
+
+        .assumption-cards {
+            margin-top: 30px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .assumption-card {
+            padding: 20px;
+            background: white;
+            border: 2px solid #e3f2fd;
+            border-left: 4px solid #2196f3;
+            border-radius: 8px;
+        }
+
+        .assumption-card h4 {
+            color: #1976d2;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .assumption-card p {
+            color: #546e7a;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .assumption-card .question {
+            color: #d84315;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .assumption-card ul {
+            margin-top: 8px;
+            margin-left: 20px;
+            color: #546e7a;
+        }
+
+        .assumption-card li {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -559,6 +603,70 @@
                         <li><strong>Single Rancher Coordinator:</strong> One point of contact owns entire journey from contract to Project Start Date.</li>
                         <li><strong>Capacity Impact:</strong> At 53 days per cohort, each Rancher Coordinator can manage 6.887 cohorts/year × 10 ranches = 68.9 ranches annually. This nearly doubles capacity from 35.4 to 68.9 ranches per coordinator (94% increase) without adding headcount.</li>
                     </ul>
+
+                    <div class="assumption-cards">
+                        <div class="assumption-card">
+                            <h4>📍 Mapping Process</h4>
+                            <p><strong>Assumption:</strong> Mapping duration reduced from 10 to 4 days, assuming current delays stem from manual GIS work or shapefile import constraints.</p>
+                            <p class="question">Question: Is the 10-day duration driven by staff capacity limitations or technical restrictions?</p>
+                            <p><strong>Further Optimization Opportunities:</strong></p>
+                            <ul>
+                                <li>Implement automated boundary detection using satellite imagery</li>
+                                <li>Request existing shapefiles/property boundaries during the sales cycle (pre-contract)</li>
+                                <li>Enable rancher self-service mapping via PastureMap mobile app</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>⚡ Parallelized Processes</h4>
+                            <p><strong>Assumption:</strong> Soil sampling and GMP consultation can run in parallel, as GMP planning does not require soil test results to begin.</p>
+                            <p class="question">Critical Question: Does the GMP consultation rely on soil sampling results as a go/no-go decision point?</p>
+                            <p><strong>Risk:</strong> If soil results are required before GMP can proceed, an additional 20 days must be added to the timeline, reducing time savings significantly.</p>
+                            <p><strong>Proactive Scheduling Opportunity:</strong></p>
+                            <ul>
+                                <li>Sales team collects rancher scheduling availability (seasonal constraints, calving periods, weather windows) during contract negotiation</li>
+                                <li>Scheduling data included in handoff package to Rancher Coordinator</li>
+                                <li>Enables proactive coordination with third-party vendors (EarthOptics, Understanding Ag) before contract signing</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>🎓 Rancher Training Opportunities</h4>
+                            <p><strong>Staged Training Approach:</strong> PastureMap training can be split into two phases to improve retention and accelerate onboarding.</p>
+                            <p><strong>Phase 1 - Initial Training (Available Anytime):</strong></p>
+                            <ul>
+                                <li>Introduce ranchers to PastureMap using sample training data</li>
+                                <li>Cover basic navigation, features, and functionality</li>
+                                <li>Can be delivered early in the process (asynchronously or scheduled)</li>
+                            </ul>
+                            <p><strong>Phase 2 - Applied Training (Post-GMP Delivery):</strong></p>
+                            <ul>
+                                <li>Scheduled near completion of GMP consultation for better retention</li>
+                                <li>Training uses rancher's actual property data and grazing management plans</li>
+                                <li>Ranchers apply learning to their specific operation immediately</li>
+                            </ul>
+                            <p class="question">Question: Would a staged training approach improve rancher engagement and reduce time-to-productivity?</p>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>👤 Dedicated Rancher Coordinator</h4>
+                            <p><strong>Single Point of Contact:</strong> A dedicated Rancher Coordinator serves as the central hub for all communication between third-party consultants (EarthOptics, Understanding Ag), internal teams, and the rancher.</p>
+                            <p><strong>Benefits:</strong></p>
+                            <ul>
+                                <li>Eliminates confusion and delays caused by unclear handoff ownership</li>
+                                <li>Rancher has one consistent contact throughout the entire onboarding journey</li>
+                                <li>Coordinator acts as Project Manager, owning all deliverables, handoffs, and communications</li>
+                            </ul>
+                            <p><strong>Operational Tooling:</strong></p>
+                            <ul>
+                                <li>Implement project management platform (ClickUp, Monday.com, or similar)</li>
+                                <li>Automated task generation based on contract signing and onboarding stage</li>
+                                <li>Real-time deadline tracking and dependency management</li>
+                                <li>Visibility dashboards for coordinators managing 10 concurrent ranches</li>
+                            </ul>
+                            <p class="question">Question: Does the current Rancher Coordinator role have capacity and authority to own end-to-end onboarding?</p>
+                        </div>
+                    </div>
                 `;
             }
         }

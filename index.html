@@ -311,6 +311,7 @@
         <div class="controls">
             <button class="toggle-btn active" onclick="showCurrent()">Current State (Sequential)</button>
             <button class="toggle-btn" onclick="showOptimized()">Proposed State (Revised)</button>
+            <button class="toggle-btn" onclick="showClickUp()">ClickUp Implementation</button>
         </div>
         
         <div class="metrics" id="metrics">
@@ -592,7 +593,7 @@
                         <li><strong>Bottleneck #4 - Rancher Training Delayed:</strong> Rancher training delayed until all other processes are complete.</li>
                     </ul>
                 `;
-            } else {
+            } else if (currentView === 'optimized') {
                 document.getElementById('insights').innerHTML = `
                     <h3>✅ Proposed Optimizations (53 Days - 49% Reduction):</h3>
                     <ul>
@@ -602,6 +603,12 @@
                         <li><strong>Strategic Training Timing:</strong> PastureMap training (Day 42-52) scheduled to overlap with final GMP delivery, maximizing efficiency.</li>
                         <li><strong>Single Rancher Coordinator:</strong> One point of contact owns entire journey from contract to Project Start Date.</li>
                         <li><strong>Capacity Impact:</strong> At 53 days per cohort, each Rancher Coordinator can manage 6.887 cohorts/year × 10 ranches = 68.9 ranches annually. This nearly doubles capacity from 35.4 to 68.9 ranches per coordinator (94% increase) without adding headcount.</li>
+                        <li><strong>Contingency Padding:</strong> Adding 20-30 days of buffer brings total timeline to 73-83 days (still 20-30 days faster than current 103-day process, and 37-47 days faster than originally estimated 120 days).
+                            <ul>
+                                <li>Accounts for potential dependency if GMP consultation requires soil results (+20 days)</li>
+                                <li>Matches implicit buffer in original 120-day estimate (120 actual vs 103 calculated = 17-day buffer)</li>
+                            </ul>
+                        </li>
                     </ul>
 
                     <div class="assumption-cards">
@@ -655,27 +662,105 @@
                         </div>
                     </div>
                 `;
+            } else if (currentView === 'clickup') {
+                document.getElementById('insights').innerHTML = `
+                    <h3>🔧 ClickUp Implementation</h3>
+                    <p style="margin-bottom: 20px; color: #555;">Project management platform for tracking and automating ranch onboarding workflows.</p>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                        <h4 style="margin-bottom: 15px; color: #2c3e50;">📋 Overview</h4>
+                        <p style="margin-bottom: 10px;">ClickUp serves as the central tracking and automation platform for managing multiple ranch onboardings simultaneously. Each Rancher Coordinator can oversee 10 concurrent ranches with automated task generation, dependency tracking, and deadline adjustments.</p>
+                        <p style="margin-bottom: 0;"><strong>Cost:</strong> ~$19/user/month | <strong>Setup Time:</strong> 2-4 weeks | <strong>Alternative:</strong> Custom build would cost $50-100K + ongoing maintenance</p>
+                    </div>
+
+                    <div class="assumption-cards">
+                        <div class="assumption-card">
+                            <h4>🎯 Core Features</h4>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Standardized Ranch Onboarding Template:</strong> Pre-configured task list for all 8 steps with dependency mapping</li>
+                                <li><strong>Automated Task Generation:</strong> Contract signed → Create ranch project from template automatically</li>
+                                <li><strong>Dependency-Based Deadline Adjustments:</strong> If soil sampling delayed by 5 days → Project Start Date auto-adjusts +5 days</li>
+                                <li><strong>Multi-Ranch Dashboard:</strong> Coordinator views all 10 ranches in one place with color-coded status indicators</li>
+                                <li><strong>Automated Notifications:</strong> Task completion triggers next-step assignments and alerts</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>⚙️ Automation Examples</h4>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Trigger:</strong> Contract signed → <strong>Action:</strong> Create ranch onboarding project from template with all tasks</li>
+                                <li><strong>Trigger:</strong> Ranch mapped → <strong>Action:</strong> Notify coordinator to schedule soil sampling, auto-calculate deadlines</li>
+                                <li><strong>Trigger:</strong> Soil sampling scheduled → <strong>Action:</strong> Send reminder to EarthOptics 3 days before appointment</li>
+                                <li><strong>Trigger:</strong> GMP consultation complete → <strong>Action:</strong> Schedule training task, notify PastureMap specialist</li>
+                                <li><strong>Trigger:</strong> Task overdue by >2 days → <strong>Action:</strong> Escalation alert to coordinator and manager</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>📊 Dashboard Views</h4>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>List View:</strong> All tasks across 10 ranches sorted by priority/deadline</li>
+                                <li><strong>Board View:</strong> Kanban-style columns (Mapping → Soil Sampling → GMP → Training → Complete)</li>
+                                <li><strong>Timeline View:</strong> Gantt chart showing parallel processes across multiple ranches</li>
+                                <li><strong>Calendar View:</strong> Third-party appointments and rancher availability windows</li>
+                                <li><strong>Status Indicators:</strong> Green (on track), Yellow (at risk), Red (blocked/overdue)</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>🔗 Integrations</h4>
+                            <p style="margin-top: 10px; margin-bottom: 10px;"><strong>Native ClickUp API + Zapier/Make for no-code workflows:</strong></p>
+                            <ul>
+                                <li><strong>CRM Integration:</strong> Contract signed in CRM → Auto-create ClickUp project with rancher details</li>
+                                <li><strong>Calendar Integration:</strong> Third-party appointments sync to ClickUp timeline and Google Calendar</li>
+                                <li><strong>Communication:</strong> Slack/Email notifications for task updates, deadline changes, and escalations</li>
+                                <li><strong>PastureMap:</strong> Mapping completion status updates ClickUp task automatically</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50; margin-top: 30px;">
+                        <h4 style="color: #2e7d32; margin-bottom: 10px;">📸 Screenshots & Mockups</h4>
+                        <p style="color: #555; margin: 0;">This section is reserved for ClickUp dashboard screenshots, template configurations, and automation workflow diagrams. Content will be added as implementation details are finalized.</p>
+                    </div>
+                `;
             }
         }
-        
+
         function showCurrent() {
             currentView = 'current';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            // Show Gantt chart and metrics
+            document.getElementById('gantt').style.display = 'block';
+            document.getElementById('metrics').style.display = 'flex';
             renderGantt(currentState);
             renderMetrics(currentState);
             renderInsights();
         }
-        
+
         function showOptimized() {
             currentView = 'optimized';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            // Show Gantt chart and metrics
+            document.getElementById('gantt').style.display = 'block';
+            document.getElementById('metrics').style.display = 'flex';
             renderGantt(optimizedState);
             renderMetrics(optimizedState);
             renderInsights();
         }
-        
+
+        function showClickUp() {
+            currentView = 'clickup';
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            // Hide Gantt chart and metrics for ClickUp view
+            document.getElementById('gantt').style.display = 'none';
+            document.getElementById('metrics').style.display = 'none';
+            renderInsights();
+        }
+
         // Initial render
         renderGantt(currentState);
         renderMetrics(currentState);

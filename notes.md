@@ -82,3 +82,22 @@
 - Card 3 - Rancher Training Opportunities: Proposes staged training approach (Phase 1: sample data anytime, Phase 2: live data post-GMP for better retention)
 - Card 4 - Dedicated Rancher Coordinator: Single point of contact for all parties, acts as PM owning deliverables/handoffs, suggests PM tools (ClickUp/Monday.com) for automation
 
+### Proposed State Card Cleanup
+- Requested cleanup of the assumption cards displayed under Proposed State view
+- Claude identified the 4 cards (Mapping Process, Parallelized Processes, Rancher Training, Dedicated Coordinator) and asked for clarification on specific cleanup needs
+
+### Process Documentation
+- Reminded Claude that all prompts need to be summarized and added to notes.md for session tracking
+
+### Mapping Process Card Updates
+- Removed "Enable rancher self-service mapping via PastureMap mobile app" bullet point from Further Optimization Opportunities
+- Now only includes: automated boundary detection and pre-contract shapefile collection
+
+### Parallelized Processes Card Updates
+- Changed "Critical Question:" to "Question:" for consistency with other cards
+
+### Card Formatting Standardization
+- Reformatted all four cards to follow consistent structure: Assumption → Question → Further Optimization Opportunities
+- **Rancher Training Card**: Condensed Phase 1 and Phase 2 details into two bullet points under opportunities
+- **Dedicated Rancher Coordinator Card**: Combined Benefits and Operational Tooling sections into single opportunities list with 5 bullet points
+

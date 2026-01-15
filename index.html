@@ -311,7 +311,7 @@
         <div class="controls">
             <button class="toggle-btn active" onclick="showCurrent()">Current State (Sequential)</button>
             <button class="toggle-btn" onclick="showOptimized()">Proposed State (Revised)</button>
-            <button class="toggle-btn" onclick="showClickUp()">ClickUp Implementation</button>
+            <button class="toggle-btn" onclick="showPMTools()">PM Platform & Automation</button>
         </div>
         
         <div class="metrics" id="metrics">
@@ -587,10 +587,10 @@
                 document.getElementById('insights').innerHTML = `
                     <h3>🔍 Current State Bottlenecks (103 Days):</h3>
                     <ul>
-                        <li><strong>Bottleneck #1 - Sequential Dependencies:</strong> GMP consultation (30 days) waits for soil sampling to complete (34 days) but doesn't need soil results. These could run in parallel.</li>
-                        <li><strong>Bottleneck #2 - Manual Ranch Mapping:</strong> 10 days of manual GIS work when faster methods may be available.</li>
-                        <li><strong>Bottleneck #3 - No Single Owner:</strong> Ranchers interact with 6+ different people. Handoffs between teams create delays.</li>
-                        <li><strong>Bottleneck #4 - Rancher Training Delayed:</strong> Rancher training delayed until all other processes are complete.</li>
+                        <li><strong>Bottleneck #1 - Manual Ranch Mapping:</strong> 10 days of manual GIS work when faster methods may be available.</li>
+                        <li><strong>Bottleneck #2 - Sequential Dependencies:</strong> GMP consultation (30 days) waits for soil sampling to complete (34 days) but doesn't need soil results. These could run in parallel.</li>
+                        <li><strong>Bottleneck #3 - Rancher Training Delayed:</strong> Rancher training delayed until all other processes are complete.</li>
+                        <li><strong>Bottleneck #4 - No Single Owner:</strong> Ranchers interact with 6+ different people. Handoffs between teams create delays.</li>
                     </ul>
                 `;
             } else if (currentView === 'optimized') {
@@ -662,15 +662,71 @@
                         </div>
                     </div>
                 `;
-            } else if (currentView === 'clickup') {
+            } else if (currentView === 'pmtools') {
                 document.getElementById('insights').innerHTML = `
-                    <h3>🔧 ClickUp Implementation</h3>
-                    <p style="margin-bottom: 20px; color: #555;">Project management platform for tracking and automating ranch onboarding workflows.</p>
+                    <h3>🔧 Project Management Platform & Automation</h3>
+                    <p style="margin-bottom: 20px; color: #555;">Recommended tools: <strong>Monday.com</strong> or <strong>ClickUp</strong> for tracking and automating ranch onboarding workflows.</p>
 
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                        <h4 style="margin-bottom: 15px; color: #2c3e50;">📋 Overview</h4>
-                        <p style="margin-bottom: 10px;">ClickUp serves as the central tracking and automation platform for managing multiple ranch onboardings simultaneously. Each Rancher Coordinator can oversee 10 concurrent ranches with automated task generation, dependency tracking, and deadline adjustments.</p>
-                        <p style="margin-bottom: 0;"><strong>Cost:</strong> ~$19/user/month | <strong>Setup Time:</strong> 2-4 weeks | <strong>Alternative:</strong> Custom build would cost $50-100K + ongoing maintenance</p>
+                        <h4 style="margin-bottom: 15px; color: #2c3e50;">📋 Tool Comparison</h4>
+                        <p style="margin-bottom: 10px;"><strong>Monday.com</strong> (Recommended): Better for non-technical teams, superior visualization, easier onboarding (1-2 days), cleaner timeline views. Cost: ~$12-14/user/month.</p>
+                        <p style="margin-bottom: 10px;"><strong>ClickUp</strong> (Alternative): More customizable, better automation depth, slightly cheaper. Requires more technical setup (1-2 weeks). Cost: ~$10-12/user/month.</p>
+                        <p style="margin-bottom: 0;"><strong>Both tools:</strong> Support template automation, dependency tracking, multi-ranch dashboards, Salesforce integration, and escalation workflows. <strong>Custom build alternative:</strong> $50-100K + ongoing maintenance.</p>
+                    </div>
+
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 30px;">
+                        <h4 style="color: #856404; margin-bottom: 15px;">🔄 Automation Flow</h4>
+                        <div style="font-family: monospace; font-size: 13px; line-height: 1.8; color: #333;">
+                            <div style="margin-bottom: 10px;"><strong>Salesforce Trigger:</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #007bff; margin-bottom: 15px;">
+                                <div>📄 Opportunity Status = "Closed Won"</div>
+                                <div style="padding-left: 20px;">→ Create Ranch Onboarding Board from Template</div>
+                                <div style="padding-left: 20px;">→ Populate: Ranch Name, Rancher Contact, Contract Date, Parcel ID</div>
+                                <div style="padding-left: 20px;">→ Assign to Rancher Coordinator</div>
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>Day 0 (Board Creation):</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #28a745; margin-bottom: 15px;">
+                                <div>✅ "Contract Signed" → Status: Done</div>
+                                <div style="padding-left: 20px;">→ "Submit Mapping Request" → Status: In Progress (Deadline: +4 days)</div>
+                                <div style="padding-left: 20px;">→ "Schedule Soil Sampling" → Status: In Progress (Deadline: +20 days)</div>
+                                <div style="padding-left: 20px;">→ "Pre-book GMP Consultation" → Status: Waiting (Depends on mapping)</div>
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>Mapping Complete:</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #17a2b8; margin-bottom: 15px;">
+                                <div>🗺️ "Ranch Mapped" → Status: Done</div>
+                                <div style="padding-left: 20px;">→ "GMP Consultation" → Status: In Progress (Deadline: +30 days)</div>
+                                <div style="padding-left: 20px;">→ Notify Understanding Ag Coordinator</div>
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>Parallel Execution (Day 4-34):</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #fd7e14; margin-bottom: 15px;">
+                                <div>🌾 "Soil Sampling" runs concurrently with "GMP Consultation"</div>
+                                <div style="padding-left: 20px;">→ Day 15: Send mid-point check-in notification</div>
+                                <div style="padding-left: 20px;">→ 3 days before appointment: Send reminder to rancher</div>
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>Both Complete (Convergence):</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #6f42c1; margin-bottom: 15px;">
+                                <div>✅ "Soil Sampling" AND "GMP Consultation" → Status: Done</div>
+                                <div style="padding-left: 20px;">→ "GMP Delivered to Rancher" → Status: In Progress (Deadline: +14 days)</div>
+                                <div style="padding-left: 20px;">→ "Rancher Training" → Status: In Progress (Deadline: +10 days)</div>
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>Final Step:</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #20c997; margin-bottom: 15px;">
+                                <div>🎓 "Rancher Training" → Status: Done</div>
+                                <div style="padding-left: 20px;">→ "Project Start Date Established" → Assign to MRV Team (Deadline: +5 days)</div>
+                                <div style="padding-left: 20px;">→ Send congratulations email to rancher</div>
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>Escalation Rules:</strong></div>
+                            <div style="padding-left: 20px; border-left: 3px solid #dc3545;">
+                                <div>⚠️ Any task >2 days overdue → Status: "Stuck" + Notify Manager</div>
+                                <div>⚠️ Soil/GMP delayed >5 days → Adjust downstream deadlines + Update rancher</div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="assumption-cards">
@@ -709,19 +765,33 @@
 
                         <div class="assumption-card">
                             <h4>🔗 Integrations</h4>
-                            <p style="margin-top: 10px; margin-bottom: 10px;"><strong>Native ClickUp API + Zapier/Make for no-code workflows:</strong></p>
+                            <p style="margin-top: 10px; margin-bottom: 10px;"><strong>Native APIs + Zapier/Make for no-code workflows:</strong></p>
                             <ul>
-                                <li><strong>CRM Integration:</strong> Contract signed in CRM → Auto-create ClickUp project with rancher details</li>
-                                <li><strong>Calendar Integration:</strong> Third-party appointments sync to ClickUp timeline and Google Calendar</li>
+                                <li><strong>Salesforce Integration:</strong> Opportunity "Closed Won" → Auto-create board from template with rancher details (name, contact, Parcel ID, availability notes)</li>
+                                <li><strong>Calendar Integration:</strong> Third-party appointments sync to PM platform timeline and Google Calendar</li>
                                 <li><strong>Communication:</strong> Slack/Email notifications for task updates, deadline changes, and escalations</li>
-                                <li><strong>PastureMap:</strong> Mapping completion status updates ClickUp task automatically</li>
+                                <li><strong>PastureMap:</strong> Mapping completion status updates task status automatically (if API available)</li>
+                                <li><strong>File Storage:</strong> Google Drive/Dropbox links for shapefiles and contract documents attached to each ranch board</li>
                             </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>📦 Salesforce Data Transfer</h4>
+                            <p style="margin-top: 10px; margin-bottom: 10px;"><strong>What transfers from Salesforce:</strong></p>
+                            <ul>
+                                <li><strong>Ranch Details:</strong> Name, location, acreage, Parcel ID</li>
+                                <li><strong>Rancher Contact:</strong> Name, phone, email, preferred contact method</li>
+                                <li><strong>Contract Info:</strong> Signature date, contract value, special terms</li>
+                                <li><strong>Availability Data:</strong> Seasonal constraints (calving periods), weather windows for soil sampling, best times to reach rancher</li>
+                                <li><strong>File Links:</strong> Google Drive/Dropbox links to shapefiles, property boundaries, contract PDFs (shapefiles themselves don't transfer - too large for CRM)</li>
+                            </ul>
+                            <p style="margin-top: 10px; color: #666; font-size: 14px;"><em>Note: Coordinator downloads shapefiles from linked storage and uploads to PastureMap manually.</em></p>
                         </div>
                     </div>
 
                     <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50; margin-top: 30px;">
-                        <h4 style="color: #2e7d32; margin-bottom: 10px;">📸 Screenshots & Mockups</h4>
-                        <p style="color: #555; margin: 0;">This section is reserved for ClickUp dashboard screenshots, template configurations, and automation workflow diagrams. Content will be added as implementation details are finalized.</p>
+                        <h4 style="color: #2e7d32; margin-bottom: 10px;">📸 Platform Screenshots & Mockups</h4>
+                        <p style="color: #555; margin: 0;">This section is reserved for Monday.com or ClickUp dashboard screenshots, template configurations, and multi-ranch board views. Content will be added as implementation details are finalized.</p>
                     </div>
                 `;
             }
@@ -751,11 +821,11 @@
             renderInsights();
         }
 
-        function showClickUp() {
-            currentView = 'clickup';
+        function showPMTools() {
+            currentView = 'pmtools';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Hide Gantt chart and metrics for ClickUp view
+            // Hide Gantt chart and metrics for PM Tools view
             document.getElementById('gantt').style.display = 'none';
             document.getElementById('metrics').style.display = 'none';
             renderInsights();

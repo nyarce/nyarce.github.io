@@ -131,3 +131,51 @@
   - Integrations (CRM, Calendar, Communication, PastureMap)
   - Placeholder section for screenshots and mockups to be added later
 
+### Playbook Draft
+- **Created page3_playbook.md:** One-page operational guide for managing 10 concurrent ranches
+- Includes sections: Pre-contract handoff, Day 0 actions, weekly monitoring, stage-by-stage workflow, escalation protocols, dashboard views, and tips
+- Contains [QUESTION: ...] tags throughout where operational details need to be filled in or verified
+- User acknowledged lacking detailed operational knowledge to make playbook fully accurate - draft created for review and editing
+
+### Current State Bottleneck Reordering
+- Swapped bottlenecks to follow sequential process order:
+  - #1: Manual Ranch Mapping (was #2) - happens first in process
+  - #2: Sequential Dependencies (was #1) - happens during soil/GMP phase
+  - #3: Rancher Training Delayed (was #4) - happens at end of process
+  - #4: No Single Owner (was #3) - cross-cutting issue throughout
+
+### Combined Diagnosis & Proposal Document
+- **Created diagnosis_and_proposal.md:** Single document combining diagnosis and proposal sections
+- Structured using the 4 assumption cards as the outline (Mapping Process, Parallelized Processes, Rancher Training, Dedicated Rancher Coordinator)
+- Each section formatted consistently: Assumption → Questions → Risks → Optimization Opportunities
+- Includes: Executive Summary with capacity impact, detailed sections for each optimization area, Contingency Planning, and Implementation Priority phases
+- User will review and edit to match their voice and add missing details
+
+### Tool Selection Discussion
+- Debated ClickUp vs Monday.com as PM platform
+- Recommendation: Monday.com for better non-technical user experience, easier onboarding, superior visualization
+- User considering whether to create Monday.com mockup (may be excessive for interview deliverable)
+
+### Simplified Playbook
+- **Replaced page3_playbook.md with playbook.md:** Simplified one-page format following Option 2 approach
+- Structure: 6 Operating Principles + Dashboard View description + Weekly Workflow + Success Metrics + Tools/Integrations
+- Principles-based rather than step-by-step instructions
+- Includes table showing Kanban board structure with color-coded status indicators
+- User may add Monday.com mockup screenshot if desired
+
+### PM Platform & Automation Tab Updates
+- **Renamed "ClickUp Implementation" to "PM Platform & Automation"** - allows discussion of both Monday.com and ClickUp
+- Updated button and function names (showPMTools, currentView = 'pmtools')
+- **Added Tool Comparison section:** Side-by-side comparison of Monday.com vs ClickUp with costs and tradeoffs
+- **Added visual Automation Flow diagram:** Step-by-step color-coded flow showing:
+  - Salesforce trigger (Closed Won → Create board)
+  - Day 0 automations (mapping, soil, GMP)
+  - Mapping complete trigger
+  - Parallel execution tracking (Day 4-34)
+  - Convergence point (both soil & GMP done)
+  - Final step (training → project start date)
+  - Escalation rules
+- **Added Salesforce Data Transfer card:** Explains what data can/cannot transfer from Salesforce (shapefiles stay in Drive/Dropbox, links transfer)
+- Updated all cards to be tool-agnostic (works for both Monday.com and ClickUp)
+- 6 cards total: Core Features, Automation Examples, Dashboard Views, Integrations, Salesforce Data Transfer, plus Automation Flow visual
+

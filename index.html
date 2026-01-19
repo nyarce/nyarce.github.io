@@ -201,6 +201,12 @@
             background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
             color: #2c3e50;
         }
+
+        .task-bar.buffer {
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+            color: #2c3e50;
+            border: 2px dashed #636e72;
+        }
         
         .dependency-arrow {
             position: absolute;
@@ -311,7 +317,8 @@
         <div class="controls">
             <button class="toggle-btn active" onclick="showCurrent()">Current State (Sequential)</button>
             <button class="toggle-btn" onclick="showOptimized()">Proposed State (Revised)</button>
-            <button class="toggle-btn" onclick="showPMTools()">PM Platform & Automation</button>
+            <button class="toggle-btn" onclick="showPlaybook()">Onboarding Playbook</button>
+            <button class="toggle-btn" onclick="showFeedbackSystem()">Feedback System</button>
             <button class="toggle-btn" onclick="showReleaseNotes()">Release Notes SOP</button>
         </div>
         
@@ -325,7 +332,7 @@
             </div>
         </div>
         
-        <div class="legend">
+        <div class="legend" id="legend">
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
                 <span>Internal GRC Process</span>
@@ -333,6 +340,10 @@
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);"></div>
                 <span>Third-Party Coordination</span>
+            </div>
+            <div class="legend-item" id="buffer-legend" style="display: none;">
+                <div class="legend-color" style="background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%); border: 2px dashed #636e72;"></div>
+                <span>Contingency Buffer</span>
             </div>
         </div>
         
@@ -422,8 +433,8 @@
         };
         
         const optimizedState = {
-            title: "Proposed State (Parallelized + Automated)",
-            totalDays: 53, // Calculated: longest path ends Day 53
+            title: "Proposed State (Parallelized + 20-Day Buffer)",
+            totalDays: 73, // 53 days optimistic + 20-day contingency buffer
             tasks: [
                 {
                     id: 1,
@@ -439,67 +450,66 @@
                     name: "Ranch Mapped in PastureMap",
                     owner: "Map Specialist",
                     start: 0,
-                    duration: 4,
+                    duration: 5,
                     dependencies: [1],
                     type: "internal"
                 },
                 {
                     id: 3,
-                    name: "Soil Sampling",
-                    owner: "Rancher Coordinator → EarthOptics",
+                    name: "Soil Sampling Scheduled + Completed",
+                    owner: "Coordinator → EarthOptics",
                     start: 0,
-                    duration: 20,
+                    duration: 34,
                     dependencies: [1],
-                    type: "internal",
-                    note: "Pre-scheduled during sales cycle"
+                    type: "third-party",
+                    note: "Pre-scheduled during sales cycle, runs parallel to GMP"
                 },
                 {
                     id: 4,
-                    name: "Soil Sampling Completed",
-                    owner: "EarthOptics",
-                    start: 20,
-                    duration: 14,
-                    dependencies: [3],
-                    type: "third-party"
+                    name: "GMP Consultation",
+                    owner: "Understanding Ag",
+                    start: 0,
+                    duration: 34,
+                    dependencies: [2],
+                    type: "third-party",
+                    note: "Runs parallel to soil sampling"
                 },
                 {
                     id: 5,
-                    name: "GMP Consultation",
-                    owner: "Understanding Ag",
-                    start: 4,
-                    duration: 30,
-                    dependencies: [2],
-                    type: "third-party",
-                    note: "Starts after mapping; runs parallel to soil sampling"
-                },
-                {
-                    id: 6,
-                    name: "GMP Delivered to Rancher",
+                    name: "Soil Results + GMP Delivery",
                     owner: "Grazing Engineer",
                     start: 34,
                     duration: 14,
-                    dependencies: [5],
+                    dependencies: [3, 4],
                     type: "third-party"
                 },
                 {
-                    id: 7,
-                    name: "Rancher Trained on PastureMap",
+                    id: 6,
+                    name: "Rancher Training",
                     owner: "PastureMap Specialist",
                     start: 42,
                     duration: 10,
                     dependencies: [2],
                     type: "internal",
-                    note: "Can overlap with GMP delivery"
+                    note: "Overlaps with GMP delivery"
                 },
                 {
-                    id: 8,
-                    name: "Project Start Date Established",
+                    id: 7,
+                    name: "Project Start Date",
                     owner: "MRV Team",
                     start: 48,
                     duration: 5,
-                    dependencies: [4, 6],
-                    type: "internal",
-                    note: "Requires soil complete + GMP delivered"
+                    dependencies: [5, 6],
+                    type: "internal"
+                },
+                {
+                    id: 8,
+                    name: "Contingency Buffer",
+                    owner: "Built-in padding",
+                    start: 53,
+                    duration: 20,
+                    dependencies: [7],
+                    type: "buffer"
                 }
             ]
         };
@@ -520,9 +530,11 @@
                 const widthPercent = (task.duration / daysToShow) * 100;
                 const leftPercent = (task.start / daysToShow) * 100;
                 const isThirdParty = task.type === 'third-party';
-                
+                const isBuffer = task.type === 'buffer';
+
                 let barClass = 'task-bar';
                 if (isThirdParty) barClass += ' third-party';
+                if (isBuffer) barClass += ' buffer';
                 
                 html += `
                     <div class="task-row">
@@ -550,249 +562,303 @@
         }
         
         function renderMetrics(state) {
-            const savings = currentState.totalDays - state.totalDays;
-            const savingsPercent = ((savings / currentState.totalDays) * 100).toFixed(0);
-            
-            // Calculate ranches per coordinator per year (EXACT with decimals)
-            // Assumption: Each coordinator manages 10 concurrent ranches
-            const daysInYear = 365;
-            const currentCohorts = daysInYear / currentState.totalDays;
-            const proposedCohorts = daysInYear / state.totalDays;
-            const currentRanchesPerCoordinator = currentCohorts * 10;
-            const proposedRanchesPerCoordinator = proposedCohorts * 10;
-            
-            const capacityDisplay = currentView === 'optimized' ? 
-                `${proposedRanchesPerCoordinator.toFixed(1)} ranches/coord/year` : 
-                `${currentRanchesPerCoordinator.toFixed(1)} ranches/coord/year`;
-            
+            // Using 120 days as baseline for current (includes implicit buffer)
+            // and 73 days for proposed (53 optimistic + 20 buffer)
+            const currentBaseline = 120;
+            const proposedDays = 73;
+            const savings = currentBaseline - proposedDays; // 47 days
+            const savingsPercent = ((savings / currentBaseline) * 100).toFixed(0); // ~39%
+
+            // Capacity: 10 concurrent ranches per coordinator
+            // Current: 365/120 * 10 = ~31 ranches/year
+            // Proposed: 365/73 * 10 = ~50 ranches/year
+            const currentCapacity = 31;
+            const proposedCapacity = 50;
+
+            const capacityDisplay = currentView === 'optimized' ?
+                `${proposedCapacity} ranches/coord/year` :
+                `${currentCapacity} ranches/coord/year`;
+
+            const timelineDisplay = currentView === 'optimized' ?
+                `${state.totalDays} days` :
+                `90-120 days`;
+
             const html = `
                 <div class="metric-card">
                     <div class="metric-label">Timeline</div>
-                    <div class="metric-value" style="font-size: 24px;">${state.totalDays} days</div>
+                    <div class="metric-value" style="font-size: 24px;">${timelineDisplay}</div>
                 </div>
                 <div class="metric-card ${currentView === 'optimized' ? 'success' : ''}">
                     <div class="metric-label">Time Savings</div>
-                    <div class="metric-value">${currentView === 'optimized' ? '-' + savingsPercent + '%' : '—'}</div>
+                    <div class="metric-value">${currentView === 'optimized' ? '30-47 days' : '—'}</div>
                 </div>
                 <div class="metric-card ${currentView === 'optimized' ? 'success' : 'warning'}">
                     <div class="metric-label">Annual Capacity</div>
                     <div class="metric-value" style="font-size: 16px;">${capacityDisplay}</div>
                 </div>
             `;
-            
+
             document.getElementById('metrics').innerHTML = html;
         }
         
         function renderInsights() {
             if (currentView === 'current') {
                 document.getElementById('insights').innerHTML = `
-                    <h3>🔍 Current State Bottlenecks (103 Days):</h3>
+                    <h3>🔍 Current State Bottlenecks:</h3>
                     <ul>
-                        <li><strong>Bottleneck #1 - Manual Ranch Mapping:</strong> 10 days of manual GIS work when faster methods may be available.</li>
-                        <li><strong>Bottleneck #2 - Sequential Dependencies:</strong> GMP consultation (30 days) waits for soil sampling to complete (34 days) but doesn't need soil results. These could run in parallel.</li>
-                        <li><strong>Bottleneck #3 - Rancher Training Delayed:</strong> Rancher training delayed until all other processes are complete.</li>
-                        <li><strong>Bottleneck #4 - No Single Owner:</strong> Ranchers interact with 6+ different people. Handoffs between teams create delays.</li>
+                        <li><strong>Bottleneck #1 - Uncertain Handoffs and Point of Contact:</strong> Multiple moving parts with no centralized point of contact. Ranchers potentially contacted by multiple vendors. Handoffs between steps often stall with no clear ownership.</li>
+                        <li><strong>Bottleneck #2 - Reactive Scheduling and Coordination:</strong> Scheduling and mapping information only begins once sales hands off to coordinators. No pre-planning or soft-scheduling with vendors (UnderstandingAg, EarthOptics) during sales process.</li>
+                        <li><strong>Bottleneck #3 - Process Parallels:</strong> Timeline based on everything running in sequence with very little overlap. Soil sampling and GMP consultation could run in parallel if GMP doesn't require soil results as a go/no-go.</li>
                     </ul>
                 `;
             } else if (currentView === 'optimized') {
                 document.getElementById('insights').innerHTML = `
-                    <h3>✅ Proposed Optimizations (53 Days - 49% Reduction):</h3>
+                    <h3>✅ Proposed Optimizations (73 Days with Buffer):</h3>
                     <ul>
-                        <li><strong>Optimized Mapping (4 days):</strong> Streamlined mapping process reduces time from 10 to 4 days through improved tools or workflows.</li>
-                        <li><strong>Full Parallelization:</strong> Soil sampling (Day 0-34) and GMP consultation (Day 4-34) run concurrently. GMP doesn't wait for soil results.</li>
-                        <li><strong>Proactive Scheduling:</strong> Soil sampling pre-scheduled during sales based on rancher's seasonal calendar. Reduces coordination delays.</li>
-                        <li><strong>Strategic Training Timing:</strong> PastureMap training (Day 42-52) scheduled to overlap with final GMP delivery, maximizing efficiency.</li>
-                        <li><strong>Single Rancher Coordinator:</strong> One point of contact owns entire journey from contract to Project Start Date.</li>
-                        <li><strong>Capacity Impact:</strong> At 53 days per cohort, each Rancher Coordinator can manage 6.887 cohorts/year × 10 ranches = 68.9 ranches annually. This nearly doubles capacity from 35.4 to 68.9 ranches per coordinator (94% increase) without adding headcount.</li>
-                        <li><strong>Contingency Padding:</strong> Adding 20-30 days of buffer brings total timeline to 73-83 days (still 20-30 days faster than current 103-day process, and 37-47 days faster than originally estimated 120 days).
-                            <ul>
-                                <li>Accounts for potential dependency if GMP consultation requires soil results (+20 days)</li>
-                                <li>Matches implicit buffer in original 120-day estimate (120 actual vs 103 calculated = 17-day buffer)</li>
-                            </ul>
-                        </li>
+                        <li><strong>Timeline:</strong> 53 days optimistic + 20-day contingency buffer = <strong>73 days total</strong>. Still 30-47 days faster than current 90-120 day process.</li>
+                        <li><strong>Capacity Impact:</strong> Coordinator capacity increases from ~31 ranches/year to ~50 ranches/year (assuming 10 concurrent ranches). Start ambitious and learn as you go.</li>
+                        <li><strong>Single Point of Contact:</strong> Coordinator handles all communication with vendors, ranchers, and internal teams. Formal introduction with Sales—no blind handoffs, no surprise phone calls.</li>
+                        <li><strong>Proactive Scheduling:</strong> During sales, gather land info (Parcel IDs, shapefiles) and schedule blockers (calving, branding). Coordinators soft-plan with vendors before contract signed.</li>
+                        <li><strong>Full Parallelization:</strong> Soil sampling and GMP consultation run concurrently (Day 0-34), provided GMP doesn't require soil results as go/no-go.</li>
+                        <li><strong>Strategic Training:</strong> Training (Day 42-52) overlaps with GMP delivery. Potential two-session approach to keep rancher engaged earlier.</li>
+                        <li><strong>Contingency Buffer (20 days):</strong> Accounts for missed calls, emergency schedule changes, vendor conflicts, rancher availability. Brings optimistic 53 days to realistic 73 days.</li>
                     </ul>
 
                     <div class="assumption-cards">
                         <div class="assumption-card">
                             <h4>📍 Mapping Process</h4>
-                            <p><strong>Assumption:</strong> Mapping duration reduced from 10 to 4 days, assuming current delays stem from manual GIS work or shapefile import constraints.</p>
-                            <p class="question">Question: Is the 10-day duration driven by staff capacity limitations or technical restrictions?</p>
+                            <p><strong>Assumption:</strong> Mapping duration can be brought down to 5 days (from 5-10 day range) by getting pre-emptive map information from ranchers or pulling data from satellite imagery.</p>
+                            <p class="question">Question: Is the 5-10 day window driven by team capacity or manual GIS processes that could be streamlined?</p>
                             <p><strong>Further Optimization Opportunities:</strong></p>
                             <ul>
-                                <li>Implement automated boundary detection using satellite imagery</li>
-                                <li>Request existing shapefiles/property boundaries during the sales cycle (pre-contract)</li>
+                                <li>ArcGIS deep learning / Living Atlas for automated boundary detection</li>
+                                <li>Request existing shapefiles from ranchers using modern surveillance</li>
+                                <li>Pull data from satellite imagery, county data, Parcel IDs</li>
                             </ul>
                         </div>
 
                         <div class="assumption-card">
                             <h4>⚡ Parallelized Processes</h4>
-                            <p><strong>Assumption:</strong> Soil sampling and GMP consultation can run in parallel, as GMP planning does not require soil test results to begin.</p>
-                            <p class="question">Question: Does the GMP consultation rely on soil sampling results as a go/no-go decision point?</p>
-                            <p><strong>Risk:</strong> If soil results are required before GMP can proceed, an additional 20 days must be added to the timeline, reducing time savings significantly.</p>
+                            <p><strong>Assumption:</strong> Soil sampling and GMP consultation can run in parallel—consultants could be in the field during the same weeks if GMP doesn't require soil results as go/no-go.</p>
+                            <p class="question">Question: Does GMP consultation rely on soil sampling results? Are vendors largely self-managed or do they need rancher input?</p>
+                            <p><strong>Risk:</strong> If soil results required before GMP can proceed, need validation that grazing planning can proceed without finalized soil samples.</p>
                             <p><strong>Proactive Scheduling Opportunity:</strong></p>
                             <ul>
-                                <li>Sales team collects rancher scheduling availability (seasonal constraints, calving periods, weather windows) during contract negotiation</li>
-                                <li>Scheduling data included in handoff package to Rancher Coordinator</li>
-                                <li>Enables proactive coordination with third-party vendors (EarthOptics, Understanding Ag) before contract signing</li>
+                                <li>During sales, gather land info (Parcel IDs, existing shapefiles) and known schedule blockers (calving, branding)</li>
+                                <li>Coordinators soft-plan with UnderstandingAg and EarthOptics for potential windows before contract signed</li>
+                                <li>Allows pre-planning rather than everything sent to coordinator all at once</li>
                             </ul>
                         </div>
 
                         <div class="assumption-card">
                             <h4>🎓 Rancher Training Opportunities</h4>
-                            <p><strong>Assumption:</strong> PastureMap training can be split into two phases to improve retention and accelerate onboarding.</p>
-                            <p class="question">Question: Would a staged training approach improve rancher engagement and reduce time-to-productivity?</p>
-                            <p><strong>Further Optimization Opportunities:</strong></p>
+                            <p><strong>Assumption:</strong> Training can be moved earlier and potentially split into two sessions to keep rancher engaged while other processes complete.</p>
+                            <p class="question">Question: Would a staged training approach improve rancher engagement, or would Session 1 go unused?</p>
+                            <p><strong>Two-Session Approach:</strong></p>
                             <ul>
-                                <li>Phase 1 - Initial Training (Available Anytime): Introduce ranchers to PastureMap using sample training data, covering basic navigation, features, and functionality</li>
-                                <li>Phase 2 - Applied Training (Post-GMP Delivery): Schedule training near completion of GMP consultation using rancher's actual property data for immediate application</li>
+                                <li><strong>Session 1 (Day 42+):</strong> Introduce app with training data or self-guided videos. Started towards end of GMP consultation/soil sampling while rancher's time isn't stretched thin.</li>
+                                <li><strong>Session 2 (Post-GMP):</strong> Specific training after grazing plan finalized—rancher sees their true, accurate data on the platform.</li>
+                                <li><strong>Risk:</strong> If Session 1 becomes a bust and unused, we're just doubling up on specialist training with no benefit. If so, keep it all together towards the end.</li>
                             </ul>
                         </div>
 
                         <div class="assumption-card">
                             <h4>👤 Dedicated Rancher Coordinator</h4>
-                            <p><strong>Assumption:</strong> A dedicated Rancher Coordinator serves as the central hub for all communication between third-party consultants (EarthOptics, Understanding Ag), internal teams, and the rancher.</p>
+                            <p><strong>Assumption:</strong> Coordinator is the single point of truth—handles all direct communication with vendors, ranchers, and internal teams. Has authority to escalate with vendors, receive documents, manage scheduling and delays.</p>
                             <p class="question">Question: Does the current Rancher Coordinator role have capacity and authority to own end-to-end onboarding?</p>
-                            <p><strong>Further Optimization Opportunities:</strong></p>
+                            <p><strong>Key Changes:</strong></p>
                             <ul>
-                                <li>Eliminate confusion and delays caused by unclear handoff ownership</li>
-                                <li>Provide rancher with one consistent contact throughout the entire onboarding journey</li>
-                                <li>Coordinator acts as Project Manager, owning all deliverables, handoffs, and communications</li>
-                                <li>Implement project management platform (ClickUp, Monday.com, or similar) with automated task generation</li>
-                                <li>Enable real-time deadline tracking, dependency management, and visibility dashboards for coordinators managing multiple concurrent ranches</li>
+                                <li><strong>Formal introductions:</strong> Sales introduces rancher to coordinator together—no blind handoffs, no surprise phone calls</li>
+                                <li><strong>Relationship building:</strong> Allows trust to grow between rancher and coordinator throughout journey</li>
+                                <li><strong>PM Tool (ClickUp/Monday.com):</strong> Automated projects from Salesforce triggers, deadline adjustments, email reminders, per-coordinator dashboards</li>
+                                <li><strong>Final handoff:</strong> Coordinator follows up 2 weeks after MRV transition to ensure rancher is confident and knows who to reach</li>
                             </ul>
                         </div>
                     </div>
                 `;
-            } else if (currentView === 'pmtools') {
+            } else if (currentView === 'playbook') {
                 document.getElementById('insights').innerHTML = `
-                    <h3>🔧 Project Management Platform & Automation</h3>
-                    <p style="margin-bottom: 20px; color: #555;">Recommended tools: <strong>Monday.com</strong> or <strong>ClickUp</strong> for tracking and automating ranch onboarding workflows.</p>
+                    <h3>📋 Rancher Onboarding Playbook</h3>
+                    <p style="margin-bottom: 20px; color: #555;"><strong>Managing a 10-Ranch Cohort with Monday/ClickUp</strong></p>
+                    <p style="margin-bottom: 25px;">As Ranch Coordinator, you own the onboarding processes and are a rancher's dedicated Grassroots Carbon point of contact for two to three months. Your role is to organize, drive, and be a knowledgeable partner throughout the onboarding process.</p>
 
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                        <h4 style="margin-bottom: 15px; color: #2c3e50;">📋 Tool Comparison</h4>
-                        <p style="margin-bottom: 10px;"><strong>Monday.com</strong> (Recommended): Better for non-technical teams, superior visualization, easier onboarding (1-2 days), cleaner timeline views. Cost: ~$12-14/user/month.</p>
-                        <p style="margin-bottom: 10px;"><strong>ClickUp</strong> (Alternative): More customizable, better automation depth, slightly cheaper. Requires more technical setup (1-2 weeks). Cost: ~$10-12/user/month.</p>
-                        <p style="margin-bottom: 0;"><strong>Both tools:</strong> Support template automation, dependency tracking, multi-ranch dashboards, Salesforce integration, and escalation workflows. <strong>Custom build alternative:</strong> $50-100K + ongoing maintenance.</p>
+                    <!-- Process Timeline -->
+                    <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+                        <h4 style="margin-bottom: 20px; color: #2c3e50;">Process Outline</h4>
+                        <p style="margin-bottom: 15px; font-style: italic; color: #666;">Sales will reach out as their process is winding down, providing mapping and scheduling information if they've gotten any. Start by creating your project in the PM tool—there will be a template available that outlines timeframes, dependencies, and basic contact information for core vendors.</p>
+
+                        <div style="display: grid; gap: 15px;">
+                            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
+                                <h5 style="color: #1976d2; margin-bottom: 10px;">Week 1: Kickoff</h5>
+                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                                    <li>Confirm with mapping they have all necessary information—no hangups or additional info you can provide. Verify they're aware onboarding has officially begun.</li>
+                                    <li>Reach out to rancher for follow-up introduction, outline the process, confirm availabilities for UnderstandingAg and EarthOptics.</li>
+                                    <li>Check in on soft-scheduled plans with vendors. If groundwork has been made and aligns with rancher's verified availability, get appointments on the books.</li>
+                                </ul>
+                            </div>
+
+                            <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                                <h5 style="color: #e65100; margin-bottom: 10px;">Weeks 2–5: Vendor Coordination</h5>
+                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                                    <li>Verify and follow up on appointments, timelines, and expectations with vendors.</li>
+                                    <li>Keep ranchers in the loop with who to expect and when.</li>
+                                    <li>PM tools can send automated reminders during specific points (e.g., "Send me an email one week after EarthOptics is scheduled to follow up with their process").</li>
+                                </ul>
+                            </div>
+
+                            <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                                <h5 style="color: #2e7d32; margin-bottom: 10px;">Weeks 6–8: Wrap-Up</h5>
+                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                                    <li>Verify where all vendor statuses are and coordinate training with support.</li>
+                                    <li>Verify the rancher's land has been left satisfactory by the vendors—no outstanding issues as onboarding processes begin to wrap up.</li>
+                                </ul>
+                            </div>
+
+                            <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #9c27b0;">
+                                <h5 style="color: #7b1fa2; margin-bottom: 10px;">Week 9: Completion</h5>
+                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                                    <li>Full training should be in progress or complete with rancher if all things have gone well.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p style="margin-top: 15px; font-style: italic; color: #666; font-size: 13px;">There will be contingencies and unexpected delays. The outline above is a best case scenario but should provide a framework for handling a full cohort.</p>
                     </div>
 
-                    <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 30px;">
-                        <h4 style="color: #856404; margin-bottom: 15px;">🔄 Automation Flow</h4>
-                        <div style="font-family: monospace; font-size: 13px; line-height: 1.8; color: #333;">
-                            <div style="margin-bottom: 10px;"><strong>Salesforce Trigger:</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #007bff; margin-bottom: 15px;">
-                                <div>📄 Opportunity Status = "Closed Won"</div>
-                                <div style="padding-left: 20px;">→ Create Ranch Onboarding Board from Template</div>
-                                <div style="padding-left: 20px;">→ Populate: Ranch Name, Rancher Contact, Contract Date, Parcel ID</div>
-                                <div style="padding-left: 20px;">→ Assign to Rancher Coordinator</div>
+                    <!-- Weekly Cadence -->
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #e0e0e0; margin-bottom: 30px;">
+                        <h4 style="margin-bottom: 15px; color: #2c3e50;">📅 Weekly Cadence</h4>
+                        <div style="display: grid; gap: 12px;">
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="background: #e8eaf6; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #3f51b5; min-width: 100px; text-align: center;">Daily</div>
+                                <div style="font-size: 14px;">Check for finished tasks and trigger next steps accordingly. Answer questions from ranchers or vendors within 24 hours, or escalate to the appropriate outlet.</div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="background: #e3f2fd; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #1976d2; min-width: 100px; text-align: center;">Monday</div>
+                                <div style="font-size: 14px;">Review dashboards, upcoming appointments, reminders. Plan your week. Follow up on unanswered inquiries or schedule requests from the week before.</div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="background: #fff3e0; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #e65100; min-width: 100px; text-align: center;">Midweek</div>
+                                <div style="font-size: 14px;">Rancher check-in. Short and sweet as needed but <strong>never more than two weeks without contact</strong>.</div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="background: #e8f5e9; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #2e7d32; min-width: 100px; text-align: center;">End of Week</div>
+                                <div style="font-size: 14px;">Review dashboards, update tasks, clean house and be ready for Monday.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips -->
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <h4 style="color: #856404; margin-bottom: 10px;">💡 Tips</h4>
+                        <p style="margin: 0; color: #856404; font-size: 14px;"><strong>Batching your work</strong> (such as appointment scheduling, rancher updates) helps getting similar tasks done. Context switching often leads to lost processes or dropped focus.</p>
+                    </div>
+                `;
+            } else if (currentView === 'feedback') {
+                document.getElementById('insights').innerHTML = `
+                    <h3>📊 Rancher Feedback System Design</h3>
+                    <p style="margin-bottom: 20px; color: #555;">Lightweight, repeatable system to understand what's working, what's not, and what ranchers need—maintainable with <2 hours/week.</p>
+
+                    <!-- Flow Chart -->
+                    <div style="background: #f8f9fa; padding: 30px; border-radius: 12px; margin-bottom: 30px;">
+                        <h4 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">Feedback Flow: Collection → Synthesis → Action</h4>
+
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                            <!-- Collection Column -->
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3; margin-bottom: 10px;">
+                                    <h5 style="color: #1976d2; margin-bottom: 10px;">📥 COLLECTION</h5>
+                                    <div style="font-size: 13px; line-height: 1.6;">
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Reactive:</strong> Support tickets, emails, direct inquiries (24hr response)</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Behavioral:</strong> Hotjar heatmaps, rage clicks, dead clicks</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Proactive:</strong> Power user quarterly calls (30 min each)</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px;"><strong>Journey:</strong> Post-onboarding check-in calls</div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div style="margin-bottom: 10px;"><strong>Day 0 (Board Creation):</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #28a745; margin-bottom: 15px;">
-                                <div>✅ "Contract Signed" → Status: Done</div>
-                                <div style="padding-left: 20px;">→ "Submit Mapping Request" → Status: In Progress (Deadline: +4 days)</div>
-                                <div style="padding-left: 20px;">→ "Schedule Soil Sampling" → Status: In Progress (Deadline: +20 days)</div>
-                                <div style="padding-left: 20px;">→ "Pre-book GMP Consultation" → Status: Waiting (Depends on mapping)</div>
+                            <!-- Arrow -->
+                            <div style="display: flex; align-items: center; font-size: 24px; color: #95a5a6;">→</div>
+
+                            <!-- Synthesis Column -->
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 4px solid #ff9800; margin-bottom: 10px;">
+                                    <h5 style="color: #e65100; margin-bottom: 10px;">🔄 SYNTHESIS</h5>
+                                    <div style="font-size: 13px; line-height: 1.6;">
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Weekly:</strong> PM reviews Hotjar, tickets, emails for patterns (30-60 min)</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Weekly:</strong> Support tags tickets by type + links to user</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px;"><strong>Monthly:</strong> Product Ops + VP review themes, set priorities (~2-3 hrs)</div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div style="margin-bottom: 10px;"><strong>Mapping Complete:</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #17a2b8; margin-bottom: 15px;">
-                                <div>🗺️ "Ranch Mapped" → Status: Done</div>
-                                <div style="padding-left: 20px;">→ "GMP Consultation" → Status: In Progress (Deadline: +30 days)</div>
-                                <div style="padding-left: 20px;">→ Notify Understanding Ag Coordinator</div>
-                            </div>
+                            <!-- Arrow -->
+                            <div style="display: flex; align-items: center; font-size: 24px; color: #95a5a6;">→</div>
 
-                            <div style="margin-bottom: 10px;"><strong>Parallel Execution (Day 4-34):</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #fd7e14; margin-bottom: 15px;">
-                                <div>🌾 "Soil Sampling" runs concurrently with "GMP Consultation"</div>
-                                <div style="padding-left: 20px;">→ Day 15: Send mid-point check-in notification</div>
-                                <div style="padding-left: 20px;">→ 3 days before appointment: Send reminder to rancher</div>
+                            <!-- Action Column -->
+                            <div style="flex: 1; min-width: 250px;">
+                                <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50; margin-bottom: 10px;">
+                                    <h5 style="color: #2e7d32; margin-bottom: 10px;">🎯 ACTION</h5>
+                                    <div style="font-size: 13px; line-height: 1.6;">
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Roadmap:</strong> Feedback themes influence product priorities</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px; margin-bottom: 6px;"><strong>Close Loop:</strong> Respond to users when issues fixed (80% within 2 weeks)</div>
+                                        <div style="background: white; padding: 8px; border-radius: 4px;"><strong>Measure:</strong> Track feature adoption from feedback-driven changes</div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div style="margin-bottom: 10px;"><strong>Both Complete (Convergence):</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #6f42c1; margin-bottom: 15px;">
-                                <div>✅ "Soil Sampling" AND "GMP Consultation" → Status: Done</div>
-                                <div style="padding-left: 20px;">→ "GMP Delivered to Rancher" → Status: In Progress (Deadline: +14 days)</div>
-                                <div style="padding-left: 20px;">→ "Rancher Training" → Status: In Progress (Deadline: +10 days)</div>
+                    <!-- Cadence Timeline -->
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #e0e0e0; margin-bottom: 30px;">
+                        <h4 style="margin-bottom: 15px; color: #2c3e50;">⏱️ Cadence Overview</h4>
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px; background: #e8eaf6; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: bold; color: #3f51b5;">Weekly</div>
+                                <div style="font-size: 12px; color: #5c6bc0; margin-top: 5px;">PM reviews reports<br/>Support tags tickets</div>
+                                <div style="font-size: 11px; color: #7986cb; margin-top: 8px;">30-60 min</div>
                             </div>
-
-                            <div style="margin-bottom: 10px;"><strong>Final Step:</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #20c997; margin-bottom: 15px;">
-                                <div>🎓 "Rancher Training" → Status: Done</div>
-                                <div style="padding-left: 20px;">→ "Project Start Date Established" → Assign to MRV Team (Deadline: +5 days)</div>
-                                <div style="padding-left: 20px;">→ Send congratulations email to rancher</div>
+                            <div style="flex: 1; min-width: 150px; background: #fce4ec; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: bold; color: #c2185b;">Monthly</div>
+                                <div style="font-size: 12px; color: #d81b60; margin-top: 5px;">Team reviews themes<br/>Sets priorities</div>
+                                <div style="font-size: 11px; color: #ec407a; margin-top: 8px;">~2-3 hrs total</div>
                             </div>
-
-                            <div style="margin-bottom: 10px;"><strong>Escalation Rules:</strong></div>
-                            <div style="padding-left: 20px; border-left: 3px solid #dc3545;">
-                                <div>⚠️ Any task >2 days overdue → Status: "Stuck" + Notify Manager</div>
-                                <div>⚠️ Soil/GMP delayed >5 days → Adjust downstream deadlines + Update rancher</div>
+                            <div style="flex: 1; min-width: 150px; background: #e0f2f1; padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: bold; color: #00796b;">Quarterly</div>
+                                <div style="font-size: 12px; color: #00897b; margin-top: 5px;">Power user calls<br/>Deep feedback</div>
+                                <div style="font-size: 11px; color: #26a69a; margin-top: 8px;">30 min/call</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="assumption-cards">
                         <div class="assumption-card">
-                            <h4>🎯 Core Features</h4>
+                            <h4>📈 Leading Indicators (First 90 Days)</h4>
                             <ul style="margin-top: 10px;">
-                                <li><strong>Standardized Ranch Onboarding Template:</strong> Pre-configured task list for all 8 steps with dependency mapping</li>
-                                <li><strong>Automated Task Generation:</strong> Contract signed → Create ranch project from template automatically</li>
-                                <li><strong>Dependency-Based Deadline Adjustments:</strong> If soil sampling delayed by 5 days → Project Start Date auto-adjusts +5 days</li>
-                                <li><strong>Multi-Ranch Dashboard:</strong> Coordinator views all 10 ranches in one place with color-coded status indicators</li>
-                                <li><strong>Automated Notifications:</strong> Task completion triggers next-step assignments and alerts</li>
+                                <li><strong>Feedback Loop Closure Rate:</strong> 80% of tickets get response within 2 weeks. If we're not closing loops, users stop sending feedback.</li>
+                                <li><strong>Power User Retention:</strong> 75-85% show-up rate for quarterly calls. If dropping, investigate: wrong questions? Not feeling heard?</li>
+                                <li><strong>Feature Adoption from Feedback:</strong> Track usage of features built from feedback. Validates translation of feedback → product.</li>
                             </ul>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>⚙️ Automation Examples</h4>
+                            <h4>🛠️ Tools (Already Available)</h4>
                             <ul style="margin-top: 10px;">
-                                <li><strong>Trigger:</strong> Contract signed → <strong>Action:</strong> Create ranch onboarding project from template with all tasks</li>
-                                <li><strong>Trigger:</strong> Ranch mapped → <strong>Action:</strong> Notify coordinator to schedule soil sampling, auto-calculate deadlines</li>
-                                <li><strong>Trigger:</strong> Soil sampling scheduled → <strong>Action:</strong> Send reminder to EarthOptics 3 days before appointment</li>
-                                <li><strong>Trigger:</strong> GMP consultation complete → <strong>Action:</strong> Schedule training task, notify PastureMap specialist</li>
-                                <li><strong>Trigger:</strong> Task overdue by >2 days → <strong>Action:</strong> Escalation alert to coordinator and manager</li>
+                                <li><strong>Salesforce:</strong> Track support tickets linked to specific ranchers for follow-up</li>
+                                <li><strong>Hotjar:</strong> Weekly reports + notifications. Heatmaps, session recordings, rage click detection</li>
+                                <li><strong>Email/Phone:</strong> Direct outreach for power users and post-onboarding check-ins</li>
                             </ul>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>📊 Dashboard Views</h4>
+                            <h4>🎯 Making It Stick</h4>
                             <ul style="margin-top: 10px;">
-                                <li><strong>List View:</strong> All tasks across 10 ranches sorted by priority/deadline</li>
-                                <li><strong>Board View:</strong> Kanban-style columns (Mapping → Soil Sampling → GMP → Training → Complete)</li>
-                                <li><strong>Timeline View:</strong> Gantt chart showing parallel processes across multiple ranches</li>
-                                <li><strong>Calendar View:</strong> Third-party appointments and rancher availability windows</li>
-                                <li><strong>Status Indicators:</strong> Green (on track), Yellow (at risk), Red (blocked/overdue)</li>
+                                <li><strong>Non-negotiables:</strong> Support must tag tickets by type + link to users. Monthly meeting is a standing priority.</li>
+                                <li><strong>Dedicated time:</strong> Carve out power user call slots in advance. Don't let them slip.</li>
+                                <li><strong>Use it or lose it:</strong> Each feedback cycle must influence the product roadmap. If data isn't being used, that's expensive.</li>
+                                <li><strong>Total effort:</strong> ~2 hrs/week steady state, with peaks during quarterly calls.</li>
                             </ul>
                         </div>
-
-                        <div class="assumption-card">
-                            <h4>🔗 Integrations</h4>
-                            <p style="margin-top: 10px; margin-bottom: 10px;"><strong>Native APIs + Zapier/Make for no-code workflows:</strong></p>
-                            <ul>
-                                <li><strong>Salesforce Integration:</strong> Opportunity "Closed Won" → Auto-create board from template with rancher details (name, contact, Parcel ID, availability notes)</li>
-                                <li><strong>Calendar Integration:</strong> Third-party appointments sync to PM platform timeline and Google Calendar</li>
-                                <li><strong>Communication:</strong> Slack/Email notifications for task updates, deadline changes, and escalations</li>
-                                <li><strong>PastureMap:</strong> Mapping completion status updates task status automatically (if API available)</li>
-                                <li><strong>File Storage:</strong> Google Drive/Dropbox links for shapefiles and contract documents attached to each ranch board</li>
-                            </ul>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>📦 Salesforce Data Transfer</h4>
-                            <p style="margin-top: 10px; margin-bottom: 10px;"><strong>What transfers from Salesforce:</strong></p>
-                            <ul>
-                                <li><strong>Ranch Details:</strong> Name, location, acreage, Parcel ID</li>
-                                <li><strong>Rancher Contact:</strong> Name, phone, email, preferred contact method</li>
-                                <li><strong>Contract Info:</strong> Signature date, contract value, special terms</li>
-                                <li><strong>Availability Data:</strong> Seasonal constraints (calving periods), weather windows for soil sampling, best times to reach rancher</li>
-                                <li><strong>File Links:</strong> Google Drive/Dropbox links to shapefiles, property boundaries, contract PDFs (shapefiles themselves don't transfer - too large for CRM)</li>
-                            </ul>
-                            <p style="margin-top: 10px; color: #666; font-size: 14px;"><em>Note: Coordinator downloads shapefiles from linked storage and uploads to PastureMap manually.</em></p>
-                        </div>
-                    </div>
-
-                    <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50; margin-top: 30px;">
-                        <h4 style="color: #2e7d32; margin-bottom: 10px;">📸 Platform Screenshots & Mockups</h4>
-                        <p style="color: #555; margin: 0;">This section is reserved for Monday.com or ClickUp dashboard screenshots, template configurations, and multi-ranch board views. Content will be added as implementation details are finalized.</p>
                     </div>
                 `;
             } else if (currentView === 'releasenotes') {
@@ -1032,9 +1098,11 @@ WHAT'S NEXT
             currentView = 'current';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Show Gantt chart and metrics
+            // Show Gantt chart, metrics, legend
             document.getElementById('gantt').style.display = 'block';
-            document.getElementById('metrics').style.display = 'flex';
+            document.getElementById('metrics').style.display = 'grid';
+            document.getElementById('legend').style.display = 'flex';
+            document.getElementById('buffer-legend').style.display = 'none';
             renderGantt(currentState);
             renderMetrics(currentState);
             renderInsights();
@@ -1044,21 +1112,35 @@ WHAT'S NEXT
             currentView = 'optimized';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Show Gantt chart and metrics
+            // Show Gantt chart, metrics, legend with buffer
             document.getElementById('gantt').style.display = 'block';
-            document.getElementById('metrics').style.display = 'flex';
+            document.getElementById('metrics').style.display = 'grid';
+            document.getElementById('legend').style.display = 'flex';
+            document.getElementById('buffer-legend').style.display = 'flex';
             renderGantt(optimizedState);
             renderMetrics(optimizedState);
             renderInsights();
         }
 
-        function showPMTools() {
-            currentView = 'pmtools';
+        function showPlaybook() {
+            currentView = 'playbook';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Hide Gantt chart and metrics for PM Tools view
+            // Hide Gantt chart, metrics, legend for Playbook view
             document.getElementById('gantt').style.display = 'none';
             document.getElementById('metrics').style.display = 'none';
+            document.getElementById('legend').style.display = 'none';
+            renderInsights();
+        }
+
+        function showFeedbackSystem() {
+            currentView = 'feedback';
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            // Hide Gantt chart, metrics, legend for Feedback view
+            document.getElementById('gantt').style.display = 'none';
+            document.getElementById('metrics').style.display = 'none';
+            document.getElementById('legend').style.display = 'none';
             renderInsights();
         }
 
@@ -1066,9 +1148,10 @@ WHAT'S NEXT
             currentView = 'releasenotes';
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Hide Gantt chart and metrics for Release Notes view
+            // Hide Gantt chart, metrics, legend for Release Notes view
             document.getElementById('gantt').style.display = 'none';
             document.getElementById('metrics').style.display = 'none';
+            document.getElementById('legend').style.display = 'none';
             renderInsights();
         }
 

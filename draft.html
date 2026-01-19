@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grassroots Carbon - Product Ops Assignment | Ny Arce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c23 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 0;
+        }
+
+        .tab-button {
+            padding: 1rem 2rem;
+            border: none;
+            background-color: #ddd;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            color: #555;
+        }
+
+        .tab-button:hover {
+            background-color: #c5c5c5;
+        }
+
+        .tab-button.active {
+            background-color: white;
+            color: #2d5016;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 0 8px 8px 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: #2d5016;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f0e3;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #4a7c23;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        h4 {
+            color: #555;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background-color: #e8f0e3;
+            border-left: 4px solid #4a7c23;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .timeline-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+            border-left: 3px solid #4a7c23;
+        }
+
+        .timeline-item strong {
+            color: #2d5016;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #f8faf6 0%, #e8f0e3 100%);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border: 1px solid #d4e4cc;
+        }
+
+        .metric-card h4 {
+            margin-top: 0;
+            color: #2d5016;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #e8f0e3;
+            color: #2d5016;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #4a7c23, transparent);
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                border-radius: 0;
+            }
+
+            .tab-button:first-child {
+                border-radius: 8px 8px 0 0;
+            }
+
+            .tab-content {
+                border-radius: 0 0 8px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Product Operations Manager Assignment</h1>
+        <p>Grassroots Carbon | Ny Arce</p>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'part1')">Part 1: Process Diagnosis</button>
+            <button class="tab-button" onclick="openTab(event, 'part2')">Part 2: Feedback System</button>
+        </div>
+
+        <!-- Part 1 Content -->
+        <div id="part1" class="tab-content active">
+            <h2>Rancher Onboarding Process Analysis</h2>
+
+            <h3>A Quick Overview of Numbers and Goals</h3>
+            <p>Based on the handout, the current rancher onboarding process averages 90-120 days from final contract signing to the project start date and payment begins for carbon capture. Mapping out the sequential workflow, I found a max average of 103 days, with the implied contingency buffer of 17 days, bringing it to a max average of 120 days.</p>
+
+            <div class="highlight-box">
+                <p><strong>Target:</strong> I think this can be brought down significantly to around <strong>73 days</strong> with a built-in buffer, provided my assumptions are actionable.</p>
+                <p style="margin-bottom: 0;">Currently, a coordinator can handle about <strong>31 ranches/year</strong> with the 120-day window and assumption of 10 concurrent ranches. If the process can be brought down to 73 days, that brings a coordinator's capacity to <strong>50 ranches/year</strong>.</p>
+            </div>
+
+            <p>It's a high bar and a lot of unknowns I'm navigating but start ambitious and learn as you go.</p>
+
+            <h2>Bottlenecks as I See Them</h2>
+
+            <h3>1. Uncertain Handoffs and Point of Contact</h3>
+            <p>With multiple moving parts, a centralized point of contact is key. Empowering the coordinator to handle all direct communication to and from third party vendors, ranchers, and internal teams keeps one person as the point of truth and a reliable source for all others.</p>
+
+            <p>Aside from allowing for relationship growth and trust between the rancher and the coordinator, this also keeps the rancher from being potentially contacted by vendors when the coordinator can handle it instead. Give the coordinator the authority and ability to:</p>
+            <ul>
+                <li>Escalate as needed with vendors</li>
+                <li>Receive all incoming documents</li>
+                <li>Manage scheduling, delays, and coordination points</li>
+            </ul>
+
+            <p>Formal introductions between Sales and the coordinator should happen together, introducing the rancher directly to their next guide on the journey. No blind handoffs, no surprise phone calls. The rancher should know who their coordinator is before they're the sole owner.</p>
+
+            <h4>PM Tool Recommendation</h4>
+            <p>Using dedicated PM tools will be a huge factor in a coordinator being able to handle a full cohort of ten ranches. I'm deeply familiar with ClickUp as a PM tool, however I also have experience with Monday.com. Both offer:</p>
+            <ul>
+                <li>Intuitive dashboards and automated task generation</li>
+                <li>Document sharing and knowledge base repositories</li>
+                <li>Automatic projects based on templates triggered by Salesforce actions</li>
+                <li>Deadline adjustments based on completion dates</li>
+                <li>Email reminders</li>
+                <li>Per-coordinator, per-team, or company-wide dashboards</li>
+            </ul>
+
+            <h3>2. Reactive Scheduling and Coordination</h3>
+            <p>Based on the document provided, it seems as if scheduling and mapping information only truly begins once sales hands the process off to the coordinators. There are tons of unpredictable variables, however some information can be gathered during the sales process and included in an early handoff to the coordinator.</p>
+
+            <p>During the sales process, I'm sure there's a point where it's almost a closed deal with few things to finalize. Would it be possible to start here with information handoff to the coordinator? Things like:</p>
+            <ul>
+                <li>Land information (Parcel IDs, existing shapefiles, anything that helps the mapping team)</li>
+                <li>Known schedule blockers such as calving or branding</li>
+            </ul>
+
+            <p>If coordinators have known contacts with UnderstandingAg and Earth Optics, they can start soft-planning time frames and have some anticipated start dates ready to go during rancher onboarding. This isn't to push the timeframe back on sales, but allow for pre-planning and loose penciling in, rather than everything getting sent to the coordinator all at once.</p>
+
+            <h3>3. Process Parallels</h3>
+            <p>The timeline given seems to be based on everything running in sequence with very little overlap. Unless grazing management consultations have any sort of go/no-go indicators from soil sampling, my assumption is that these consultants could be in the field during the same weeks, if possible.</p>
+
+            <p>There's some unknowns about ranchers limiting access to one vendor at a time as well, but I'll assume that this is non-issue and it's truly a matter of organization and cleaning up tracking so a coordinator can see the process and plan smoother.</p>
+
+            <h4>Training Restructure</h4>
+            <p>Training is another area that I would consider moving around in the process, and potentially creating two separate sessions:</p>
+            <ol>
+                <li><strong>Session 1:</strong> Presented with training data if necessary, introduces ranchers to the app itself. Either self-guided via onboarding videos or with a specialist. This can be started towards the end of grazing management consulting or soil sampling.</li>
+                <li><strong>Session 2:</strong> Specific training initiated after the grazing plan has been finalized and the rancher can see their true and accurate data on the platform.</li>
+            </ol>
+            <p><em>Risk: Session 1 becomes unused and we're just doubling up on specialist training with no benefit. If that's the case, keep it all together towards the end.</em></p>
+
+            <h3>Mapping Process Optimization</h3>
+            <p>I have very little past experience with GIS processes, but a review of the mapping process may be worth looking into. How are maps and information being imported to PastureMap? Are things being manually drawn?</p>
+
+            <p>ArcGIS has a deep learning functionality allowing you to create your own image recognition models, or a pre-existing library of many models through their Living Atlas. If there's ways to automate the process based on satellite imagery, county data, Parcel IDs, etc., could provide a week of time savings.</p>
+
+            <div class="section-divider"></div>
+
+            <h2>Proposed Process</h2>
+
+            <div class="timeline-item">
+                <strong>Day 0 - Contract Signed</strong>
+                <p>Coordinator officially becomes the PoC. Sales has already introduced the rancher to their coordinator, the coordinator has already soft contacted UnderstandingAg and Earth Optics for potential windows.</p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Day 0 to 5 - Ranch Mapping</strong>
+                <p>Assumptions here that the 5-10 day window is from either team capacity or manual GIS processes that might be able to be streamlined. If we can get any pre-emptive map information from the rancher or pull data from satellite imagery, I imagine this can be brought down to that 5 day goal.</p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Day 0 to 34 - Vendor Scheduling & Field Deployment</strong>
+                <p>UnderstandingAg and Earth Optics scheduling and field deployment. Locking in scheduling the first week is potentially do-able provided windows have been talked about. This is also an assumption that processes can be run in parallel.</p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Day 34 to 48 - Results & Plan Delivery</strong>
+                <p>Soil samples should be available, the grazing management plan delivered to the coordinator for review and consultations planned with the rancher for review.</p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Day 42 to 52 - Rancher Training</strong>
+                <p>Schedule rancher training to overlap with the end of the grazing management consultation, while the plan is being prepared. And a second advanced session in conjunction with the final grazing plan delivery.</p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Day 53 - Final Handoff</strong>
+                <p>Full handoff to MRV team, rancher handoff to support. Following up with the rancher two weeks after transition by the coordinator as a final ownership action could take place.</p>
+            </div>
+
+            <h3>Contingency Buffer</h3>
+            <p>The timeline listed above is an absolute best case scenario, with everything running in smooth unison. Dealing with nature and people make that a challenge at best. I would comfortably add a <strong>20 day buffer</strong> for missed calls, emergency schedule changes, vendor schedule conflicts, etc.</p>
+
+            <div class="highlight-box">
+                <p style="margin-bottom: 0;">That brings my optimistic outlook to <strong>73 days</strong>, still <strong>30-47 days quicker</strong> than the outlined process.</p>
+            </div>
+
+            <h2>Implementation</h2>
+
+            <h3>Start with Quick Wins</h3>
+            <ul>
+                <li>Get sales on board and updated with the two extra information gathering points (land information, general availability)</li>
+                <li>Get coordinators introduced to their new PM tool</li>
+                <li>While there's a lot that can be automated, starting with a basic template and manually adjusting dates is do-able</li>
+                <li>Make sure all coordinators feel comfortable and proud to be that rancher point of contact and have the ability to make calls without getting internally roadblocked</li>
+            </ul>
+
+            <h3>Secondary</h3>
+            <ul>
+                <li>Confirmations on parallelization of UnderstandingAg and Earth Optics, that no one's stepping on toes or causing too much interference on the ranch</li>
+                <li>Validation that grazing planning can proceed without finalized soil samples</li>
+                <li>Reach out to the mapping team for their process and see what sort of turnaround can be reliably hit without scaling</li>
+            </ul>
+
+            <h3>Long Term Optimization</h3>
+            <ul>
+                <li>Automation and refinements to the mapping process as the tech grows or is built</li>
+                <li>Setting up the project management tool with built-in integrations that trigger off Salesforce activities</li>
+                <li>Task closing dates, more polished dashboards and data export for validation on use and productivity value</li>
+            </ul>
+
+            <p><em>Note from past experience: ClickUp does like to play the cost-creep game and while they start at $19/mo per user for Pro, the enterprise plans can get pricier though they come with more features (AI integrations, etc.). Both Monday and ClickUp would be solid choices and integrate well with most other industry tools or through no-code automations like n8n and Zapier.</em></p>
+        </div>
+
+        <!-- Part 2 Content -->
+        <div id="part2" class="tab-content">
+            <h2>Feedback System Design</h2>
+
+            <h3>Introduction</h3>
+            <p>My experience with user-feedback has been mostly reactive - using Clarity to track behaviors and troubleshoot when a user gets stuck. The clients I most often worked with weren't particularly interested in systemic feedback or proactive problem solving, so it was used only as a "fix what's broken" tool. In comparing Clarity to Hotjar, base features and functionality seem equal, with Hotjar offering more user engagement options.</p>
+
+            <h2>Approach</h2>
+
+            <h3>Specific and Reactive</h3>
+            <ul>
+                <li><strong>Support tickets, emails, and direct inquiries</strong> should be responded to within 24 hours. Communication breeds communication, and showing ranchers they're heard helps keep that door open.</li>
+                <li><strong>Reports from Hotjar</strong> showing heatmaps, rage clicks, dead clicks, etc. should be watched heavily after every major release, as well as send notifications if new issues arise. By monitoring an already in-use tool with more specific intentionality, improvements can be made and measured sometimes before someone is frustrated enough to send a help ticket.</li>
+                <li><strong>Responding to support tickets</strong> once the issue has been addressed may be an easily automated way to garner additional input or thoughts while informing the user their issue was seen and fixed. This does require proper ticket logging by type or tied to development tracking.</li>
+            </ul>
+
+            <h3>Proactive and Broad</h3>
+            <p><strong>Create a circle of opt-in power users for quarterly check-ins.</strong> These heavy users can be a source of great conversation and input on direction, desire, and features. Doubtful the folks in the dev shop are ranchers - they don't know our jobs and we don't know theirs but we can collaborate and trust the folks using the product.</p>
+
+            <p>Figure out what would motivate them to opt in. Being heard and feeling valued is great but perks are nice too:</p>
+            <ul>
+                <li>Early access to pre-release features</li>
+                <li>Swag</li>
+                <li>Conference invitations</li>
+            </ul>
+
+            <p>What they can provide in return is a solid half hour conversation quarterly with honest feedback on what's working, what's not, what's missing.</p>
+
+            <p><strong>Reaching out with a first impressions phone call and post-onboarding check-in</strong> can also be a great opportunity to review the onboarding process as a whole and find ways to improve the experience (which may inadvertently improve onboarding time in general).</p>
+
+            <div class="section-divider"></div>
+
+            <h2>Leading Indicators</h2>
+
+            <div class="metric-card">
+                <h4>Feedback Loop Closure Rate</h4>
+                <p>If we're collecting feedback but never reaching back out, eventually they'll just stop sending feedback. Users need to know they're being heard, even if it can't be built.</p>
+                <p style="margin-bottom: 0;"><strong>Target:</strong> 80% of tickets should have a response within two weeks - this is a generous window and short enough folks still remember sending the ticket.</p>
+            </div>
+
+            <div class="metric-card">
+                <h4>Power User Retention</h4>
+                <p>How many opt-in power users have stuck around for at least two quarterly calls?</p>
+                <p style="margin-bottom: 0;"><strong>Target:</strong> 75-85% is considered a good show-up rate for focus groups. If users are dropping out, figuring out where the disconnect is has to happen. Are we asking the wrong questions? Users aren't feeling heard? Small changes are disregarded?</p>
+            </div>
+
+            <div class="metric-card">
+                <h4>Feature Adoption from Feedback</h4>
+                <p>Following how users adjust and use something built in response to feedback can help dial in how feedback is being heard and translated as well as how new features and changes are being highlighted and shown to users.</p>
+                <p style="margin-bottom: 0;">Hotjar reports focused around these new releases can provide high information value with little effort with pre-built filters or reports.</p>
+            </div>
+
+            <h2>Implementation</h2>
+
+            <h3>Tools</h3>
+            <ul>
+                <li><strong>Salesforce</strong> is already in use. If the same system used for support tickets is also linking it to specific ranchers, excellent, otherwise considerations on automations here, or manual entry to start. This provides accurate information for following up.</li>
+                <li><strong>Hotjar</strong> has the ability to send weekly reports as well as notifications. Once those are set up, reviewing the information on a regular basis becomes easy to access.</li>
+            </ul>
+
+            <h3>Timing</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cadence</th>
+                        <th>Who</th>
+                        <th>What</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Weekly</strong></td>
+                        <td>Product Manager</td>
+                        <td>Reviews Hotjar reports, support tickets, emails for patterns and new data. Flag one or two users for followup if possible.</td>
+                        <td>30-60 min</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Weekly</strong></td>
+                        <td>Support Staff</td>
+                        <td>Verifies tickets are being tracked using tags and user information.</td>
+                        <td>Varies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Monthly</strong></td>
+                        <td>Product Ops, VP, etc.</td>
+                        <td>High level group meeting to review patterns, reflect on last month's progress, compare feedback themes and set intentions for the next feedback cycle. Product Manager takes these to the dev teams.</td>
+                        <td>~2 hrs core meeting + 1 hr dev handoff</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quarterly</strong></td>
+                        <td>Product Ops</td>
+                        <td>Calls with the power-users. Set aside 30 minutes per call throughout a month.</td>
+                        <td>30 min/call</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <p style="margin-bottom: 0;">All in, this should be around the <strong>2 hrs/week mark</strong>, with some peaks and valleys from phone calls.</p>
+            </div>
+
+            <h3>Making it Stick</h3>
+            <p>Hopefully the communication improvement alone feels worth it, but making it a non-negotiable with:</p>
+            <ul>
+                <li>Support to classify tickets and tie them to users, even if it's just a billing question</li>
+                <li>Making the monthly meeting a standing priority</li>
+                <li>Carving out dedicated time to contact the power users</li>
+            </ul>
+
+            <p><strong>Each feedback cycle needs to influence the product roadmap as well. If the data isn't being used, that's very expensive.</strong></p>
+
+            <h2>Overall</h2>
+            <p>Utilizing automation and reporting for the technical, and direct communication for the qualitative is a tailored approach with more time being spent on ranchers and their voices. Reporting and mapping can refine the story the users are sharing and help focus direction, a collaborative approach that feels community first.</p>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+
+            const tabButtons = document.getElementsByClassName('tab-button');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

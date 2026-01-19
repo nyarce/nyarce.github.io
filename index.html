@@ -731,7 +731,7 @@
                         <div style="display: grid; gap: 12px;">
                             <div style="display: flex; align-items: flex-start; gap: 15px;">
                                 <div style="background: #e8eaf6; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #3f51b5; min-width: 100px; text-align: center;">Daily</div>
-                                <div style="font-size: 14px;">Check for finished tasks and trigger next steps accordingly. Answer questions from ranchers or vendors within 24 hours, or escalate to the appropriate outlet.</div>
+                                <div style="font-size: 14px;">Check for finished tasks and trigger next steps accordingly. Answer any questions from ranchers or vendors, ideally within 24 hours, or escalate to the appropriate outlet.</div>
                             </div>
                             <div style="display: flex; align-items: flex-start; gap: 15px;">
                                 <div style="background: #e3f2fd; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #1976d2; min-width: 100px; text-align: center;">Monday</div>
@@ -874,13 +874,25 @@
                     <div class="assumption-cards">
                         <div class="assumption-card">
                             <h4>📝 Release Notes Structure & Templates</h4>
-                            <p style="margin-top: 10px;"><strong>Core Categories:</strong> All releases are organized into: <strong>Features</strong> (new functionality) • <strong>Updates</strong> (enhancements) • <strong>Bug Fixes</strong> (issue resolution)</p>
-                            <p style="margin-top: 10px;"><strong>Tagging Requirements:</strong> Each task/ticket must have: Category (Feature/Update/Bug) • Layer (Frontend/Backend/Both) • Audience (Customer-facing/Internal-only/Both)</p>
-                            <p style="margin-top: 10px;"><strong>Writing Style:</strong> Present tense • User-focused • Scannable bullets • Action-oriented</p>
+                            <p style="margin-top: 10px;">All tickets for release should be organized into three categories: <strong>Features</strong> (new functionality), <strong>Updates</strong>, and <strong>Bug Fixes</strong>. Each ticket should have a field in the dev ops tool to identify this category as well as identify whether this is a frontend change, backend, or both. These two fields together can help identify audience and (in the future) automate release note compilation.</p>
+                            <p style="margin-top: 10px;">The writing style for release notes should be present tense, user focused, bullet points, and action-oriented.</p>
+                            <div style="background: #e8f0e3; border-left: 4px solid #4a7c23; padding: 10px 15px; margin: 15px 0; border-radius: 0 8px 8px 0;">
+                                <strong>Example:</strong> "CSVs can now be uploaded through the document upload feature"
+                            </div>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>👥 Template A: Sales & Customer-Facing Teams</h4>
+                            <h4>👥 Who Gets What</h4>
+                            <p style="margin-top: 10px;">Separate templates should be used for internal only teams and user-focused teams. API changes, library updates, etc. should be on the internal template, as well as front end changes that impact users. Sales will only receive release notes on bug fixes from feedback, feature updates, front end changes. The external-facing teams release notes can be an edited down version of the internal release notes, for time savings from all involved.</p>
+                            <p style="margin-top: 10px;">An optional C-Suite template may be requested with high-level reviews of changes and updates with direct impact analysis, if desired.</p>
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li><strong>Template A (Internal):</strong> Goes to all internal engineering teams, data teams, Ops, sent to Slack, etc.</li>
+                                <li><strong>Template B (External):</strong> Pared down version for Sales and Support teams—removes Technical Details and backend only tasks.</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>📋 Template Example: Sales & Support</h4>
                             <p style="margin-top: 10px;"><strong>When:</strong> Email, 3-4 days before production (or at test server deploy)</p>
                             <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP RELEASE - VERSION X.X | Release Date: [Date]
 
@@ -898,7 +910,7 @@ TALKING POINTS FOR CUSTOMERS
                         </div>
 
                         <div class="assumption-card">
-                            <h4>⚙️ Template B: Internal Teams (Eng, Ops, Support)</h4>
+                            <h4>⚙️ Template Example: Internal Teams (Eng, Ops)</h4>
                             <p style="margin-top: 10px;"><strong>When:</strong> Slack #product-updates, 2 days before production (or at beta)</p>
                             <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">RELEASE - VERSION X.X | Release: [Date] | Beta: [Date]
 
@@ -917,7 +929,7 @@ KNOWN ISSUES
                         </div>
 
                         <div class="assumption-card">
-                            <h4>💼 Template C: C-Suite & Leadership</h4>
+                            <h4>💼 Template Example: C-Suite & Leadership</h4>
                             <p style="margin-top: 10px;"><strong>When:</strong> Email, same day as production release</p>
                             <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP VERSION X.X - EXECUTIVE SUMMARY | Released: [Date]
 

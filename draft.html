@@ -48,15 +48,18 @@
         }
 
         .tab-button {
-            padding: 1rem 2rem;
+            flex: 1;
+            padding: 0.75rem 0.5rem;
             border: none;
             background-color: #ddd;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 600;
             border-radius: 8px 8px 0 0;
             transition: all 0.3s ease;
             color: #555;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .tab-button:hover {
@@ -179,12 +182,20 @@
                 padding: 1rem;
             }
 
+            .tab-button {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.25rem;
+            }
+        }
+
+        @media (max-width: 500px) {
             .tabs {
                 flex-direction: column;
             }
 
             .tab-button {
                 border-radius: 0;
+                font-size: 0.85rem;
             }
 
             .tab-button:first-child {
@@ -206,7 +217,9 @@
     <div class="container">
         <div class="tabs">
             <button class="tab-button active" onclick="openTab(event, 'part1')">Part 1: Process Diagnosis</button>
+            <button class="tab-button" onclick="openTab(event, 'playbook')">Part 1: Onboarding Playbook</button>
             <button class="tab-button" onclick="openTab(event, 'part2')">Part 2: Feedback System</button>
+            <button class="tab-button" onclick="openTab(event, 'part3')">Part 3: Release Notes SOP</button>
         </div>
 
         <!-- Part 1 Content -->
@@ -460,6 +473,230 @@
 
             <h2>Overall</h2>
             <p>Utilizing automation and reporting for the technical, and direct communication for the qualitative is a tailored approach with more time being spent on ranchers and their voices. Reporting and mapping can refine the story the users are sharing and help focus direction, a collaborative approach that feels community first.</p>
+        </div>
+
+        <!-- Onboarding Playbook Content -->
+        <div id="playbook" class="tab-content">
+            <h2>Rancher Onboarding Playbook</h2>
+            <p><strong>Managing a 10-Ranch Cohort with Monday/ClickUp</strong></p>
+
+            <p>As Ranch Coordinator, you own the onboarding processes and are a rancher's dedicated Grassroots Carbon point of contact for two to three months. Your role is to organize, drive, and be a knowledgeable partner throughout the onboarding process.</p>
+
+            <h2>Process Outline</h2>
+
+            <p><em>Sales will reach out as their process is winding down, providing mapping and scheduling information if they've gotten any. Start by creating your project in the PM tool. There will be a template available that outlines timeframes, dependencies, and basic contact information for core vendors.</em></p>
+
+            <div class="timeline-item">
+                <strong>Week 1: Kickoff</strong>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                    <li>Confirm with mapping they have all necessary information, there's no hangups or additional information you can provide. Verify they're aware onboarding has officially begun.</li>
+                    <li>Reach out to the rancher for a follow-up introduction, outline the process, and confirm availabilities for UnderstandingAg and Earth Optics.</li>
+                    <li>Check in on soft scheduled plans with vendors, if those groundworks have been made. Provided it aligns with the ranchers verified availability, get appointments on the books and scheduled accordingly.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Weeks 2–5: Vendor Coordination</strong>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                    <li>Verify and follow up on appointments, timelines, and expectations with vendors.</li>
+                    <li>Keep ranchers in the loop with who to expect and when.</li>
+                    <li>PM tools can be configured to send out automated reminders during specific points in the process (e.g., "Send me an email one week after EarthOptics is scheduled to follow up with their process").</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Weeks 6–8: Wrap-Up</strong>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                    <li>Verify where all vendor statuses are and coordinate training with support.</li>
+                    <li>Verify the rancher's land has been left satisfactory by the vendors and there are no outstanding issues as onboarding processes begin to wrap up.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Week 9: Completion</strong>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                    <li>Full training should be in progress or complete with Rancher if all things have gone well.</li>
+                </ul>
+            </div>
+
+            <p><em>There will be contingencies and unexpected delays. The outline above is a best case scenario but should provide a framework for handling a full cohort.</em></p>
+
+            <div class="section-divider"></div>
+
+            <h2>Weekly Cadence</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>When</th>
+                        <th>What</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Daily</strong></td>
+                        <td>Check for finished tasks and trigger next steps accordingly. Answer any questions from ranchers or vendors, ideally within 24 hours, or escalate to the appropriate outlet.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Monday</strong></td>
+                        <td>Review dashboards, upcoming appointments, reminders. Plan your week. Follow up on unanswered inquiries or schedule requests from the week before.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Midweek</strong></td>
+                        <td>Rancher check-in. Short and sweet as needed but <strong>never more than two weeks without contact</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>End of Week</strong></td>
+                        <td>Review dashboards, update tasks, clean house and be ready for Monday.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4 style="margin-top: 0;">Tips</h4>
+                <p style="margin-bottom: 0;"><strong>Batching your work</strong> (such as appointment scheduling, rancher updates) helps getting similar tasks done. Context switching often leads to lost processes or dropped focus.</p>
+            </div>
+        </div>
+
+        <!-- Part 3: Release Notes SOP Content -->
+        <div id="part3" class="tab-content">
+            <h2>Release Notes SOP</h2>
+
+            <h3>Structures and Templates</h3>
+            <p>All tickets for release should be organized into three categories: <strong>Features</strong> (new functionality), <strong>Updates</strong>, and <strong>Bug Fixes</strong>. Each ticket should have a field in the dev ops tool to identify this category as well as identify whether this is a frontend change, backend, or both. These two fields together can help identify audience and (in the future) automate release note compilation.</p>
+
+            <p>The writing style for release notes should be present tense, user focused, bullet points, and action-oriented.</p>
+
+            <div class="highlight-box">
+                <p style="margin-bottom: 0;"><strong>Example:</strong> "CSVs can now be uploaded through the document upload feature"</p>
+            </div>
+
+            <h3>Who Gets What</h3>
+            <p>Separate templates should be used for internal only teams and user-focused teams. API changes, library updates, etc. should be on the internal template, as well as front end changes that impact users. Sales will only receive release notes on bug fixes from feedback, feature updates, front end changes. The external-facing teams release notes can be an edited down version of the internal release notes, for time savings from all involved.</p>
+
+            <p>An optional C-Suite template may be requested with high-level reviews of changes and updates with direct impact analysis, if desired.</p>
+
+            <ul>
+                <li><strong>Template A (Internal):</strong> Goes to all internal engineering teams, data teams, Ops, sent to Slack, etc.</li>
+                <li><strong>Template B (External):</strong> Pared down version for Sales and Support teams—removes Technical Details and backend only tasks.</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <h2>Template</h2>
+
+            <div class="metric-card">
+                <pre style="margin: 0; font-family: monospace; font-size: 0.9rem; white-space: pre-wrap;">PASTUREMAP RELEASE NOTES - [Version X.X]
+Release Date: [Date]
+
+FEATURES
+- [Feature/fix description]
+- [Feature/fix description]
+
+UPDATES
+- [Changes to Existing Feature]
+
+BUG FIXES
+- [Behavior that is fixed]
+
+TECHNICAL DETAILS
+- [Architecture changes/Library Updates/API endpoints]
+- [Env configs, deployment requirements, etc]
+
+WHAT TEAMS SHOULD KNOW
+- [Talking points for customer-facing teams]</pre>
+            </div>
+
+            <h2>Workflow / Ownership / Process</h2>
+
+            <p>The project manager working with the dev team on the release directly can begin to compile release notes as soon as the sprint begins and backlog tasks are assigned. Ideally release notes will be complete by the end of the first week with minimal effort to tag appropriately and summarize.</p>
+
+            <p>The PM will handle both drafts as they should be familiar with the tasks being assigned per release. 4-5 days before release (beta/prod), PM sends out the release notes to Product Ops for review. Ops will green light release notes or request edits within 24 hours, and PM handles distribution.</p>
+
+            <h3>Distribution Matrix</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Audience</th>
+                        <th>Template</th>
+                        <th>Channel</th>
+                        <th>Timing</th>
+                        <th>Content Focus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sales</td>
+                        <td>A</td>
+                        <td>Email</td>
+                        <td>3-4 days before</td>
+                        <td>Customer changes, talking points, demos</td>
+                    </tr>
+                    <tr>
+                        <td>Support</td>
+                        <td>A</td>
+                        <td>Email</td>
+                        <td>3-4 days before</td>
+                        <td>Changes, troubleshooting</td>
+                    </tr>
+                    <tr>
+                        <td>Eng/Ops</td>
+                        <td>B</td>
+                        <td>Slack</td>
+                        <td>2 days before (or beta)</td>
+                        <td>Technical details, API, architecture</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="section-divider"></div>
+
+            <h2>Cadence and Exceptions</h2>
+
+            <p>Release notes should come with every release cycle and be baked into the definition of "Done." Tracking changes, tasks, and release identifiers keeps everyone informed, no surprise changes or things that are fixed still being sent to troubleshooting.</p>
+
+            <h3>Hotfixes</h3>
+            <p>Hotfixes should be handled as a separate release with immediate updates on what was fixed and clarity on user behaviors for Sales and Support. Slack and email updates on a hotfix should go out at time of deployment ideally, but within 24 hours regardless.</p>
+
+            <h3>Major Releases</h3>
+            <p>Major releases require extra time for sales and support, potentially triggering an all-hands demo of the new feature, how to use it, and what the purpose is. This should come with full documentation and training materials, potentially a collaboration between PM, Sales, Support, and Product Ops.</p>
+
+            <h2>Keeping the Process Going</h2>
+
+            <p>Keep it a simple, required task. The existing template provided is clear and concise, and shouldn't take more than <strong>3 hours at most</strong> to write, review and edit, distribute to the appropriate teams.</p>
+
+            <p>Having a PM that knows the sprint and tasks, write the outline and prepare the template at the beginning of the sprint allows for focus and ability to remove and change any potential tasks that get pushed, rather than scrambling at the end to piece them all together. Utilizing existing tools is also incredibly helpful. Any way to keep a process familiar will help with adoption.</p>
+
+            <h3>Automation Considerations</h3>
+            <p>Most DevOps tools have decently baked in integrations with Slack and/or release notes tools. This might be a further consideration and future refinement allowing more hands off and accurate delivery of release notes per cycle. Some include automated task linkages as well, making it easier to verify tasks per release.</p>
+
+            <div class="section-divider"></div>
+
+            <h2>Quick Reference Checklist</h2>
+
+            <div class="metric-card">
+                <h4 style="margin-top: 0;">Before Release</h4>
+                <ul style="margin-bottom: 0;">
+                    <li>PM tool items tagged (Category, Layer, Audience)</li>
+                    <li>Template A drafted (Sales/Support) + screenshots</li>
+                    <li>Template B drafted (Internal) + technical details</li>
+                    <li>Template C drafted (C-Suite) + strategic summary</li>
+                    <li>Product Ops/VP approved</li>
+                    <li>Full docs ready (major features)</li>
+                    <li>Added to living document</li>
+                </ul>
+            </div>
+
+            <div class="metric-card">
+                <h4 style="margin-top: 0;">Distribution</h4>
+                <ul style="margin-bottom: 0;">
+                    <li>2-3 days before: Template A → Sales/Support (email)</li>
+                    <li>2 days before: Template B → #product-updates (Slack)</li>
+                    <li>Release day: Template C → C-Suite (email)</li>
+                    <li>Release day: Archive in living doc</li>
+                </ul>
+            </div>
         </div>
     </div>
 

@@ -863,89 +863,53 @@
                 `;
             } else if (currentView === 'releasenotes') {
                 document.getElementById('insights').innerHTML = `
-                    <h3>📢 Release Communication SOP</h3>
-                    <p style="margin-bottom: 20px; color: #555;"><strong>PastureMap Product Releases – Implementation-Ready Process</strong></p>
-
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                        <h4 style="margin-bottom: 15px; color: #2c3e50;">Purpose</h4>
-                        <p style="margin: 0;">Define how PastureMap releases are communicated to internal stakeholders: Sales, Operations, Support, Engineering, and Leadership receive the right information at the right time.</p>
-                    </div>
+                    <h3>📢 Release Notes SOP</h3>
 
                     <div class="assumption-cards">
                         <div class="assumption-card">
-                            <h4>📝 Release Notes Structure & Templates</h4>
+                            <h4>📝 Structures and Templates</h4>
                             <p style="margin-top: 10px;">All tickets for release should be organized into three categories: <strong>Features</strong> (new functionality), <strong>Updates</strong>, and <strong>Bug Fixes</strong>. Each ticket should have a field in the dev ops tool to identify this category as well as identify whether this is a frontend change, backend, or both. These two fields together can help identify audience and (in the future) automate release note compilation.</p>
                             <p style="margin-top: 10px;">The writing style for release notes should be present tense, user focused, bullet points, and action-oriented.</p>
                             <div style="background: #e8f0e3; border-left: 4px solid #4a7c23; padding: 10px 15px; margin: 15px 0; border-radius: 0 8px 8px 0;">
-                                <strong>Example:</strong> "CSVs can now be uploaded through the document upload feature"
+                                <strong>Ex:</strong> "CSV's can now be uploaded through the document upload feature"
                             </div>
                         </div>
 
                         <div class="assumption-card">
                             <h4>👥 Who Gets What</h4>
-                            <p style="margin-top: 10px;">Separate templates should be used for internal only teams and user-focused teams. API changes, library updates, etc. should be on the internal template, as well as front end changes that impact users. Sales will only receive release notes on bug fixes from feedback, feature updates, front end changes. The external-facing teams release notes can be an edited down version of the internal release notes, for time savings from all involved.</p>
-                            <p style="margin-top: 10px;">An optional C-Suite template may be requested with high-level reviews of changes and updates with direct impact analysis, if desired.</p>
-                            <ul style="margin-top: 10px; margin-left: 20px;">
-                                <li><strong>Template A (Internal):</strong> Goes to all internal engineering teams, data teams, Ops, sent to Slack, etc.</li>
-                                <li><strong>Template B (External):</strong> Pared down version for Sales and Support teams—removes Technical Details and backend only tasks.</li>
-                            </ul>
+                            <p style="margin-top: 10px;">Separate templates should be used for internal only teams and user-focused teams. API changes, library updates, etc should be on the internal template, as well as front end changes that impact users. Sales will only receive release notes on bug fixes from feedback, feature updates, front end changes. The external-facing teams release notes can be an edited down version of the internal release notes, for time savings from all involved. An optional C-Suite template may be requested with high-level reviews of changes and updates with direct impact analysis, if desired.</p>
+                            <p style="margin-top: 15px;"><strong>Template A</strong>, below, could be utilized as the core template. This would go to all internal engineering teams, data teams, Ops, sent to Slack, etc. A pared down <strong>Template B</strong> would be available for Sales and Support teams by removing Technical Details and backend only tasks.</p>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>📋 Template Example: Sales & Support</h4>
-                            <p style="margin-top: 10px;"><strong>When:</strong> Email, 3-4 days before production (or at test server deploy)</p>
-                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP RELEASE - VERSION X.X | Release Date: [Date]
+                            <h4>📋 Template</h4>
+                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP RELEASE NOTES - [Version X.X]
+Release Date: [Date]
 
-NEW FEATURES
-• [Feature] – Customer Benefit: [why it matters] | How to Use: [link]
+FEATURES
+- [Feature/fix description]
+- [Feature/fix description]
 
 UPDATES
-• [Enhancement] – Impact: [how it improves UX]
+- [Changes to Existing Feature]
 
 BUG FIXES
-• [What now works correctly]
-
-TALKING POINTS FOR CUSTOMERS
-• [Key sales messaging]</pre>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>⚙️ Template Example: Internal Teams (Eng, Ops)</h4>
-                            <p style="margin-top: 10px;"><strong>When:</strong> Slack #product-updates, 2 days before production (or at beta)</p>
-                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">RELEASE - VERSION X.X | Release: [Date] | Beta: [Date]
-
-NEW FEATURES
-• [Description] – Technical: [API changes, endpoints, migrations]
-
-UPDATES & 🐛 BUG FIXES
-• [Changes/fixes]
+- [Behavior that is fixed]
 
 TECHNICAL DETAILS
-• Architecture: [changes] | Libraries: [updates] | API: [breaking changes]
-• Config: [env vars, deployment needs]
+- [Architecture changes/Library Updates/API endpoints]
+- [Env configs, deployment requirements, etc]
 
-KNOWN ISSUES
-• [Issue] – Workaround: [temp solution]</pre>
+WHAT TEAMS SHOULD KNOW
+- [Talking points for customer-facing teams]</pre>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>💼 Template Example: C-Suite & Leadership</h4>
-                            <p style="margin-top: 10px;"><strong>When:</strong> Email, same day as production release</p>
-                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP VERSION X.X - EXECUTIVE SUMMARY | Released: [Date]
+                            <h4>🔄 Workflow/Ownership/Process</h4>
+                            <p style="margin-top: 10px;">The project manager working with the dev team on the release directly can begin to compile release notes as soon as the sprint begins and backlog tasks are assigned. Ideally release notes will be complete by the end of the first week with minimal effort to tag appropriately and summarize.</p>
+                            <p style="margin-top: 10px;">The PM will handle both drafts as they should be familiar with the tasks being assigned per release. 4-5 days before release (beta/prod), PM sends out the release notes to Product Ops for review. Ops will green light release notes or request edits within 24 hours, and PM handles distribution.</p>
 
-KEY HIGHLIGHTS
-• [Most significant change] – Strategic Impact: [business alignment]
-
-CUSTOMER IMPACT
-• [Effect on satisfaction, retention, adoption]
-
-WHAT'S NEXT
-• [Upcoming priorities]</pre>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>📊 Distribution Matrix</h4>
-                            <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 14px;">
+                            <table style="width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 14px;">
                                 <thead>
                                     <tr style="background: #f0f0f0;">
                                         <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Audience</th>
@@ -977,102 +941,30 @@ WHAT'S NEXT
                                         <td style="padding: 10px; border: 1px solid #ddd;">2 days before (or beta)</td>
                                         <td style="padding: 10px; border: 1px solid #ddd;">Technical details, API, architecture</td>
                                     </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">C-Suite</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">C</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Email</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Same day as release</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">High-level, strategic impact</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>🔄 Workflow & Ownership</h4>
-                            <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 14px;">
-                                <thead>
-                                    <tr style="background: #f0f0f0;">
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Role</th>
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Responsibility</th>
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Product Manager</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Write draft, compile tagged items, create 3 templates</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">~2 hours</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Product Ops/VP</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Review, approve/request edits</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">30-45 min</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Product Manager</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Distribute via channels</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">20 min</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p style="margin-top: 15px; font-weight: bold; color: #2c3e50;">Total: <2 hours per release</p>
+                            <h4>⚡ Cadence and Exceptions</h4>
+                            <p style="margin-top: 10px;">Release notes should come with every release cycle and be baked into the definition of "Done." Tracking changes, tasks, and release identifiers keeps everyone informed, no surprise changes or things that are fixed still being sent to troubleshooting.</p>
 
-                            <h5 style="margin-top: 20px; margin-bottom: 10px; color: #2c3e50;">Process Steps</h5>
-                            <ol style="margin-left: 20px; line-height: 1.8;">
-                                <li><strong>During Sprint:</strong> PM compiles notes at beginning of sprint. Ensure all items properly tagged.</li>
-                                <li><strong>5 Days Before Sprint End:</strong> PM finalizes 3 templates, submits to Ops/VP for review.</li>
-                                <li><strong>Review (same/next day):</strong> Ops/VP reviews, provides feedback. PM makes final edits.</li>
-                                <li><strong>Distribution (per matrix):</strong>
-                                    <ul style="margin-left: 20px; margin-top: 5px;">
-                                        <li>3-4 days before: Template A → Sales/Support (email)</li>
-                                        <li>2 days before: Template B → #product-updates (Slack)</li>
-                                        <li>Same day: Template C → C-Suite (email)</li>
-                                    </ul>
-                                </li>
-                                <li><strong>Archive:</strong> Add to living document (Confluence/Notion), link to sprint/version.</li>
-                            </ol>
+                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #d84315;">Hotfixes</h5>
+                            <p style="margin: 0;">Hotfixes and major releases are outside this standard cycle. Hotfixes should be handled as a separate release with immediate updates on what was fixed and clarity on user behaviors for Sales and Support. Slack and email updates on a hotfix should go out at time of deployment ideally, but within 24 hours regardless.</p>
+
+                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #1976d2;">Major Releases</h5>
+                            <p style="margin: 0;">Major releases require extra time for sales and support, potentially triggering an all-hands demo of the new feature, how to use it, and what the purpose is. This should come with full documentation and training materials, potentially a collaboration between PM, Sales, Support, and Product Ops.</p>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>⚡ Release Cadence & Exceptions</h4>
-                            <p style="margin-top: 10px;"><strong>Standard:</strong> Per release cycle. Sprint not "Done" without approved release notes.</p>
-
-                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #d84315;">HOTFIXES (Critical bugs outside regular cadence)</h5>
-                            <ul style="margin-left: 20px;">
-                                <li>Immediate: Slack #product-updates post</li>
-                                <li>Within 24hrs: Email to Sales/Support</li>
-                                <li>Format: Brief Slack + link to full details</li>
-                            </ul>
-
-                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #1976d2;">MAJOR RELEASES (Significant features/platform changes)</h5>
-                            <ul style="margin-left: 20px;">
-                                <li>7-10 days advance notice to all stakeholders</li>
-                                <li>Additional: All-hands presentation, Sales demo, full documentation</li>
-                                <li>Prepare: Screenshots/videos, updated help docs, training materials</li>
-                            </ul>
+                            <h4>✅ Keeping the Process Going</h4>
+                            <p style="margin-top: 10px;">Keep it a simple, required task. The existing template provided is clear and concise, and shouldn't take more than <strong>3 hours at most</strong> to write, review and edit, distribute to the appropriate teams.</p>
+                            <p style="margin-top: 10px;">Having a PM that knows the sprint and tasks, write the outline and prepare the template at the beginning of the sprint allows for focus and ability to remove and change any potential tasks that get pushed, rather than scrambling at the end to piece them all together. Utilizing existing tools is also incredibly helpful. Any way to keep a process familiar will help with adoption.</p>
                         </div>
 
                         <div class="assumption-card">
-                            <h4>🤖 Automation (No Additional Cost)</h4>
-                            <p style="margin-top: 10px;"><strong>Recommended Setup:</strong></p>
-                            <ul style="margin-left: 20px; margin-top: 10px;">
-                                <li><strong>PM Tool → Slack:</strong> Auto-post to #product-updates when version marked "Released" (use native webhooks or n8n/Zapier)</li>
-                                <li><strong>Template Pre-fill:</strong> Use PM tool tags to auto-populate categories (Features/Updates/Bugs)</li>
-                            </ul>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>✅ Making It Stick</h4>
-                            <p style="margin-top: 10px;"><strong>Critical Success Factors:</strong></p>
-                            <ul style="margin-left: 20px; margin-top: 10px;">
-                                <li><strong>Time-box:</strong> 2hr write + 45min review + 20min distribute = 3hrs total</li>
-                                <li><strong>Built into DoD:</strong> Sprint incomplete without approved release notes</li>
-                                <li><strong>Start early:</strong> Compile beginning of sprint, not at end</li>
-                                <li><strong>Single owner:</strong> PM writes, Ops approves, backup assigned</li>
-                                <li><strong>Use existing tools:</strong> No new platforms – leverage Slack, email, current PM tool</li>
-                                <li><strong>Review quarterly:</strong> "Still working? What to remove?" Keep it lean.</li>
-                            </ul>
+                            <h4>🤖 Automation Considerations</h4>
+                            <p style="margin-top: 10px;">Most DevOps tools have decently baked in integrations with Slack and/or release notes tools. This might be a further consideration and future refinement allowing more hands off and accurate delivery of release notes per cycle. Some include automated task linkages as well, making it easier to verify tasks per release.</p>
                         </div>
                     </div>
 
@@ -1081,7 +973,7 @@ WHAT'S NEXT
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div>
                                 <p style="font-weight: bold; margin-bottom: 10px; color: #2c3e50;">Before Release:</p>
-                                <ul style="margin-left: 20px; line-height: 1.8;">
+                                <ul style="margin-left: 20px; line-height: 1.8; list-style: none;">
                                     <li>☐ PM tool items tagged (Category, Layer, Audience)</li>
                                     <li>☐ Template A drafted (Sales/Support) + screenshots</li>
                                     <li>☐ Template B drafted (Internal) + technical details</li>
@@ -1093,7 +985,7 @@ WHAT'S NEXT
                             </div>
                             <div>
                                 <p style="font-weight: bold; margin-bottom: 10px; color: #2c3e50;">Distribution:</p>
-                                <ul style="margin-left: 20px; line-height: 1.8;">
+                                <ul style="margin-left: 20px; line-height: 1.8; list-style: none;">
                                     <li>☐ 2-3 days before: Template A → Sales/Support (email)</li>
                                     <li>☐ 2 days before: Template B → #product-updates (Slack)</li>
                                     <li>☐ Release day: Template C → C-Suite (email)</li>

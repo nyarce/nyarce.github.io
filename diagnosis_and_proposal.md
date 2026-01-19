@@ -2,13 +2,15 @@
 
 ## Executive Summary
 
-The current rancher onboarding process averages 90-120 days from contract signing to Project Start Date. Analysis of the sequential workflow time frames suggests as long as **103 days** with up to **17 days as contingency buffer**. Through parallelization, proactive coordination, and dedicated ownership, the proposed process reduces onboarding time to **53 days (49% reduction)**, or **73 days with 20 day contingency buffer (39% reduction)**.
+The current rancher onboarding process averages 90-120 days from contract signing to Project Start Date. Analysis of the sequential workflow time frames suggests **103 days** for the longest path through the process. Through parallelization, proactive coordination, and dedicated ownership, the proposed process reduces onboarding time to **53 days (49% reduction)**, or **73 days with 20-day contingency buffer (29% reduction)**.
 
-**Current Capacity:** 30.4 ranches/coordinator/year (120-day process)
+**Current Capacity:** 35.4 ranches/coordinator/year (103-day process)
 
-**Proposed Capacity:** 50 ranches/coordinator/year (73-day process)
+**Proposed Capacity (Best Case):** 68.9 ranches/coordinator/year (53-day process)
 
-**Impact:** 41% increase in coordinator capacity
+**Proposed Capacity (With Buffer):** 50 ranches/coordinator/year (73-day process)
+
+**Impact:** 94% increase without buffer, or 41% increase with 20-day contingency buffer
 
 ---
 
@@ -104,30 +106,34 @@ A dedicated Rancher Coordinator serves as the central hub for all communication 
 ### Optimization Opportunities
 - **Single Point of Contact:** Eliminate confusion and delays caused by unclear handoff ownership - rancher has one consistent contact throughout the entire onboarding journey
 - **Coordinator as Project Manager:** Coordinator owns all deliverables, handoffs, and communications from contract signature to Project Start Date
-- **Implement project management platform (ClickUp, Monday.com, or similar) with automated task generation:**
+- **Implement project management platform (Monday.com or ClickUp) with automated task generation:**
   - Contract signed → Auto-create ranch onboarding project from template
   - Task completion triggers next-step assignments and deadline recalculations
   - Dependency-based deadline adjustments (if soil sampling delayed → Project Start Date auto-adjusts)
 - **Enable real-time deadline tracking, dependency management, and visibility dashboards:**
   - Coordinator sees all 10 concurrent ranches in one dashboard with color-coded status indicators (on track, at risk, blocked)
   - Multi-view options: List, Board (Kanban), Timeline (Gantt), Calendar
-- **Capacity Impact:** At 53 days per cohort, each Rancher Coordinator can manage 5 cohorts/year × 10 ranches = 50 ranches annually (41% increase from 35.4 ranches/year), assuming full use of 73 days of proposed timeline
+- **Capacity Impact:** At 53 days per cohort, each Rancher Coordinator can manage 6.887 cohorts/year × 10 ranches = 68.9 ranches annually (94% increase from 35.4 ranches/year). With 20-day contingency buffer (73 days), capacity is 5.0 cohorts/year × 10 ranches = 50 ranches annually (41% increase)
 
 ---
 
 ## Contingency Planning
 
 ### Buffer: 20-30 Days
-Adding a contingency buffer brings total timeline to **73 days** (still 47 days faster than originally estimated 120 days).
+Adding a contingency buffer brings total timeline to **73-83 days**.
 
 **Buffer Accounts For:**
-- Implicit buffer in original 120-day estimate (120 actual vs 103 calculated = 17-day buffer)
+- Potential dependency if GMP consultation requires soil results (+20 days)
+- Implicit buffer in original 120-day estimate (120 vs 103 calculated = 17 days)
 - Third-party coordination unpredictability (weather, resource availability)
 
-**Even with maximum buffer (83 days):**
-- 20 days faster than current process (103 days)
-- 37 days faster than original estimate (120 days)
-- 19% improvement vs. current state
+**With 20-day buffer (73 days total):**
+- 30 days faster than current calculated process (103 days) = 29% improvement
+- 47 days faster than original estimate (120 days) = 39% improvement
+
+**Even with 30-day buffer (83 days total):**
+- 20 days faster than current calculated process (103 days) = 19% improvement
+- 37 days faster than original estimate (120 days) = 31% improvement
 
 ---
 
@@ -135,7 +141,7 @@ Adding a contingency buffer brings total timeline to **73 days** (still 47 days 
 
 **Phase 1 (Quick Wins - Low Risk):**
 1. Proactive scheduling data collection during sales cycle
-2. ClickUp template setup with standardized ranch onboarding workflow
+2. PM platform (Monday.com or ClickUp) template setup with standardized ranch onboarding workflow
 3. Establish single Rancher Coordinator as owner for each ranch
 
 **Phase 2 (High Impact - Requires Validation):**
@@ -145,5 +151,5 @@ Adding a contingency buffer brings total timeline to **73 days** (still 47 days 
 
 **Phase 3 (Long-term Optimization):**
 1. Staged rancher training approach (Phase 1 and Phase 2 split)
-2. Automated task generation and deadline recalculation in ClickUp
-3. Integration with CRM, calendar tools, and communication platforms
+2. Automated task generation and deadline recalculation in PM platform
+3. Integration with Salesforce, calendar tools, and communication platforms

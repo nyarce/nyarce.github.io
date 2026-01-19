@@ -312,6 +312,7 @@
             <button class="toggle-btn active" onclick="showCurrent()">Current State (Sequential)</button>
             <button class="toggle-btn" onclick="showOptimized()">Proposed State (Revised)</button>
             <button class="toggle-btn" onclick="showPMTools()">PM Platform & Automation</button>
+            <button class="toggle-btn" onclick="showReleaseNotes()">Release Notes SOP</button>
         </div>
         
         <div class="metrics" id="metrics">
@@ -794,6 +795,236 @@
                         <p style="color: #555; margin: 0;">This section is reserved for Monday.com or ClickUp dashboard screenshots, template configurations, and multi-ranch board views. Content will be added as implementation details are finalized.</p>
                     </div>
                 `;
+            } else if (currentView === 'releasenotes') {
+                document.getElementById('insights').innerHTML = `
+                    <h3>📢 Release Communication SOP</h3>
+                    <p style="margin-bottom: 20px; color: #555;"><strong>PastureMap Product Releases – Implementation-Ready Process</strong></p>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                        <h4 style="margin-bottom: 15px; color: #2c3e50;">Purpose</h4>
+                        <p style="margin: 0;">Define how PastureMap releases are communicated to internal stakeholders: Sales, Operations, Support, Engineering, and Leadership receive the right information at the right time.</p>
+                    </div>
+
+                    <div class="assumption-cards">
+                        <div class="assumption-card">
+                            <h4>📝 Release Notes Structure & Templates</h4>
+                            <p style="margin-top: 10px;"><strong>Core Categories:</strong> All releases are organized into: <strong>Features</strong> (new functionality) • <strong>Updates</strong> (enhancements) • <strong>Bug Fixes</strong> (issue resolution)</p>
+                            <p style="margin-top: 10px;"><strong>Tagging Requirements:</strong> Each task/ticket must have: Category (Feature/Update/Bug) • Layer (Frontend/Backend/Both) • Audience (Customer-facing/Internal-only/Both)</p>
+                            <p style="margin-top: 10px;"><strong>Writing Style:</strong> Present tense • User-focused • Scannable bullets • Action-oriented</p>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>👥 Template A: Sales & Customer-Facing Teams</h4>
+                            <p style="margin-top: 10px;"><strong>When:</strong> Email, 3-4 days before production (or at test server deploy)</p>
+                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP RELEASE - VERSION X.X | Release Date: [Date]
+
+NEW FEATURES
+• [Feature] – Customer Benefit: [why it matters] | How to Use: [link]
+
+UPDATES
+• [Enhancement] – Impact: [how it improves UX]
+
+BUG FIXES
+• [What now works correctly]
+
+TALKING POINTS FOR CUSTOMERS
+• [Key sales messaging]</pre>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>⚙️ Template B: Internal Teams (Eng, Ops, Support)</h4>
+                            <p style="margin-top: 10px;"><strong>When:</strong> Slack #product-updates, 2 days before production (or at beta)</p>
+                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">RELEASE - VERSION X.X | Release: [Date] | Beta: [Date]
+
+NEW FEATURES
+• [Description] – Technical: [API changes, endpoints, migrations]
+
+UPDATES & 🐛 BUG FIXES
+• [Changes/fixes]
+
+TECHNICAL DETAILS
+• Architecture: [changes] | Libraries: [updates] | API: [breaking changes]
+• Config: [env vars, deployment needs]
+
+KNOWN ISSUES
+• [Issue] – Workaround: [temp solution]</pre>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>💼 Template C: C-Suite & Leadership</h4>
+                            <p style="margin-top: 10px;"><strong>When:</strong> Email, same day as production release</p>
+                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP VERSION X.X - EXECUTIVE SUMMARY | Released: [Date]
+
+KEY HIGHLIGHTS
+• [Most significant change] – Strategic Impact: [business alignment]
+
+CUSTOMER IMPACT
+• [Effect on satisfaction, retention, adoption]
+
+WHAT'S NEXT
+• [Upcoming priorities]</pre>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>📊 Distribution Matrix</h4>
+                            <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 14px;">
+                                <thead>
+                                    <tr style="background: #f0f0f0;">
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Audience</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Template</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Channel</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Timing</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Content Focus</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Sales</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">A</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Email</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">3-4 days before</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Customer changes, talking points, demos</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Support</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">A</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Email</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">3-4 days before</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Changes, troubleshooting</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Eng/Ops</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">B</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Slack</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">2 days before (or beta)</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Technical details, API, architecture</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">C-Suite</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">C</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Email</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Same day as release</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">High-level, strategic impact</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>🔄 Workflow & Ownership</h4>
+                            <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 14px;">
+                                <thead>
+                                    <tr style="background: #f0f0f0;">
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Role</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Responsibility</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Product Manager</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Write draft, compile tagged items, create 3 templates</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">~2 hours</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Product Ops/VP</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Review, approve/request edits</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">30-45 min</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Product Manager</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">Distribute via channels</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">20 min</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="margin-top: 15px; font-weight: bold; color: #2c3e50;">Total: <2 hours per release</p>
+
+                            <h5 style="margin-top: 20px; margin-bottom: 10px; color: #2c3e50;">Process Steps</h5>
+                            <ol style="margin-left: 20px; line-height: 1.8;">
+                                <li><strong>During Sprint:</strong> PM compiles notes at beginning of sprint. Ensure all items properly tagged.</li>
+                                <li><strong>5 Days Before Sprint End:</strong> PM finalizes 3 templates, submits to Ops/VP for review.</li>
+                                <li><strong>Review (same/next day):</strong> Ops/VP reviews, provides feedback. PM makes final edits.</li>
+                                <li><strong>Distribution (per matrix):</strong>
+                                    <ul style="margin-left: 20px; margin-top: 5px;">
+                                        <li>3-4 days before: Template A → Sales/Support (email)</li>
+                                        <li>2 days before: Template B → #product-updates (Slack)</li>
+                                        <li>Same day: Template C → C-Suite (email)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Archive:</strong> Add to living document (Confluence/Notion), link to sprint/version.</li>
+                            </ol>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>⚡ Release Cadence & Exceptions</h4>
+                            <p style="margin-top: 10px;"><strong>Standard:</strong> Per release cycle. Sprint not "Done" without approved release notes.</p>
+
+                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #d84315;">HOTFIXES (Critical bugs outside regular cadence)</h5>
+                            <ul style="margin-left: 20px;">
+                                <li>Immediate: Slack #product-updates post</li>
+                                <li>Within 24hrs: Email to Sales/Support</li>
+                                <li>Format: Brief Slack + link to full details</li>
+                            </ul>
+
+                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #1976d2;">MAJOR RELEASES (Significant features/platform changes)</h5>
+                            <ul style="margin-left: 20px;">
+                                <li>7-10 days advance notice to all stakeholders</li>
+                                <li>Additional: All-hands presentation, Sales demo, full documentation</li>
+                                <li>Prepare: Screenshots/videos, updated help docs, training materials</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>🤖 Automation (No Additional Cost)</h4>
+                            <p style="margin-top: 10px;"><strong>Recommended Setup:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>PM Tool → Slack:</strong> Auto-post to #product-updates when version marked "Released" (use native webhooks or n8n/Zapier)</li>
+                                <li><strong>Template Pre-fill:</strong> Use PM tool tags to auto-populate categories (Features/Updates/Bugs)</li>
+                            </ul>
+                        </div>
+
+                        <div class="assumption-card">
+                            <h4>✅ Making It Stick</h4>
+                            <p style="margin-top: 10px;"><strong>Critical Success Factors:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Time-box:</strong> 2hr write + 45min review + 20min distribute = 3hrs total</li>
+                                <li><strong>Built into DoD:</strong> Sprint incomplete without approved release notes</li>
+                                <li><strong>Start early:</strong> Compile beginning of sprint, not at end</li>
+                                <li><strong>Single owner:</strong> PM writes, Ops approves, backup assigned</li>
+                                <li><strong>Use existing tools:</strong> No new platforms – leverage Slack, email, current PM tool</li>
+                                <li><strong>Review quarterly:</strong> "Still working? What to remove?" Keep it lean.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; border-left: 4px solid #2196f3; margin-top: 30px;">
+                        <h4 style="color: #1976d2; margin-bottom: 10px;">📋 Quick Reference Checklist</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <p style="font-weight: bold; margin-bottom: 10px; color: #2c3e50;">Before Release:</p>
+                                <ul style="margin-left: 20px; line-height: 1.8;">
+                                    <li>☐ PM tool items tagged (Category, Layer, Audience)</li>
+                                    <li>☐ Template A drafted (Sales/Support) + screenshots</li>
+                                    <li>☐ Template B drafted (Internal) + technical details</li>
+                                    <li>☐ Template C drafted (C-Suite) + strategic summary</li>
+                                    <li>☐ Product Ops/VP approved</li>
+                                    <li>☐ Full docs ready (major features)</li>
+                                    <li>☐ Added to living document</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="font-weight: bold; margin-bottom: 10px; color: #2c3e50;">Distribution:</p>
+                                <ul style="margin-left: 20px; line-height: 1.8;">
+                                    <li>☐ 2-3 days before: Template A → Sales/Support (email)</li>
+                                    <li>☐ 2 days before: Template B → #product-updates (Slack)</li>
+                                    <li>☐ Release day: Template C → C-Suite (email)</li>
+                                    <li>☐ Release day: Archive in living doc</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
         }
 
@@ -826,6 +1057,16 @@
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             // Hide Gantt chart and metrics for PM Tools view
+            document.getElementById('gantt').style.display = 'none';
+            document.getElementById('metrics').style.display = 'none';
+            renderInsights();
+        }
+
+        function showReleaseNotes() {
+            currentView = 'releasenotes';
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            // Hide Gantt chart and metrics for Release Notes view
             document.getElementById('gantt').style.display = 'none';
             document.getElementById('metrics').style.display = 'none';
             renderInsights();

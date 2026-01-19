@@ -179,3 +179,29 @@
 - Updated all cards to be tool-agnostic (works for both Monday.com and ClickUp)
 - 6 cards total: Core Features, Automation Examples, Dashboard Views, Integrations, Salesforce Data Transfer, plus Automation Flow visual
 
+### Cross-Document Consistency Check & Fixes
+- **Identified major baseline inconsistencies** across documents
+- **Fixed diagnosis_and_proposal.md** to use consistent 103-day baseline:
+  - Current: 103 days → 35.4 ranches/year
+  - Proposed: 53 days → 68.9 ranches/year (94% increase)
+  - With buffer: 73 days → 50 ranches/year (41% increase)
+- **Corrected capacity calculations** (Line 116): Fixed from "5 cohorts = 50 ranches (41%)" to "6.887 cohorts = 68.9 ranches (94%)"
+- **Updated contingency planning section** with accurate math for both 20-day and 30-day buffers
+- **Changed all tool references** from "ClickUp" to "Monday.com or ClickUp" for consistency with other documents
+- All documents now aligned on baselines, capacity numbers, and tool recommendations
+
+### Release Notes SOP Addition
+- **Added fourth button to index.html:** "Release Notes SOP" view
+- Imported and formatted content from /Users/nyarce/Documents/Final-ReleaseNotes.md
+- **Formatted sections include:**
+  - Purpose statement
+  - Release Notes Structure & Templates (3 templates: Sales/Customer, Internal, C-Suite)
+  - Distribution Matrix table (showing audience, template, channel, timing, content focus)
+  - Workflow & Ownership table (roles, responsibilities, time estimates)
+  - Process Steps (5-step workflow)
+  - Release Cadence & Exceptions (Hotfixes and Major Releases)
+  - Automation recommendations
+  - Making It Stick (critical success factors)
+  - Quick Reference Checklist (2-column grid with Before Release and Distribution checklists)
+- All content styled consistently with existing assumption cards and tables
+

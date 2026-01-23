@@ -209,9 +209,10 @@
     </style>
 </head>
 <body>
-    <div class="header">
+    <div class="header" style="position: relative;">
         <h1>Product Operations Manager Assignment</h1>
         <p>Grassroots Carbon | Ny Arce</p>
+        <a href="index.html" style="position: absolute; top: 20px; right: 20px; background: white; color: #2d5016; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">← Visuals</a>
     </div>
 
     <div class="container">
@@ -275,7 +276,7 @@
             <h3>3. Process Parallels</h3>
             <p>The timeline given seems to be based on everything running in sequence with very little overlap. Unless grazing management consultations have any sort of go/no-go indicators from soil sampling, my assumption is that these consultants could be in the field during the same weeks, if possible.</p>
 
-            <p>There's some unknowns about ranchers limiting access to one vendor at a time as well, but I'll assume that this is non-issue and it's truly a matter of organization and cleaning up tracking so a coordinator can see the process and plan smoother.</p>
+            <p>There's some unknowns about ranchers limiting access to one vendor at a time as well, but I'll assume that this is a non-issue and it's truly a matter of organization and cleaning up tracking so a coordinator can see the process and plan smoother.</p>
 
             <h4>Training Restructure</h4>
             <p>Training is another area that I would consider moving around in the process, and potentially creating two separate sessions:</p>
@@ -554,7 +555,7 @@
 
             <div class="highlight-box">
                 <h4 style="margin-top: 0;">Tips</h4>
-                <p style="margin-bottom: 0;"><strong>Batching your work</strong> (such as appointment scheduling, rancher updates) helps getting similar tasks done. Context switching often leads to lost processes or dropped focus.</p>
+                <p style="margin-bottom: 0;"><strong>Batching your work</strong> (such as appointment scheduling, rancher updates) helps get similar tasks done. Context switching often leads to lost processes or dropped focus.</p>
             </div>
         </div>
 
@@ -577,8 +578,8 @@
             <p>An optional C-Suite template may be requested with high-level reviews of changes and updates with direct impact analysis, if desired.</p>
 
             <ul>
-                <li><strong>Template A (Internal):</strong> Goes to all internal engineering teams, data teams, Ops, sent to Slack, etc.</li>
-                <li><strong>Template B (External):</strong> Pared down version for Sales and Support teams—removes Technical Details and backend only tasks.</li>
+                <li><strong>Template A:</strong> Goes to all internal engineering teams, data teams, Ops, sent to Slack, etc.</li>
+                <li><strong>Template B:</strong> Pared down version for Sales and Support teams—removes Technical Details and backend only tasks.</li>
             </ul>
 
             <div class="section-divider"></div>
@@ -628,21 +629,21 @@ WHAT TEAMS SHOULD KNOW
                 <tbody>
                     <tr>
                         <td>Sales</td>
-                        <td>A</td>
+                        <td>B</td>
                         <td>Email</td>
                         <td>3-4 days before</td>
                         <td>Customer changes, talking points, demos</td>
                     </tr>
                     <tr>
                         <td>Support</td>
-                        <td>A</td>
+                        <td>B</td>
                         <td>Email</td>
                         <td>3-4 days before</td>
                         <td>Changes, troubleshooting</td>
                     </tr>
                     <tr>
                         <td>Eng/Ops</td>
-                        <td>B</td>
+                        <td>A</td>
                         <td>Slack</td>
                         <td>2 days before (or beta)</td>
                         <td>Technical details, API, architecture</td>
@@ -679,8 +680,8 @@ WHAT TEAMS SHOULD KNOW
                 <h4 style="margin-top: 0;">Before Release</h4>
                 <ul style="margin-bottom: 0;">
                     <li>PM tool items tagged (Category, Layer, Audience)</li>
-                    <li>Template A drafted (Sales/Support) + screenshots</li>
-                    <li>Template B drafted (Internal) + technical details</li>
+                    <li>Template A drafted (Internal) + technical details</li>
+                    <li>Template B drafted (Sales/Support) + screenshots</li>
                     <li>Template C drafted (C-Suite) + strategic summary</li>
                     <li>Product Ops/VP approved</li>
                     <li>Full docs ready (major features)</li>
@@ -691,8 +692,8 @@ WHAT TEAMS SHOULD KNOW
             <div class="metric-card">
                 <h4 style="margin-top: 0;">Distribution</h4>
                 <ul style="margin-bottom: 0;">
-                    <li>2-3 days before: Template A → Sales/Support (email)</li>
-                    <li>2 days before: Template B → #product-updates (Slack)</li>
+                    <li>3-4 days before: Template B → Sales/Support (email)</li>
+                    <li>2 days before: Template A → #product-updates (Slack)</li>
                     <li>Release day: Template C → C-Suite (email)</li>
                     <li>Release day: Archive in living doc</li>
                 </ul>

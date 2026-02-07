@@ -1,1145 +1,961 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grassroots Carbon - Rancher Onboarding Process Analysis</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #f5f7fa;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
-        
-        .subtitle {
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
-        .controls {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .toggle-btn {
-            padding: 10px 20px;
-            border: 2px solid #3498db;
-            background: white;
-            color: #3498db;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .toggle-btn.active {
-            background: #3498db;
-            color: white;
-        }
-        
-        .toggle-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-        }
-        
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .metric-card {
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-            color: white;
-        }
-        
-        .metric-card.success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        }
-        
-        .metric-card.warning {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .metric-label {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 5px;
-        }
-        
-        .metric-value {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .chart-container {
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-        
-        .gantt-chart {
-            min-width: 1200px;
-        }
-        
-        .timeline-header {
-            display: flex;
-            margin-bottom: 10px;
-            padding-left: 300px;
-        }
-        
-        .day-marker {
-            flex: 1;
-            text-align: center;
-            font-size: 11px;
-            color: #95a5a6;
-            padding: 5px;
-            border-left: 1px solid #ecf0f1;
-        }
-        
-        .task-row {
-            display: flex;
-            margin-bottom: 8px;
-            align-items: center;
-            position: relative;
-        }
-        
-        .task-info {
-            width: 300px;
-            padding-right: 20px;
-        }
-        
-        .task-name {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
-        
-        .task-meta {
-            font-size: 11px;
-            color: #95a5a6;
-        }
-        
-        .timeline {
-            flex: 1;
-            position: relative;
-            height: 40px;
-            display: flex;
-        }
-        
-        .timeline-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-        }
-        
-        .day-bg {
-            flex: 1;
-            border-left: 1px solid #ecf0f1;
-        }
-        
-        .day-bg:nth-child(7n) {
-            background: #f8f9fa;
-        }
-        
-        .task-bar {
-            position: absolute;
-            height: 28px;
-            top: 6px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            color: white;
-            font-size: 11px;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .task-bar:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        .task-bar.third-party {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-            color: #2c3e50;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ny Arce | Project Manager & Product Owner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #E85D24;
+      --orange-light: #F4793B;
+      --mustard: #E5A825;
+      --brown: #5C4033;
+      --brown-light: #8B6914;
+      --cream: #FDF6E3;
+      --cream-dark: #F5E6C8;
+      --rust: #C1440E;
+      --text: #3D2914;
+      --text-light: #6B5344;
+      --white: #FFFDF9;
+    }
 
-        .task-bar.buffer {
-            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
-            color: #2c3e50;
-            border: 2px dashed #636e72;
-        }
-        
-        .dependency-arrow {
-            position: absolute;
-            stroke: #95a5a6;
-            stroke-width: 2;
-            fill: none;
-            pointer-events: none;
-            opacity: 0.4;
-        }
-        
-        .legend {
-            display: flex;
-            gap: 20px;
-            margin-top: 30px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-        }
-        
-        .legend-color {
-            width: 24px;
-            height: 12px;
-            border-radius: 3px;
-        }
-        
-        .insights {
-            margin-top: 30px;
-            padding: 20px;
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            border-radius: 4px;
-        }
-        
-        .insights h3 {
-            color: #856404;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        
-        .insights ul {
-            margin-left: 20px;
-            color: #856404;
-        }
-        
-        .insights li {
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-        .assumption-cards {
-            margin-top: 30px;
-            display: grid;
-            gap: 20px;
-        }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .assumption-card {
-            padding: 20px;
-            background: white;
-            border: 2px solid #e3f2fd;
-            border-left: 4px solid #2196f3;
-            border-radius: 8px;
-        }
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 1000;
+    }
 
-        .assumption-card h4 {
-            color: #1976d2;
-            margin-bottom: 12px;
-            font-size: 15px;
-        }
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(253,246,227,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid var(--brown);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    nav .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900; font-size: 1.5rem;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      text-decoration: none; color: var(--text);
+      font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      transition: color 0.2s;
+      position: relative;
+    }
+    nav a::after {
+      content: ''; position: absolute;
+      bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--orange);
+      transition: width 0.3s ease;
+    }
+    nav a:hover { color: var(--orange); }
+    nav a:hover::after { width: 100%; }
 
-        .assumption-card p {
-            color: #546e7a;
-            font-size: 13px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
+    .hamburger {
+      display: none; cursor: pointer; background: none; border: none;
+      flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 28px; height: 3px;
+      background: var(--brown); transition: 0.3s; border-radius: 2px;
+    }
 
-        .assumption-card .question {
-            color: #d84315;
-            font-weight: 600;
-            margin-top: 10px;
-        }
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 50%, rgba(229,168,37,0.15) 100%);
+      position: relative;
+    }
+    .hero-content {
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+    .hero-label {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      transform: rotate(-2deg);
+    }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+    .hero h1 .highlight {
+      color: var(--orange);
+      position: relative;
+      display: inline-block;
+    }
+    .hero h1 .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 0.1em; left: -0.05em; right: -0.05em;
+      height: 0.25em;
+      background: var(--mustard);
+      z-index: -1;
+      transform: skew(-12deg);
+    }
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--text-light);
+      max-width: 550px;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: var(--brown);
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
+      border: 3px solid var(--brown);
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-cta::before {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: var(--orange);
+      transition: left 0.3s ease;
+      z-index: 0;
+    }
+    .hero-cta:hover::before { left: 0; }
+    .hero-cta span { position: relative; z-index: 1; }
+    .hero-cta svg { position: relative; z-index: 1; transition: transform 0.2s; }
+    .hero-cta:hover svg { transform: translateX(4px); }
 
-        .assumption-card ul {
-            margin-top: 8px;
-            margin-left: 20px;
-            color: #546e7a;
-        }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      color: var(--text-light); font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 1px;
+      animation: bounce 2s infinite;
+    }
+    .scroll-hint::after {
+      content: ''; width: 16px; height: 16px; margin-top: 0.5rem;
+      border-right: 3px solid var(--orange);
+      border-bottom: 3px solid var(--orange);
+      transform: rotate(45deg);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
 
-        .assumption-card li {
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-    </style>
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .section-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: var(--mustard);
+      opacity: 0.5;
+      line-height: 1;
+    }
+    section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--brown);
+      letter-spacing: -1px;
+    }
+
+    /* ABOUT */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+    .about-text p {
+      color: var(--text-light);
+      font-size: 1.05rem;
+      margin-bottom: 1.25rem;
+    }
+    .about-text p:first-child::first-letter {
+      font-family: 'Outfit', sans-serif;
+      font-size: 4rem;
+      font-weight: 900;
+      float: left;
+      line-height: 0.8;
+      margin-right: 0.5rem;
+      margin-top: 0.1rem;
+      color: var(--orange);
+    }
+    .about-looking {
+      background: var(--brown);
+      color: var(--cream);
+      padding: 2rem;
+      position: relative;
+    }
+    .about-looking::before {
+      content: 'Currently Seeking';
+      position: absolute; top: -0.75rem; left: 1.5rem;
+      background: var(--orange);
+      color: var(--white);
+      padding: 0.3rem 0.75rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .about-looking p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    .strengths-list {
+      list-style: none;
+      margin-top: 2rem;
+    }
+    .strengths-list li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+    .strengths-list li::before {
+      content: '→';
+      color: var(--orange);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: var(--white);
+      border: 3px solid var(--brown);
+      padding: 0;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .project-card:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 8px 8px 0 var(--brown);
+    }
+    .project-card-header {
+      background: var(--mustard);
+      padding: 1rem 1.5rem;
+      border-bottom: 3px solid var(--brown);
+    }
+    .project-card-header span {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--brown);
+    }
+    .project-card-body {
+      padding: 1.5rem;
+    }
+    .project-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      color: var(--brown);
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    .project-stat {
+      display: inline-block;
+      background: var(--cream);
+      border: 2px solid var(--orange);
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    /* EXPERIENCE */
+    .experience-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      padding: 3rem 0;
+      border-bottom: 2px solid var(--cream-dark);
+      position: relative;
+    }
+    .experience-item:last-child { border-bottom: none; }
+    .experience-date {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+    }
+    .experience-date .years {
+      display: block;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--mustard);
+      margin-bottom: 0.25rem;
+    }
+    .experience-content h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brown);
+      margin-bottom: 0.25rem;
+    }
+    .experience-content .company {
+      font-size: 1rem;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .experience-content ul {
+      list-style: none;
+    }
+    .experience-content li {
+      position: relative;
+      padding-left: 1.5rem;
+      padding-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+    .experience-content li::before {
+      content: '●';
+      position: absolute;
+      left: 0;
+      color: var(--mustard);
+      font-size: 0.6rem;
+      top: 0.4rem;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial-section {
+      background: var(--brown);
+      padding: 5rem 2rem;
+      margin: 4rem 0;
+      position: relative;
+    }
+    .testimonial-section::before {
+      content: '"';
+      font-family: 'Outfit', sans-serif;
+      font-size: 20rem;
+      font-weight: 900;
+      color: var(--orange);
+      opacity: 0.15;
+      position: absolute;
+      top: -2rem; left: 2rem;
+      line-height: 1;
+    }
+    .testimonial-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .testimonial-content blockquote {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--cream);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .testimonial-author-info {
+      color: var(--cream);
+    }
+    .testimonial-author-info strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--mustard);
+    }
+    .testimonial-author-info span {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    /* SKILLS */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .skill-category h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--mustard);
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      background: var(--white);
+      border: 2px solid var(--brown);
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      background: var(--mustard);
+      border-color: var(--mustard);
+      transform: translateY(-2px);
+    }
+
+    /* VOLUNTEER */
+    .volunteer-card {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--rust) 100%);
+      padding: 3rem;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .volunteer-card::after {
+      content: '♥';
+      position: absolute;
+      right: 2rem; bottom: 1rem;
+      font-size: 8rem;
+      opacity: 0.1;
+    }
+    .volunteer-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .volunteer-card .org {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+    .volunteer-card p {
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* CONTACT */
+    .contact-section {
+      background: var(--white);
+      border: 3px solid var(--brown);
+      padding: 3rem;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: -8px; bottom: -8px;
+      background: var(--mustard);
+      z-index: -1;
+    }
+    .contact-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 3px solid var(--cream-dark);
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--cream);
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .contact-section button {
+      padding: 1rem 2rem;
+      background: var(--orange);
+      border: 3px solid var(--brown);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--white);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .contact-section button:hover {
+      background: var(--brown);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--orange);
+    }
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+    .social-links a {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.75rem 1.25rem;
+      border: 2px solid var(--brown);
+      transition: all 0.2s;
+    }
+    .social-links a:hover {
+      background: var(--brown);
+      color: var(--cream);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--brown);
+      color: var(--cream);
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 4rem;
+    }
+    footer .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+    footer p {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background: var(--cream);
+        padding: 1.5rem 2rem;
+        border-bottom: 3px solid var(--brown);
+        gap: 1rem;
+      }
+      nav ul.open { display: flex; }
+      .hamburger { display: flex; }
+
+      .hero { padding: 7rem 1.5rem 4rem; min-height: auto; padding-bottom: 6rem; }
+      .hero h1 { font-size: clamp(2.5rem, 12vw, 4rem); }
+
+      section { padding: 3rem 1.5rem; }
+
+      .about-content { grid-template-columns: 1fr; gap: 2rem; }
+
+      .experience-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 2rem 0;
+      }
+      .experience-date { display: flex; align-items: center; gap: 0.5rem; }
+      .experience-date .years { font-size: 1.25rem; margin-bottom: 0; }
+
+      .contact-section { padding: 2rem 1.5rem; }
+      .contact-section::before { display: none; }
+
+      .testimonial-section { padding: 3rem 1.5rem; }
+      .testimonial-section::before { font-size: 10rem; top: -1rem; }
+    }
+
+    /* FUN INTERACTIONS */
+    .wiggle:hover {
+      animation: wiggle 0.5s ease;
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-            <div>
-                <h1>Grassroots Carbon - Product Operations Exercise</h1>
-                <div class="subtitle">Ny Arce</div>
-            </div>
-            <a href="draft.html" style="background: #3498db; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap;">Talking Points →</a>
-        </div>
 
-        <div class="controls">
-            <button class="toggle-btn active" onclick="showCurrent()">Current State (Sequential)</button>
-            <button class="toggle-btn" onclick="showOptimized()">Proposed State (Revised)</button>
-            <button class="toggle-btn" onclick="showPlaybook()">Onboarding Playbook</button>
-            <button class="toggle-btn" onclick="showFeedbackSystem()">Feedback System</button>
-            <button class="toggle-btn" onclick="showReleaseNotes()">Release Notes SOP</button>
-        </div>
-        
-        <div class="metrics" id="metrics">
-            <!-- Dynamically populated -->
-        </div>
-        
-        <div class="chart-container">
-            <div class="gantt-chart" id="gantt">
-                <!-- Dynamically populated -->
-            </div>
-        </div>
-        
-        <div class="legend" id="legend">
-            <div class="legend-item">
-                <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                <span>Internal GRC Process</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);"></div>
-                <span>Third-Party Coordination</span>
-            </div>
-            <div class="legend-item" id="buffer-legend" style="display: none;">
-                <div class="legend-color" style="background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%); border: 2px dashed #636e72;"></div>
-                <span>Contingency Buffer</span>
-            </div>
-        </div>
-        
-        <div class="insights" id="insights">
-            <!-- Dynamically populated -->
-        </div>
+<nav>
+  <span class="logo wiggle">Ny Arce</span>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-label">Project Manager / Product Owner</span>
+    <h1>
+      I ship <span class="highlight">projects</span><br>
+      that matter.
+    </h1>
+    <p class="hero-subtitle">
+      Nine years managing complex projects — first in oil & gas infrastructure, now in software. I bridge the gap between technical teams and business goals.
+    </p>
+    <a class="hero-cta" href="#contact">
+      <span>Let's Talk</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</header>
+
+<section id="about">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2>About</h2>
+  </div>
+  <div class="about-content">
+    <div class="about-text">
+      <p>Nine years managing complex projects — first in oil & gas infrastructure, now in software development. I spent eight years at EOG Resources coordinating capital projects with budgets up to $10M across engineering, operations, and regulatory teams. Tight deadlines, high stakes, zero room for error.</p>
+      <p>That foundation taught me how to manage dependencies, mitigate risks, and keep stakeholders aligned when things get complicated. For the past three years, I've applied that same discipline to software project management — facilitating Agile teams, maintaining product backlogs, and coordinating releases for distributed development teams.</p>
+      <p>My technical background (software development certificate, CSM certified) means I can bridge the gap between business requirements and technical execution without getting lost in translation.</p>
+
+      <ul class="strengths-list">
+        <li>Managing multiple concurrent projects without dropping balls</li>
+        <li>Identifying risks early and doing something about them</li>
+        <li>Translating between technical teams and business stakeholders</li>
+        <li>Building processes that help teams ship consistently</li>
+      </ul>
     </div>
-    
-    <script>
-        const currentState = {
-            title: "Current State (Sequential Process)",
-            totalDays: 103, // Maximum durations, fully sequential
-            tasks: [
-                {
-                    id: 1,
-                    name: "Contract Signed",
-                    owner: "Sales",
-                    start: 0,
-                    duration: 0,
-                    dependencies: [],
-                    type: "milestone"
-                },
-                {
-                    id: 2,
-                    name: "Ranch Mapped in PastureMap",
-                    owner: "Map Specialist",
-                    start: 0,
-                    duration: 10, // max of 5-10
-                    dependencies: [1],
-                    type: "internal"
-                },
-                {
-                    id: 3,
-                    name: "Soil Sampling Scheduled",
-                    owner: "Rancher Coordinator",
-                    start: 10,
-                    duration: 20, // max of 10-20
-                    dependencies: [2],
-                    type: "internal"
-                },
-                {
-                    id: 4,
-                    name: "Soil Sampling Completed",
-                    owner: "EarthOptics (3rd party)",
-                    start: 30,
-                    duration: 14, // max of 7-14
-                    dependencies: [3],
-                    type: "third-party"
-                },
-                {
-                    id: 5,
-                    name: "GMP Consultation",
-                    owner: "Grazing Engineer (Understanding Ag)",
-                    start: 44,
-                    duration: 30, // max of 15-30
-                    dependencies: [4],
-                    type: "third-party"
-                },
-                {
-                    id: 6,
-                    name: "GMP Delivered to Rancher",
-                    owner: "Grazing Engineer",
-                    start: 74,
-                    duration: 14, // max of 7-14
-                    dependencies: [5],
-                    type: "third-party"
-                },
-                {
-                    id: 7,
-                    name: "Rancher Trained on PastureMap",
-                    owner: "PastureMap Specialist",
-                    start: 88,
-                    duration: 10, // max of 5-10
-                    dependencies: [6],
-                    type: "internal"
-                },
-                {
-                    id: 8,
-                    name: "Project Start Date Established",
-                    owner: "MRV Team",
-                    start: 98,
-                    duration: 5, // max of 3-5
-                    dependencies: [7],
-                    type: "internal"
-                }
-            ]
-        };
-        
-        const optimizedState = {
-            title: "Proposed State (Parallelized + 20-Day Buffer)",
-            totalDays: 73, // 53 days optimistic + 20-day contingency buffer
-            tasks: [
-                {
-                    id: 1,
-                    name: "Contract Signed",
-                    owner: "Sales → Rancher Coordinator",
-                    start: 0,
-                    duration: 0,
-                    dependencies: [],
-                    type: "milestone"
-                },
-                {
-                    id: 2,
-                    name: "Ranch Mapped in PastureMap",
-                    owner: "Map Specialist",
-                    start: 0,
-                    duration: 5,
-                    dependencies: [1],
-                    type: "internal"
-                },
-                {
-                    id: 3,
-                    name: "Soil Sampling Scheduled + Completed",
-                    owner: "Coordinator → EarthOptics",
-                    start: 0,
-                    duration: 34,
-                    dependencies: [1],
-                    type: "third-party",
-                    note: "Pre-scheduled during sales cycle, runs parallel to GMP"
-                },
-                {
-                    id: 4,
-                    name: "GMP Consultation",
-                    owner: "Understanding Ag",
-                    start: 0,
-                    duration: 34,
-                    dependencies: [2],
-                    type: "third-party",
-                    note: "Runs parallel to soil sampling"
-                },
-                {
-                    id: 5,
-                    name: "Soil Results + GMP Delivery",
-                    owner: "Grazing Engineer",
-                    start: 34,
-                    duration: 14,
-                    dependencies: [3, 4],
-                    type: "third-party"
-                },
-                {
-                    id: 6,
-                    name: "Rancher Training",
-                    owner: "PastureMap Specialist",
-                    start: 42,
-                    duration: 10,
-                    dependencies: [2],
-                    type: "internal",
-                    note: "Overlaps with GMP delivery"
-                },
-                {
-                    id: 7,
-                    name: "Project Start Date",
-                    owner: "MRV Team",
-                    start: 48,
-                    duration: 5,
-                    dependencies: [5, 6],
-                    type: "internal"
-                },
-                {
-                    id: 8,
-                    name: "Contingency Buffer",
-                    owner: "Built-in padding",
-                    start: 53,
-                    duration: 20,
-                    dependencies: [7],
-                    type: "buffer"
-                }
-            ]
-        };
-        
-        let currentView = 'current';
-        
-        function renderGantt(state) {
-            // Fixed scale: 17 weeks (119 days) for both charts - drama!
-            const daysToShow = 119;
-            
-            let html = '<div class="timeline-header">';
-            for (let i = 0; i <= daysToShow; i += 7) {
-                html += `<div class="day-marker">Week ${i/7 + 1}<br/>(Day ${i})</div>`;
-            }
-            html += '</div>';
-            
-            state.tasks.forEach(task => {
-                const widthPercent = (task.duration / daysToShow) * 100;
-                const leftPercent = (task.start / daysToShow) * 100;
-                const isThirdParty = task.type === 'third-party';
-                const isBuffer = task.type === 'buffer';
+    <div class="about-looking">
+      <p>Mission-driven work in climate, water resources, or public infrastructure. I'm based in San Antonio and want to work on projects that actually matter.</p>
+    </div>
+  </div>
+</section>
 
-                let barClass = 'task-bar';
-                if (isThirdParty) barClass += ' third-party';
-                if (isBuffer) barClass += ' buffer';
-                
-                html += `
-                    <div class="task-row">
-                        <div class="task-info">
-                            <div class="task-name">${task.name}</div>
-                            <div class="task-meta">${task.owner} • ${task.duration} days</div>
-                        </div>
-                        <div class="timeline">
-                            <div class="timeline-bg">
-                                ${Array(Math.ceil(daysToShow)).fill('<div class="day-bg"></div>').join('')}
-                            </div>
-                            ${task.duration > 0 ? `
-                                <div class="${barClass}" 
-                                     style="left: ${leftPercent}%; width: ${widthPercent}%;"
-                                     title="${task.name}: ${task.duration} days">
-                                    ${task.duration > 0 ? task.duration + 'd' : ''}
-                                </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            document.getElementById('gantt').innerHTML = html;
-        }
-        
-        function renderMetrics(state) {
-            // Using 120 days as baseline for current (includes implicit buffer)
-            // and 73 days for proposed (53 optimistic + 20 buffer)
-            const currentBaseline = 120;
-            const proposedDays = 73;
-            const savings = currentBaseline - proposedDays; // 47 days
-            const savingsPercent = ((savings / currentBaseline) * 100).toFixed(0); // ~39%
+<section id="projects">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2>Projects</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span>Process Improvement</span>
+      </div>
+      <div class="project-card-body">
+        <h3>QA Process Overhaul</h3>
+        <p>Established comprehensive QA processes and testing protocols for a boutique software consultancy, including code review oversight and systematic quality checks.</p>
+        <span class="project-stat">30% fewer post-deploy issues</span>
+      </div>
+    </div>
 
-            // Capacity: 10 concurrent ranches per coordinator
-            // Current: 365/120 * 10 = ~31 ranches/year
-            // Proposed: 365/73 * 10 = ~50 ranches/year
-            const currentCapacity = 31;
-            const proposedCapacity = 50;
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span>Financial Recovery</span>
+      </div>
+      <div class="project-card-body">
+        <h3>Contractor Billing Audit</h3>
+        <p>Developed tracking and reporting tools that improved project visibility and data accuracy, uncovering significant discrepancies in contractor invoicing.</p>
+        <span class="project-stat">$250K recovered</span>
+      </div>
+    </div>
 
-            const capacityDisplay = currentView === 'optimized' ?
-                `${proposedCapacity} ranches/coord/year` :
-                `${currentCapacity} ranches/coord/year`;
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span>Infrastructure</span>
+      </div>
+      <div class="project-card-body">
+        <h3>Pipeline Program Delivery</h3>
+        <p>Managed 8+ concurrent infrastructure projects totaling 2,000+ miles of pipeline construction, coordinating across engineering, operations, regulatory, and finance teams.</p>
+        <span class="project-stat">7% under budget avg.</span>
+      </div>
+    </div>
 
-            const timelineDisplay = currentView === 'optimized' ?
-                `${state.totalDays} days` :
-                `90-120 days`;
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span>Community</span>
+      </div>
+      <div class="project-card-body">
+        <h3>Pride Center Fundraiser</h3>
+        <p>Organized and executed a 30-hour livestream event featuring interviews with the Program Director, raising the largest single-donor contribution in the organization's history.</p>
+        <span class="project-stat">Record-breaking donation</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-            const html = `
-                <div class="metric-card">
-                    <div class="metric-label">Timeline</div>
-                    <div class="metric-value" style="font-size: 24px;">${timelineDisplay}</div>
-                </div>
-                <div class="metric-card ${currentView === 'optimized' ? 'success' : ''}">
-                    <div class="metric-label">Time Savings</div>
-                    <div class="metric-value">${currentView === 'optimized' ? '30-47 days' : '—'}</div>
-                </div>
-                <div class="metric-card ${currentView === 'optimized' ? 'success' : 'warning'}">
-                    <div class="metric-label">Annual Capacity</div>
-                    <div class="metric-value" style="font-size: 16px;">${capacityDisplay}</div>
-                </div>
-            `;
+<div class="testimonial-section">
+  <div class="testimonial-content reveal">
+    <blockquote>
+      "For the many years I have known Ny as a professional and PM of multi-million dollar projects, she has executed at an exceptional level. Ny's innate and acquired organizational skills, as well as her ability to communicate efficiently and cordially with anybody empowers her to excel in team-oriented/collaborative work environments. Her hard-charging moxie ensures that the work is done the right way, efficiently, and always to standard."
+    </blockquote>
+    <div class="testimonial-author">
+      <div class="testimonial-author-info">
+        <strong>Dean Lantrip</strong>
+        <span>Director, Operations</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-            document.getElementById('metrics').innerHTML = html;
-        }
-        
-        function renderInsights() {
-            if (currentView === 'current') {
-                document.getElementById('insights').innerHTML = `
-                    <h3>🔍 Current State Bottlenecks:</h3>
-                    <ul>
-                        <li><strong>Bottleneck #1 - Uncertain Handoffs and Point of Contact:</strong> Multiple moving parts with no centralized point of contact. Ranchers potentially contacted by multiple vendors. Handoffs between steps often stall with no clear ownership.</li>
-                        <li><strong>Bottleneck #2 - Reactive Scheduling and Coordination:</strong> Scheduling and mapping information only begins once sales hands off to coordinators. No pre-planning or soft-scheduling with vendors (UnderstandingAg, EarthOptics) during sales process.</li>
-                        <li><strong>Bottleneck #3 - Process Parallels:</strong> Timeline based on everything running in sequence with very little overlap. Soil sampling and GMP consultation could run in parallel if GMP doesn't require soil results as a go/no-go.</li>
-                    </ul>
-                `;
-            } else if (currentView === 'optimized') {
-                document.getElementById('insights').innerHTML = `
-                    <h3>✅ Proposed Optimizations (73 Days with Buffer):</h3>
-                    <ul>
-                        <li><strong>Timeline:</strong> 53 days optimistic + 20-day contingency buffer = <strong>73 days total</strong>. Still 30-47 days faster than current 90-120 day process.</li>
-                        <li><strong>Capacity Impact:</strong> Coordinator capacity increases from ~31 ranches/year to ~50 ranches/year (assuming 10 concurrent ranches). Start ambitious and learn as you go.</li>
-                        <li><strong>Single Point of Contact:</strong> Coordinator handles all communication with vendors, ranchers, and internal teams. Formal introduction with Sales—no blind handoffs, no surprise phone calls.</li>
-                        <li><strong>Proactive Scheduling:</strong> During sales, gather land info (Parcel IDs, shapefiles) and schedule blockers (calving, branding). Coordinators soft-plan with vendors before contract signed.</li>
-                        <li><strong>Full Parallelization:</strong> Soil sampling and GMP consultation run concurrently (Day 0-34), provided GMP doesn't require soil results as go/no-go.</li>
-                        <li><strong>Strategic Training:</strong> Training (Day 42-52) overlaps with GMP delivery. Potential two-session approach to keep rancher engaged earlier.</li>
-                        <li><strong>Contingency Buffer (20 days):</strong> Accounts for missed calls, emergency schedule changes, vendor conflicts, rancher availability. Brings optimistic 53 days to realistic 73 days.</li>
-                    </ul>
+<section id="experience">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2>Experience</h2>
+  </div>
 
-                    <div class="assumption-cards">
-                        <div class="assumption-card">
-                            <h4>📍 Mapping Process</h4>
-                            <p><strong>Assumption:</strong> Mapping duration can be brought down to 5 days (from 5-10 day range) by getting pre-emptive map information from ranchers or pulling data from satellite imagery.</p>
-                            <p class="question">Question: Is the 5-10 day window driven by team capacity or manual GIS processes that could be streamlined?</p>
-                            <p><strong>Further Optimization Opportunities:</strong></p>
-                            <ul>
-                                <li>ArcGIS deep learning / Living Atlas for automated boundary detection</li>
-                                <li>Request existing shapefiles from ranchers using modern surveillance</li>
-                                <li>Pull data from satellite imagery, county data, Parcel IDs</li>
-                            </ul>
-                        </div>
+  <div class="experience-item reveal">
+    <div class="experience-date">
+      <span class="years">3+</span>
+      Oct 2022 — Present
+    </div>
+    <div class="experience-content">
+      <h3>Project Manager / Product Owner</h3>
+      <p class="company">Zelifcam LLC — San Antonio, TX</p>
+      <ul>
+        <li>Lead project delivery for boutique software consultancy serving healthcare, tech, and business services clients</li>
+        <li>Manage distributed team of 6 developers (4 offshore, 2 onsite) across 5 active accounts</li>
+        <li>Maintain 95%+ sprint completion rate across multiple concurrent client projects</li>
+        <li>Established QA processes that reduced post-deployment issues by 30%</li>
+        <li>Coordinate release cycles, code reviews, and production deployments</li>
+        <li>Translate business requirements into technical specifications as primary stakeholder liaison</li>
+      </ul>
+    </div>
+  </div>
 
-                        <div class="assumption-card">
-                            <h4>⚡ Parallelized Processes</h4>
-                            <p><strong>Assumption:</strong> Soil sampling and GMP consultation can run in parallel—consultants could be in the field during the same weeks if GMP doesn't require soil results as go/no-go.</p>
-                            <p class="question">Question: Does GMP consultation rely on soil sampling results? Are vendors largely self-managed or do they need rancher input?</p>
-                            <p><strong>Risk:</strong> If soil results required before GMP can proceed, need validation that grazing planning can proceed without finalized soil samples.</p>
-                            <p><strong>Proactive Scheduling Opportunity:</strong></p>
-                            <ul>
-                                <li>During sales, gather land info (Parcel IDs, existing shapefiles) and known schedule blockers (calving, branding)</li>
-                                <li>Coordinators soft-plan with UnderstandingAg and EarthOptics for potential windows before contract signed</li>
-                                <li>Allows pre-planning rather than everything sent to coordinator all at once</li>
-                            </ul>
-                        </div>
+  <div class="experience-item reveal">
+    <div class="experience-date">
+      <span class="years">8</span>
+      Jul 2013 — Sep 2021
+    </div>
+    <div class="experience-content">
+      <h3>Construction Project Manager / Pipeline Technician III</h3>
+      <p class="company">EOG Resources — Midland, TX</p>
+      <ul>
+        <li>Delivered 8+ concurrent infrastructure projects totaling 2,000+ miles of pipeline construction</li>
+        <li>Managed budgets up to $10M, consistently finishing under budget (7% average savings)</li>
+        <li>Coordinated cross-functional teams across engineering, operations, regulatory, and finance</li>
+        <li>Identified and recovered $250K in contractor billing discrepancies through improved tracking</li>
+        <li>Managed vendor relationships for 20+ contractors</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-                        <div class="assumption-card">
-                            <h4>🎓 Rancher Training Opportunities</h4>
-                            <p><strong>Assumption:</strong> Training can be moved earlier and potentially split into two sessions to keep rancher engaged while other processes complete.</p>
-                            <p class="question">Question: Would a staged training approach improve rancher engagement, or would Session 1 go unused?</p>
-                            <p><strong>Two-Session Approach:</strong></p>
-                            <ul>
-                                <li><strong>Session 1 (Day 42+):</strong> Introduce app with training data or self-guided videos. Started towards end of GMP consultation/soil sampling while rancher's time isn't stretched thin.</li>
-                                <li><strong>Session 2 (Post-GMP):</strong> Specific training after grazing plan finalized—rancher sees their true, accurate data on the platform.</li>
-                                <li><strong>Risk:</strong> If Session 1 becomes a bust and unused, we're just doubling up on specialist training with no benefit. If so, keep it all together towards the end.</li>
-                            </ul>
-                        </div>
+<section id="skills">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2>Skills & Tools</h2>
+  </div>
 
-                        <div class="assumption-card">
-                            <h4>👤 Dedicated Rancher Coordinator</h4>
-                            <p><strong>Assumption:</strong> Coordinator is the single point of truth—handles all direct communication with vendors, ranchers, and internal teams. Has authority to escalate with vendors, receive documents, manage scheduling and delays.</p>
-                            <p class="question">Question: Does the current Rancher Coordinator role have capacity and authority to own end-to-end onboarding?</p>
-                            <p><strong>Key Changes:</strong></p>
-                            <ul>
-                                <li><strong>Formal introductions:</strong> Sales introduces rancher to coordinator together—no blind handoffs, no surprise phone calls</li>
-                                <li><strong>Relationship building:</strong> Allows trust to grow between rancher and coordinator throughout journey</li>
-                                <li><strong>PM Tool (ClickUp/Monday.com):</strong> Automated projects from Salesforce triggers, deadline adjustments, email reminders, per-coordinator dashboards</li>
-                                <li><strong>Final handoff:</strong> Coordinator follows up 2 weeks after MRV transition to ensure rancher is confident and knows who to reach</li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-            } else if (currentView === 'playbook') {
-                document.getElementById('insights').innerHTML = `
-                    <h3>📋 Rancher Onboarding Playbook</h3>
-                    <p style="margin-bottom: 20px; color: #555;"><strong>Managing a 10-Ranch Cohort with Monday/ClickUp</strong></p>
-                    <p style="margin-bottom: 25px;">As Ranch Coordinator, you own the onboarding processes and are a rancher's dedicated Grassroots Carbon point of contact for two to three months. Your role is to organize, drive, and be a knowledgeable partner throughout the onboarding process.</p>
+  <div class="skills-container">
+    <div class="skill-category">
+      <h3>Project Management</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Agile / Scrum</span>
+        <span class="skill-tag">Sprint Planning</span>
+        <span class="skill-tag">Backlog Management</span>
+        <span class="skill-tag">Release Coordination</span>
+        <span class="skill-tag">Risk Management</span>
+      </div>
+    </div>
 
-                    <!-- Process Timeline -->
-                    <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 30px;">
-                        <h4 style="margin-bottom: 20px; color: #2c3e50;">Process Outline</h4>
-                        <p style="margin-bottom: 15px; font-style: italic; color: #666;">Sales will reach out as their process is winding down, providing mapping and scheduling information if they've gotten any. Start by creating your project in the PM tool—there will be a template available that outlines timeframes, dependencies, and basic contact information for core vendors.</p>
+    <div class="skill-category">
+      <h3>Leadership</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Cross-functional Teams</span>
+        <span class="skill-tag">Distributed Teams</span>
+        <span class="skill-tag">Stakeholder Management</span>
+        <span class="skill-tag">Vendor Relations</span>
+      </div>
+    </div>
 
-                        <div style="display: grid; gap: 15px;">
-                            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
-                                <h5 style="color: #1976d2; margin-bottom: 10px;">Week 1: Kickoff</h5>
-                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-                                    <li>Confirm with mapping they have all necessary information—no hangups or additional info you can provide. Verify they're aware onboarding has officially begun.</li>
-                                    <li>Reach out to rancher for follow-up introduction, outline the process, confirm availabilities for UnderstandingAg and EarthOptics.</li>
-                                    <li>Check in on soft-scheduled plans with vendors. If groundwork has been made and aligns with rancher's verified availability, get appointments on the books.</li>
-                                </ul>
-                            </div>
+    <div class="skill-category">
+      <h3>Tools</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">ClickUp</span>
+        <span class="skill-tag">Monday.com</span>
+        <span class="skill-tag">Confluence</span>
+        <span class="skill-tag">Notion</span>
+        <span class="skill-tag">Git / GitHub</span>
+        <span class="skill-tag">Azure DevOps</span>
+        <span class="skill-tag">Slack</span>
+      </div>
+    </div>
 
-                            <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 4px solid #ff9800;">
-                                <h5 style="color: #e65100; margin-bottom: 10px;">Weeks 2–5: Vendor Coordination</h5>
-                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-                                    <li>Verify and follow up on appointments, timelines, and expectations with vendors.</li>
-                                    <li>Keep ranchers in the loop with who to expect and when.</li>
-                                    <li>PM tools can send automated reminders during specific points (e.g., "Send me an email one week after EarthOptics is scheduled to follow up with their process").</li>
-                                </ul>
-                            </div>
+    <div class="skill-category">
+      <h3>Certifications</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">CSM (Scrum Alliance)</span>
+        <span class="skill-tag">Software Dev Certificate</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                            <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50;">
-                                <h5 style="color: #2e7d32; margin-bottom: 10px;">Weeks 6–8: Wrap-Up</h5>
-                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-                                    <li>Verify where all vendor statuses are and coordinate training with support.</li>
-                                    <li>Verify the rancher's land has been left satisfactory by the vendors—no outstanding issues as onboarding processes begin to wrap up.</li>
-                                </ul>
-                            </div>
+<section>
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2>Volunteering</h2>
+  </div>
+  <div class="volunteer-card reveal">
+    <h3>Fundraiser</h3>
+    <p class="org">Pride Center West Texas — Jun 2022 – Present</p>
+    <p>Organized, planned, and succeeded in raising the largest single-donor contribution for Pride Center West Texas to date. The event consisted of a 30-hour live stream with interviews from the Program Director, educating and sharing the Center's goals, projects, services for the community, and how donations help.</p>
+  </div>
+</section>
 
-                            <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #9c27b0;">
-                                <h5 style="color: #7b1fa2; margin-bottom: 10px;">Week 9: Completion</h5>
-                                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-                                    <li>Full training should be in progress or complete with rancher if all things have gone well.</li>
-                                </ul>
-                            </div>
-                        </div>
+<section id="contact">
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <h2>Get In Touch</h2>
+  </div>
+  <!--
+    TO SET UP:
+    1. Go to https://formspree.io and create a free account
+    2. Create a new form and copy your form ID (e.g. "xabcdefg")
+    3. Replace YOUR_FORM_ID below with your actual ID
+  -->
+  <div class="contact-section">
+    <form action="https://formspree.io/f/xreagppr" method="POST">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+    <div class="social-links">
+      <a href="https://linkedin.com/in/nyarce" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
 
-                        <p style="margin-top: 15px; font-style: italic; color: #666; font-size: 13px;">There will be contingencies and unexpected delays. The outline above is a best case scenario but should provide a framework for handling a full cohort.</p>
-                    </div>
+<footer>
+  <div class="footer-logo wiggle">Ny Arce</div>
+  <p>San Antonio, TX — She/Her</p>
+  <p style="margin-top: 0.5rem;">&copy; 2026</p>
+</footer>
 
-                    <!-- Weekly Cadence -->
-                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #e0e0e0; margin-bottom: 30px;">
-                        <h4 style="margin-bottom: 15px; color: #2c3e50;">📅 Weekly Cadence</h4>
-                        <div style="display: grid; gap: 12px;">
-                            <div style="display: flex; align-items: flex-start; gap: 15px;">
-                                <div style="background: #e8eaf6; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #3f51b5; min-width: 100px; text-align: center;">Daily</div>
-                                <div style="font-size: 14px;">Check for finished tasks and trigger next steps accordingly. Answer any questions from ranchers or vendors, ideally within 24 hours, or escalate to the appropriate outlet.</div>
-                            </div>
-                            <div style="display: flex; align-items: flex-start; gap: 15px;">
-                                <div style="background: #e3f2fd; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #1976d2; min-width: 100px; text-align: center;">Monday</div>
-                                <div style="font-size: 14px;">Review dashboards, upcoming appointments, reminders. Plan your week. Follow up on unanswered inquiries or schedule requests from the week before.</div>
-                            </div>
-                            <div style="display: flex; align-items: flex-start; gap: 15px;">
-                                <div style="background: #fff3e0; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #e65100; min-width: 100px; text-align: center;">Midweek</div>
-                                <div style="font-size: 14px;">Rancher check-in. Short and sweet as needed but <strong>never more than two weeks without contact</strong>.</div>
-                            </div>
-                            <div style="display: flex; align-items: flex-start; gap: 15px;">
-                                <div style="background: #e8f5e9; padding: 8px 12px; border-radius: 6px; font-weight: bold; color: #2e7d32; min-width: 100px; text-align: center;">End of Week</div>
-                                <div style="font-size: 14px;">Review dashboards, update tasks, clean house and be ready for Monday.</div>
-                            </div>
-                        </div>
-                    </div>
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
 
-                    <!-- Tips -->
-                    <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
-                        <h4 style="color: #856404; margin-bottom: 10px;">💡 Tips</h4>
-                        <p style="margin: 0; color: #856404; font-size: 14px;"><strong>Batching your work</strong> (such as appointment scheduling, rancher updates) helps get similar tasks done. Context switching often leads to lost processes or dropped focus.</p>
-                    </div>
-                `;
-            } else if (currentView === 'feedback') {
-                document.getElementById('insights').innerHTML = `
-                    <h3>📊 Rancher Feedback System Design</h3>
-                    <p style="margin-bottom: 20px; color: #555;">Lightweight, repeatable system to understand what's working, what's not, and what ranchers need—maintainable with <2 hours/week.</p>
+  reveals.forEach(el => observer.observe(el));
 
-                    <!-- Flow Chart - Matching Hand-Drawn Diagram -->
-                    <div style="background: #f8f9fa; padding: 30px; border-radius: 12px; margin-bottom: 30px;">
-                        <h4 style="text-align: center; margin-bottom: 30px; color: #c2185b; font-size: 1.5rem;">Feedback FlowChart</h4>
+  // Close mobile menu on link click
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelector('nav ul').classList.remove('open');
+    });
+  });
+</script>
 
-                        <!-- ROW 1: Daily Support -->
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-                            <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 10px 20px; text-align: center; font-size: 13px; color: #1565c0;">Support tickets<br/>& email</div>
-                            <div style="color: #c2185b; font-size: 20px;">→</div>
-                            <div style="background: #fce4ec; border: 3px solid #c2185b; padding: 15px 25px; text-align: center;">
-                                <div style="font-weight: bold; color: #c2185b; font-size: 14px;">Daily</div>
-                                <div style="font-weight: bold; color: #c2185b; font-size: 16px;">Support Team</div>
-                            </div>
-                            <div style="color: #c2185b; font-size: 20px;">→</div>
-                            <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 10px 20px; text-align: center; font-size: 13px; color: #1565c0;">Respond<br/>to Users</div>
-                        </div>
-
-                        <!-- Arrow Down -->
-                        <div style="text-align: center; color: #c2185b; font-size: 24px; margin: 10px 0;">↓</div>
-
-                        <!-- ROW 2: Log in Salesforce -->
-                        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-                            <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 10px 25px; text-align: center; font-size: 13px; color: #1565c0;">Log in<br/>SalesForce</div>
-                        </div>
-
-                        <!-- Arrow Down -->
-                        <div style="text-align: center; color: #c2185b; font-size: 24px; margin: 10px 0;">↓</div>
-
-                        <!-- ROW 3: Product Ops - Central Hub -->
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
-                            <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
-                                <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 8px 18px; text-align: center; font-size: 12px; color: #1565c0;">Hotjar<br/>Reports</div>
-                                <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 8px 18px; text-align: center; font-size: 12px; color: #1565c0; border-style: dashed;">Living doc<br/>tracking trends</div>
-                            </div>
-                            <div style="color: #c2185b; font-size: 20px;">→</div>
-                            <div style="background: #fce4ec; border: 3px solid #c2185b; padding: 20px 30px; text-align: center;">
-                                <div style="font-weight: bold; color: #c2185b; font-size: 18px;">Product Ops</div>
-                                <div style="color: #c2185b; font-size: 13px; margin-top: 5px;">Pulls reports &<br/>Updates doc<br/><strong>Weekly</strong></div>
-                            </div>
-                            <div style="color: #c2185b; font-size: 20px;">←</div>
-                            <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
-                                <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 8px 18px; text-align: center; font-size: 12px; color: #1565c0;">Post-Onboarding<br/>Coordinator<br/>Feedback</div>
-                                <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 8px 18px; text-align: center; font-size: 12px; color: #1565c0;">Quarterly<br/>Power user<br/>Conversations</div>
-                            </div>
-                        </div>
-
-                        <!-- Arrow Down -->
-                        <div style="text-align: center; color: #c2185b; font-size: 24px; margin: 10px 0;">↓</div>
-
-                        <!-- ROW 4: Monthly Strategy Group -->
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
-                            <div style="background: #fce4ec; border: 3px solid #c2185b; padding: 20px 30px; text-align: center;">
-                                <div style="font-weight: bold; color: #c2185b; font-size: 16px;">Monthly</div>
-                                <div style="font-weight: bold; color: #c2185b; font-size: 16px;">Feedback</div>
-                                <div style="font-weight: bold; color: #c2185b; font-size: 16px;">Strategy Group</div>
-                            </div>
-                            <div style="color: #c2185b; font-size: 20px;">→</div>
-                            <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 12px 22px; text-align: center; font-size: 13px; color: #1565c0;">Refined themes<br/>&<br/>Product intentions</div>
-                        </div>
-
-                        <!-- Arrow Down -->
-                        <div style="text-align: center; color: #c2185b; font-size: 24px; margin: 10px 0;">↓</div>
-
-                        <!-- ROW 5: Dev Teams -->
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                            <div style="background: #fce4ec; border: 3px solid #c2185b; padding: 20px 35px; text-align: center;">
-                                <div style="font-weight: bold; color: #c2185b; font-size: 22px;">DEV</div>
-                                <div style="font-weight: bold; color: #c2185b; font-size: 22px;">TEAMS!</div>
-                            </div>
-                            <div style="color: #c2185b; font-size: 20px;">→</div>
-                            <div style="background: #e3f2fd; border: 2px solid #1565c0; border-radius: 50px; padding: 12px 22px; text-align: center; font-size: 13px; color: #1565c0;">Back to Support<br/>to update any<br/>affected users</div>
-                        </div>
-                    </div>
-
-                    <!-- Cadence Timeline -->
-                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #e0e0e0; margin-bottom: 30px;">
-                        <h4 style="margin-bottom: 15px; color: #2c3e50;">⏱️ Cadence Overview</h4>
-                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                            <div style="flex: 1; min-width: 150px; background: #e8eaf6; padding: 15px; border-radius: 8px; text-align: center;">
-                                <div style="font-size: 24px; font-weight: bold; color: #3f51b5;">Weekly</div>
-                                <div style="font-size: 12px; color: #5c6bc0; margin-top: 5px;">PM reviews reports<br/>Support tags tickets</div>
-                                <div style="font-size: 11px; color: #7986cb; margin-top: 8px;">30-60 min</div>
-                            </div>
-                            <div style="flex: 1; min-width: 150px; background: #fce4ec; padding: 15px; border-radius: 8px; text-align: center;">
-                                <div style="font-size: 24px; font-weight: bold; color: #c2185b;">Monthly</div>
-                                <div style="font-size: 12px; color: #d81b60; margin-top: 5px;">Team reviews themes<br/>Sets priorities</div>
-                                <div style="font-size: 11px; color: #ec407a; margin-top: 8px;">~2-3 hrs total</div>
-                            </div>
-                            <div style="flex: 1; min-width: 150px; background: #e0f2f1; padding: 15px; border-radius: 8px; text-align: center;">
-                                <div style="font-size: 24px; font-weight: bold; color: #00796b;">Quarterly</div>
-                                <div style="font-size: 12px; color: #00897b; margin-top: 5px;">Power user calls<br/>Deep feedback</div>
-                                <div style="font-size: 11px; color: #26a69a; margin-top: 8px;">30 min/call</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="assumption-cards">
-                        <div class="assumption-card">
-                            <h4>📈 Leading Indicators (First 90 Days)</h4>
-                            <ul style="margin-top: 10px;">
-                                <li><strong>Feedback Loop Closure Rate:</strong> 80% of tickets get response within 2 weeks. If we're not closing loops, users stop sending feedback.</li>
-                                <li><strong>Power User Retention:</strong> 75-85% show-up rate for quarterly calls. If dropping, investigate: wrong questions? Not feeling heard?</li>
-                                <li><strong>Feature Adoption from Feedback:</strong> Track usage of features built from feedback. Validates translation of feedback → product.</li>
-                            </ul>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>🛠️ Tools (Already Available)</h4>
-                            <ul style="margin-top: 10px;">
-                                <li><strong>Salesforce:</strong> Track support tickets linked to specific ranchers for follow-up</li>
-                                <li><strong>Hotjar:</strong> Weekly reports + notifications. Heatmaps, session recordings, rage click detection</li>
-                                <li><strong>Email/Phone:</strong> Direct outreach for power users and post-onboarding check-ins</li>
-                            </ul>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>🎯 Making It Stick</h4>
-                            <ul style="margin-top: 10px;">
-                                <li><strong>Non-negotiables:</strong> Support must tag tickets by type + link to users. Monthly meeting is a standing priority.</li>
-                                <li><strong>Dedicated time:</strong> Carve out power user call slots in advance. Don't let them slip.</li>
-                                <li><strong>Use it or lose it:</strong> Each feedback cycle must influence the product roadmap. If data isn't being used, that's expensive.</li>
-                                <li><strong>Total effort:</strong> ~2 hrs/week steady state, with peaks during quarterly calls.</li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-            } else if (currentView === 'releasenotes') {
-                document.getElementById('insights').innerHTML = `
-                    <h3>📢 Release Notes SOP</h3>
-
-                    <div class="assumption-cards">
-                        <div class="assumption-card">
-                            <h4>📝 Structures and Templates</h4>
-                            <p style="margin-top: 10px;">All tickets for release should be organized into three categories: <strong>Features</strong> (new functionality), <strong>Updates</strong>, and <strong>Bug Fixes</strong>. Each ticket should have a field in the dev ops tool to identify this category as well as identify whether this is a frontend change, backend, or both. These two fields together can help identify audience and (in the future) automate release note compilation.</p>
-                            <p style="margin-top: 10px;">The writing style for release notes should be present tense, user focused, bullet points, and action-oriented.</p>
-                            <div style="background: #e8f0e3; border-left: 4px solid #4a7c23; padding: 10px 15px; margin: 15px 0; border-radius: 0 8px 8px 0;">
-                                <strong>Ex:</strong> "CSV's can now be uploaded through the document upload feature"
-                            </div>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>👥 Who Gets What</h4>
-                            <p style="margin-top: 10px;">Separate templates should be used for internal only teams and user-focused teams. API changes, library updates, etc should be on the internal template, as well as front end changes that impact users. Sales will only receive release notes on bug fixes from feedback, feature updates, front end changes. The external-facing teams release notes can be an edited down version of the internal release notes, for time savings from all involved. An optional C-Suite template may be requested with high-level reviews of changes and updates with direct impact analysis, if desired.</p>
-                            <p style="margin-top: 15px;"><strong>Template A</strong>, below, could be utilized as the core template. This would go to all internal engineering teams, data teams, Ops, sent to Slack, etc. A pared down <strong>Template B</strong> would be available for Sales and Support teams by removing Technical Details and backend only tasks.</p>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>📋 Template</h4>
-                            <pre style="background: #f4f4f4; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px; font-size: 13px;">PASTUREMAP RELEASE NOTES - [Version X.X]
-Release Date: [Date]
-
-FEATURES
-- [Feature/fix description]
-- [Feature/fix description]
-
-UPDATES
-- [Changes to Existing Feature]
-
-BUG FIXES
-- [Behavior that is fixed]
-
-TECHNICAL DETAILS
-- [Architecture changes/Library Updates/API endpoints]
-- [Env configs, deployment requirements, etc]
-
-WHAT TEAMS SHOULD KNOW
-- [Talking points for customer-facing teams]</pre>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>🔄 Workflow/Ownership/Process</h4>
-                            <p style="margin-top: 10px;">The project manager working with the dev team on the release directly can begin to compile release notes as soon as the sprint begins and backlog tasks are assigned. Ideally release notes will be complete by the end of the first week with minimal effort to tag appropriately and summarize.</p>
-                            <p style="margin-top: 10px;">The PM will handle both drafts as they should be familiar with the tasks being assigned per release. 4-5 days before release (beta/prod), PM sends out the release notes to Product Ops for review. Ops will green light release notes or request edits within 24 hours, and PM handles distribution.</p>
-
-                            <table style="width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 14px;">
-                                <thead>
-                                    <tr style="background: #f0f0f0;">
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Audience</th>
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Template</th>
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Channel</th>
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Timing</th>
-                                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Content Focus</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Sales</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">B</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Email</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">3-4 days before</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Customer changes, talking points, demos</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Support</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">B</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Email</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">3-4 days before</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Changes, troubleshooting</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Eng/Ops</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">A</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Slack</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">2 days before (or beta)</td>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">Technical details, API, architecture</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>⚡ Cadence and Exceptions</h4>
-                            <p style="margin-top: 10px;">Release notes should come with every release cycle and be baked into the definition of "Done." Tracking changes, tasks, and release identifiers keeps everyone informed, no surprise changes or things that are fixed still being sent to troubleshooting.</p>
-
-                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #d84315;">Hotfixes</h5>
-                            <p style="margin: 0;">Hotfixes and major releases are outside this standard cycle. Hotfixes should be handled as a separate release with immediate updates on what was fixed and clarity on user behaviors for Sales and Support. Slack and email updates on a hotfix should go out at time of deployment ideally, but within 24 hours regardless.</p>
-
-                            <h5 style="margin-top: 15px; margin-bottom: 10px; color: #1976d2;">Major Releases</h5>
-                            <p style="margin: 0;">Major releases require extra time for sales and support, potentially triggering an all-hands demo of the new feature, how to use it, and what the purpose is. This should come with full documentation and training materials, potentially a collaboration between PM, Sales, Support, and Product Ops.</p>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>✅ Keeping the Process Going</h4>
-                            <p style="margin-top: 10px;">Keep it a simple, required task. The existing template provided is clear and concise, and shouldn't take more than <strong>3 hours at most</strong> to write, review and edit, distribute to the appropriate teams.</p>
-                            <p style="margin-top: 10px;">Having a PM that knows the sprint and tasks, write the outline and prepare the template at the beginning of the sprint allows for focus and ability to remove and change any potential tasks that get pushed, rather than scrambling at the end to piece them all together. Utilizing existing tools is also incredibly helpful. Any way to keep a process familiar will help with adoption.</p>
-                        </div>
-
-                        <div class="assumption-card">
-                            <h4>🤖 Automation Considerations</h4>
-                            <p style="margin-top: 10px;">Most DevOps tools have decently baked in integrations with Slack and/or release notes tools. This might be a further consideration and future refinement allowing more hands off and accurate delivery of release notes per cycle. Some include automated task linkages as well, making it easier to verify tasks per release.</p>
-                        </div>
-                    </div>
-
-                    <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; border-left: 4px solid #2196f3; margin-top: 30px;">
-                        <h4 style="color: #1976d2; margin-bottom: 10px;">📋 Quick Reference Checklist</h4>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div>
-                                <p style="font-weight: bold; margin-bottom: 10px; color: #2c3e50;">Before Release:</p>
-                                <ul style="margin-left: 20px; line-height: 1.8; list-style: none;">
-                                    <li>☐ PM tool items tagged (Category, Layer, Audience)</li>
-                                    <li>☐ Template A drafted (Internal) + technical details</li>
-                                    <li>☐ Template B drafted (Sales/Support) + screenshots</li>
-                                    <li>☐ Template C drafted (C-Suite) + strategic summary</li>
-                                    <li>☐ Product Ops/VP approved</li>
-                                    <li>☐ Full docs ready (major features)</li>
-                                    <li>☐ Added to living document</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <p style="font-weight: bold; margin-bottom: 10px; color: #2c3e50;">Distribution:</p>
-                                <ul style="margin-left: 20px; line-height: 1.8; list-style: none;">
-                                    <li>☐ 3-4 days before: Template B → Sales/Support (email)</li>
-                                    <li>☐ 2 days before: Template A → #product-updates (Slack)</li>
-                                    <li>☐ Release day: Template C → C-Suite (email)</li>
-                                    <li>☐ Release day: Archive in living doc</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function showCurrent() {
-            currentView = 'current';
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            // Show Gantt chart, metrics, legend
-            document.getElementById('gantt').style.display = 'block';
-            document.getElementById('metrics').style.display = 'grid';
-            document.getElementById('legend').style.display = 'flex';
-            document.getElementById('buffer-legend').style.display = 'none';
-            renderGantt(currentState);
-            renderMetrics(currentState);
-            renderInsights();
-        }
-
-        function showOptimized() {
-            currentView = 'optimized';
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            // Show Gantt chart, metrics, legend with buffer
-            document.getElementById('gantt').style.display = 'block';
-            document.getElementById('metrics').style.display = 'grid';
-            document.getElementById('legend').style.display = 'flex';
-            document.getElementById('buffer-legend').style.display = 'flex';
-            renderGantt(optimizedState);
-            renderMetrics(optimizedState);
-            renderInsights();
-        }
-
-        function showPlaybook() {
-            currentView = 'playbook';
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            // Hide Gantt chart, metrics, legend for Playbook view
-            document.getElementById('gantt').style.display = 'none';
-            document.getElementById('metrics').style.display = 'none';
-            document.getElementById('legend').style.display = 'none';
-            renderInsights();
-        }
-
-        function showFeedbackSystem() {
-            currentView = 'feedback';
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            // Hide Gantt chart, metrics, legend for Feedback view
-            document.getElementById('gantt').style.display = 'none';
-            document.getElementById('metrics').style.display = 'none';
-            document.getElementById('legend').style.display = 'none';
-            renderInsights();
-        }
-
-        function showReleaseNotes() {
-            currentView = 'releasenotes';
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            // Hide Gantt chart, metrics, legend for Release Notes view
-            document.getElementById('gantt').style.display = 'none';
-            document.getElementById('metrics').style.display = 'none';
-            document.getElementById('legend').style.display = 'none';
-            renderInsights();
-        }
-
-        // Initial render
-        renderGantt(currentState);
-        renderMetrics(currentState);
-        renderInsights();
-
-        // Keyboard navigation (1-5 keys)
-        function switchToTab(index) {
-            const buttons = document.querySelectorAll('.toggle-btn');
-            if (index >= 0 && index < buttons.length) {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                buttons[index].classList.add('active');
-
-                if (index === 0) {
-                    currentView = 'current';
-                    document.getElementById('gantt').style.display = 'block';
-                    document.getElementById('metrics').style.display = 'grid';
-                    document.getElementById('legend').style.display = 'flex';
-                    document.getElementById('buffer-legend').style.display = 'none';
-                    renderGantt(currentState);
-                    renderMetrics(currentState);
-                } else if (index === 1) {
-                    currentView = 'optimized';
-                    document.getElementById('gantt').style.display = 'block';
-                    document.getElementById('metrics').style.display = 'grid';
-                    document.getElementById('legend').style.display = 'flex';
-                    document.getElementById('buffer-legend').style.display = 'flex';
-                    renderGantt(optimizedState);
-                    renderMetrics(optimizedState);
-                } else if (index === 2) {
-                    currentView = 'playbook';
-                    document.getElementById('gantt').style.display = 'none';
-                    document.getElementById('metrics').style.display = 'none';
-                    document.getElementById('legend').style.display = 'none';
-                } else if (index === 3) {
-                    currentView = 'feedback';
-                    document.getElementById('gantt').style.display = 'none';
-                    document.getElementById('metrics').style.display = 'none';
-                    document.getElementById('legend').style.display = 'none';
-                } else if (index === 4) {
-                    currentView = 'releasenotes';
-                    document.getElementById('gantt').style.display = 'none';
-                    document.getElementById('metrics').style.display = 'none';
-                    document.getElementById('legend').style.display = 'none';
-                }
-                renderInsights();
-            }
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key >= '1' && e.key <= '5') {
-                switchToTab(parseInt(e.key) - 1);
-            }
-        });
-    </script>
 </body>
 </html>

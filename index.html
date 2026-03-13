@@ -8,17 +8,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --orange: #E85D24;
-      --orange-light: #F4793B;
-      --mustard: #E5A825;
-      --brown: #5C4033;
-      --brown-light: #8B6914;
-      --cream: #FDF6E3;
-      --cream-dark: #F5E6C8;
-      --rust: #C1440E;
-      --text: #3D2914;
-      --text-light: #6B5344;
-      --white: #FFFDF9;
+      --orange: #7B4FBF;
+      --orange-light: #9B72D4;
+      --mustard: #E8A87C;
+      --brown: #2C2C2C;
+      --brown-light: #5C4A6E;
+      --cream: #F5F0EB;
+      --cream-dark: #EDE5D8;
+      --rust: #C4714A;
+      --text: #2C2C2C;
+      --text-light: #6B6570;
+      --white: #FDFAF7;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -88,7 +88,7 @@
     .hero {
       min-height: 100vh; display: flex; align-items: center;
       padding: 8rem 2rem 4rem;
-      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 50%, rgba(229,168,37,0.15) 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 50%, rgba(232,168,124,0.15) 100%);
       position: relative;
     }
     .hero-content {
@@ -463,6 +463,91 @@
       transform: translateY(-2px);
     }
 
+    /* HOW I WORK */
+    .how-i-work-intro {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      max-width: 650px;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+    }
+    .work-style-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .work-style-card {
+      background: var(--white);
+      border: 3px solid var(--brown);
+      padding: 1.75rem;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .work-style-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--mustard);
+    }
+    .work-style-card .card-label {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+    .work-style-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--brown);
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    .work-style-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    .disc-callout {
+      margin-top: 3rem;
+      padding: 1.5rem 2rem;
+      border-left: 4px solid var(--mustard);
+      background: var(--cream-dark);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .disc-callout .disc-badge {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .disc-badge span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      border: 3px solid var(--brown);
+    }
+    .disc-badge .badge-i { background: #E8D44D; color: var(--brown); }
+    .disc-badge .badge-c { background: #6BAA75; color: var(--brown); }
+    .disc-callout p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    .disc-callout p em {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--text);
+    }
+
     /* VOLUNTEER */
     .volunteer-card {
       background: linear-gradient(135deg, var(--orange) 0%, var(--rust) 100%);
@@ -672,6 +757,7 @@
   </button>
   <ul>
     <li><a href="#about">About</a></li>
+    <li><a href="#how-i-work">How I Work</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -683,11 +769,11 @@
   <div class="hero-content">
     <span class="hero-label">Project Manager / Product Owner</span>
     <h1>
-      I ship <span class="highlight">projects</span><br>
-      that matter.
+      I make <span class="highlight">messy things</span><br>
+      work.
     </h1>
     <p class="hero-subtitle">
-      Nine years managing complex projects — first in oil & gas infrastructure, now in software. I bridge the gap between technical teams and business goals.
+      Nine years of turning chaos into something you can actually ship. First across oil & gas infrastructure, now software. I figure things out. I bring people with me.
     </p>
     <a class="hero-cta" href="#contact">
       <span>Let's Talk</span>
@@ -706,26 +792,74 @@
   </div>
   <div class="about-content">
     <div class="about-text">
-      <p>Nine years managing complex projects — first in oil & gas infrastructure, now in software development. I spent eight years at EOG Resources coordinating capital projects with budgets up to $10M across engineering, operations, and regulatory teams. Tight deadlines, high stakes, zero room for error.</p>
-      <p>That foundation taught me how to manage dependencies, mitigate risks, and keep stakeholders aligned when things get complicated. For the past three years, I've applied that same discipline to software project management — facilitating Agile teams, maintaining product backlogs, and coordinating releases for distributed development teams.</p>
-      <p>My technical background (software development certificate, CSM certified) means I can bridge the gap between business requirements and technical execution without getting lost in translation.</p>
+      <p>I've done a lot of different things, but I have a habit of falling into the coordinator role regardless. College house parties, I organized them. Bartending, I became the de-facto inventory manager. Waiting tables, I ended up as head expo during SXSW week. There's always a switchboard and I'm usually the one standing at it. I have a Trello board for household plans. I know.</p>
+      <p>I think good process is an act of care. When work is organized and communication is clear, people can actually do their best work without burning energy on confusion. That's what I'm trying to build every time I step into a project. I lead with trust and go from there.</p>
+      <p>I am also chaotically organized. My systems look like a mess from the outside: seventeen browser tabs open, a tracking doc only I can navigate, sticky notes that make total sense to me. Nothing falls through the cracks, though. The system doesn't have to look good to work.</p>
+      <p>Eight years managing capital projects in the Permian Basin confirmed this. $10M budgets, 2,000+ miles of pipeline, teams across engineering, operations, regulatory, and finance. All of it moving at once. The chaos isn't the problem. The chaos is the job. You build systems that hold, or things break. When I moved into software PM, the tools changed. Same instincts.</p>
 
       <ul class="strengths-list">
-        <li>Managing multiple concurrent projects without dropping balls</li>
-        <li>Identifying risks early and doing something about them</li>
-        <li>Translating between technical teams and business stakeholders</li>
-        <li>Building processes that help teams ship consistently</li>
+        <li>Finding the weird problem before it becomes the real one</li>
+        <li>Building the process before someone asks for it</li>
+        <li>Figuring it out, and bringing people with me</li>
+        <li>Not stopping until it's something worth being proud of</li>
       </ul>
     </div>
     <div class="about-looking">
-      <p>Mission-driven work in climate, water resources, or public infrastructure. I'm based in San Antonio and want to work on projects that actually matter.</p>
+      <p>Work that matters to real people, with a team that actually gives a damn. Mission-driven orgs in climate, water resources, or public infrastructure are where I'm looking. I want to be somewhere the people I work with and the people we serve are both part of the picture.</p>
     </div>
+  </div>
+</section>
+
+<section id="how-i-work">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2>How I Work</h2>
+  </div>
+  <p class="how-i-work-intro">I've done enough self-reflection (and one formal assessment) to know what actually makes me effective, and what I need to do my best work. Here's the honest version.</p>
+  <div class="work-style-grid">
+    <div class="work-style-card reveal">
+      <span class="card-label">The honest truth</span>
+      <h3>I am chaotically organized</h3>
+      <p>My systems look like a mess from the outside. Seventeen browser tabs, a tracking doc only I can navigate, sticky notes that make total sense to me. Nothing falls through the cracks, though. I've just stopped pretending the system is going to look pretty while I'm in it.</p>
+    </div>
+    <div class="work-style-card reveal">
+      <span class="card-label">What I actually enjoy</span>
+      <h3>The weird problem, every time</h3>
+      <p>Give me the thing nobody has a playbook for. The process that's been quietly wrong for two years, the edge case that keeps getting kicked down the road. I like figuring those out. Not as a coping mechanism, just genuinely.</p>
+    </div>
+    <div class="work-style-card reveal">
+      <span class="card-label">How I work with people</span>
+      <h3>I figure it out and bring people with me</h3>
+      <p>Part of the job is making sure everyone understands the path and actually wants to take it. I don't get far ahead of the team. Trust, context, and momentum are the conditions I'm always trying to build.</p>
+    </div>
+    <div class="work-style-card reveal">
+      <span class="card-label">How I show up</span>
+      <h3>I lead with trust and build from there</h3>
+      <p>My default is to assume good intent. People know their domain, they want to do good work, and when something's off it's usually a communication problem not a people problem. Starting from that assumption tends to make the work go better for everyone.</p>
+    </div>
+    <div class="work-style-card reveal">
+      <span class="card-label">What you can count on</span>
+      <h3>I won't ship something I'm not proud of</h3>
+      <p>If quality is getting cut for speed, I'll say something. I'll come with data and do it early enough to actually matter. I care about whether the work is good, not just whether it crossed the finish line.</p>
+    </div>
+    <div class="work-style-card reveal">
+      <span class="card-label">What gets me going</span>
+      <h3>Watching something broken become clean</h3>
+      <p>When a process that didn't work starts working, or a team that was struggling clicks into place, that part of the job genuinely doesn't get old. A release that just goes smoothly. That's what I'm in it for.</p>
+    </div>
+  </div>
+  <div class="disc-callout">
+    <div class="disc-badge">
+      <span class="badge-i">I</span>
+      <span class="badge-c">C</span>
+    </div>
+    <p>Took a DISC Strengths assessment recently. Scored as <em>The Performer</em> (Influence and Compliance), apparently the most creative temperament blend in the model. People-driven and quality-obsessed in equal measure. Honestly? That tracks. I'll take it.</p>
   </div>
 </section>
 
 <section id="projects">
   <div class="section-header">
-    <span class="section-number">02</span>
+    <span class="section-number">03</span>
     <h2>Projects</h2>
   </div>
   <div class="projects-grid">
@@ -791,18 +925,18 @@
 
 <section id="experience">
   <div class="section-header">
-    <span class="section-number">03</span>
+    <span class="section-number">04</span>
     <h2>Experience</h2>
   </div>
 
   <div class="experience-item reveal">
     <div class="experience-date">
       <span class="years">3+</span>
-      Oct 2022 — Present
+      Oct 2022 to Present
     </div>
     <div class="experience-content">
       <h3>Project Manager / Product Owner</h3>
-      <p class="company">Zelifcam LLC — San Antonio, TX</p>
+      <p class="company">Zelifcam LLC, San Antonio, TX</p>
       <ul>
         <li>Lead project delivery for boutique software consultancy serving healthcare, tech, and business services clients</li>
         <li>Manage distributed team of 6 developers (4 offshore, 2 onsite) across 5 active accounts</li>
@@ -817,11 +951,11 @@
   <div class="experience-item reveal">
     <div class="experience-date">
       <span class="years">8</span>
-      Jul 2013 — Sep 2021
+      Jul 2013 to Sep 2021
     </div>
     <div class="experience-content">
       <h3>Construction Project Manager / Pipeline Technician III</h3>
-      <p class="company">EOG Resources — Midland, TX</p>
+      <p class="company">EOG Resources, Midland, TX</p>
       <ul>
         <li>Delivered 8+ concurrent infrastructure projects totaling 2,000+ miles of pipeline construction</li>
         <li>Managed budgets up to $10M, consistently finishing under budget (7% average savings)</li>
@@ -835,7 +969,7 @@
 
 <section id="skills">
   <div class="section-header">
-    <span class="section-number">04</span>
+    <span class="section-number">05</span>
     <h2>Skills & Tools</h2>
   </div>
 
@@ -887,19 +1021,19 @@
 
 <section>
   <div class="section-header">
-    <span class="section-number">05</span>
-    <h2>Volunteering</h2>
+    <span class="section-number">06</span>
+    <h2>Community</h2>
   </div>
   <div class="volunteer-card reveal">
-    <h3>Fundraiser</h3>
-    <p class="org">Pride Center West Texas — Jun 2022 – Present</p>
-    <p>Organized, planned, and succeeded in raising the largest single-donor contribution for Pride Center West Texas to date. The event consisted of a 30-hour live stream with interviews from the Program Director, educating and sharing the Center's goals, projects, services for the community, and how donations help.</p>
+    <h3>Pride Center West Texas</h3>
+    <p class="org">Fundraiser, Jun 2022 to Present</p>
+    <p>The Pride Center West Texas serves one of the most underserved LGBTQ+ communities in the country. In 2022 I organized a 30-hour fundraising livestream that raised the largest single-donor contribution in the organization's history. The work was about more than fundraising. It was about making sure people knew their community existed and had somewhere to go.</p>
   </div>
 </section>
 
 <section id="contact">
   <div class="section-header">
-    <span class="section-number">06</span>
+    <span class="section-number">07</span>
     <h2>Get In Touch</h2>
   </div>
   <!--
@@ -932,7 +1066,7 @@
 
 <footer>
   <div class="footer-logo wiggle">Ny Arce</div>
-  <p>San Antonio, TX — She/Her</p>
+  <p>San Antonio, TX · She/Her</p>
   <p style="margin-top: 0.5rem;">&copy; 2026</p>
 </footer>
 
